@@ -91,6 +91,7 @@ inline u16 le16(const uint8_t *base, u32 index) { return u16(base[index * 2] | b
 struct Raster::Extra {
     u8 checker = 0;
     u32 lumabase = 0, colorbase = 0;
+    u16 local_solid_palette = 0;
     const u32 *texsheet[2] = {nullptr, nullptr};
     u32 texwidth = 0, texheight = 0, texx = 0, texy = 0;
     u8 texwrapx = 0, texwrapy = 0, texmirrorx = 0, texmirrory = 0, utex = 0, utexminlod = 0;
@@ -286,6 +287,7 @@ void Raster::render_one(GeoPoly poly, int crtc_x, int crtc_y, int render_x, int 
     extra.checker = (poly.texheader[0] >> 15) & 1;
     extra.lumabase = u32(poly.texheader[1] & 0xff) << 7;
     extra.colorbase = (poly.texheader[3] >> 6) & 0x3ff;
+    extra.local_solid_palette = poly.local_solid_palette;
     extra.luma = poly.luma;
     extra.texlod = poly.texlod;
 
@@ -517,7 +519,7 @@ void Raster::draw_scanline_solid(int32_t y, int32_t x0, int32_t x1, const float 
     u32 *const p = &dest_[size_t(y) * size_t(stride_)];
     u8 *const fill = &fill_[size_t(y) * size_t(stride_)];
     const u8 luma = o.luma >> 2;
-    const u32 color = le16(mem_->palram, o.colorbase + 0x1000) & 0xffff;
+    const u32 color = o.local_solid_palette ? o.local_solid_palette : le16(mem_->palram, o.colorbase + 0x1000);
     const u32 tr = gamma_[le16(mem_->colorxlat, 0x0000 / 2 + (((color >> 0) & 0x1f) << 8) + luma) & 0xff];
     const u32 tg = gamma_[le16(mem_->colorxlat, 0x4000 / 2 + (((color >> 5) & 0x1f) << 8) + luma) & 0xff];
     const u32 tb = gamma_[le16(mem_->colorxlat, 0x8000 / 2 + (((color >> 10) & 0x1f) << 8) + luma) & 0xff];

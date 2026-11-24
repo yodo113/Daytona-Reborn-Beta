@@ -17,6 +17,10 @@
 
 // 1. view z of the polygon that won the pixel
 float ps_view_z(PolyOut i) : SV_Target { return 1.0 / i.oz.x; }
+// The player's car, drawn by the game through its own camera (another centre
+// and focal length): its view z negated, so cs_shadow rebuilds its points
+// with that camera (Params origin2, focus2).
+float ps_view_z2(PolyOut i) : SV_Target { return -1.0 / i.oz.x; }
 
 float ps_front_z(QuadOut i) : SV_Target {
     const int2 xy = tile_position(i.pos.xy, int(tiledata[0]));

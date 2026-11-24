@@ -456,6 +456,31 @@ static bool far_clip_off() {
 	return off;
 }
 
+// Ray-traced shadows: the parts of a polygon outside the view, beyond each
+// clip plane in turn (the view's own part is already in the frame). An
+// exact partition: a face kept whole beside its own clipped part is the same
+// surface triangulated twice, and a non-planar road quad then lies a hair
+// above itself and shades the road in a band (Canyon checkpoint, 24/11).
+template <class Emit>
+static void outside_parts(const GeoVertex *whole, int count, const Geo::plane *planes, int num_planes, Emit emit)
+{
+	GeoVertex rest[2][8], piece[8];
+	int n = count;
+	std::copy_n(whole, count, rest[0]);
+	int cur = 0;
+	for (int p = 0; p < num_planes && n >= 3; ++p) {
+		Geo::plane outside = planes[p];
+		outside.normal.x = -outside.normal.x;
+		outside.normal.y = -outside.normal.y;
+		outside.normal.pz = -outside.normal.pz;
+		outside.distance = -outside.distance;
+		const int m = clip_polygon(rest[cur], n, piece, outside);
+		if (m >= 3) emit(piece, m);
+		n = clip_polygon(rest[cur], n, rest[cur ^ 1], planes[p]);
+		cur ^= 1;
+	}
+}
+
 inline bool Geo::check_culling(raster_state *raster, uint32_t attr, float min_z, float max_z)
 {
 	/* if doubleside is disabled */
@@ -484,6 +509,12 @@ inline bool Geo::check_culling(raster_state *raster, uint32_t attr, float min_z,
 // Shadow casters behind the camera: how far back (camera units), and the
 // switch (M2_DXR_BEHIND=0 drops them). 700 such polygons a tick on Beginner.
 static constexpr float kCasterReach = 60.0f; // a high sun: shadows a third of a caster's height long
+// Casters cut by the view's edges: how near the camera (camera units, z),
+// M2_DXR_CUT_REACH (diagnostic; 0 drops them).
+static float cut_reach() {
+	static const float r = [] { const char *v = std::getenv("M2_DXR_CUT_REACH"); return v && *v ? float(std::atof(v)) : 60.0f; }();
+	return r;
+}
 static bool behind_casters_on() {
 	static const bool on = [] { const char *v = std::getenv("M2_DXR_BEHIND"); return !(v && v[0] == '0'); }();
 	return on;
@@ -812,9 +843,8 @@ static int append_stand_fill(std::vector<GeoPoly> &out, const float (*src)[5], i
 	return append_source_poly(out, tri, 3, matrix, focus_x, focus_y, planes, quantize);
 }
 
-// Two tapered masonry piers support the distant Canyon deck revealed by the
-// widescreen view. The single fascia quad identifies the attachment in the
-// object frame, in both the regular display list and the interpolated scene.
+// The same fascia anchor is used in the live and interpolated display lists.
+// The rock-and-concrete version is an independent local option.
 static int append_canyon_support(std::vector<GeoPoly> &out, const float (*src)[5], int count,
                                  const float *matrix, float focus_x, float focus_y,
                                  const Geo::plane *planes, bool quantize,
@@ -824,29 +854,71 @@ static int append_canyon_support(std::vector<GeoPoly> &out, const float (*src)[5
 		const char *value = std::getenv("M2_CANYON_FILL");
 		return value && value[0] == '1';
 	}();
-	if (!enabled || oba != 0x82f2ef || tex_key != 0x0c0c9580u || count != 4) return 0;
+	static const bool mixed = [] {
+		const char *value = std::getenv("M2_CANYON_ROCK_ABUTMENT");
+		return value && value[0] == '1';
+	}();
+	if ((!enabled && !mixed) || oba != 0x82f2ef || tex_key != 0x0c0c9580u || count != 4) return 0;
 	if (std::fabs(src[0][0] - 183.095f) > 0.02f ||
 	    std::fabs(src[0][1] - 121.850f) > 0.02f ||
 	    std::fabs(src[0][2] - 126.091f) > 0.02f ||
 	    std::fabs(src[1][1] - 122.850f) > 0.02f) return 0;
 
-	struct Level { float y, half_length, half_width; };
-	constexpr Level levels[] = {
+	// Polygon ordering can put the sides of the supports in front of the road.
+	// The supports sit below the deck and are seen from its underside.
+	GeoVertex deck{}, up{};
+	deck.y = src[0][1];
+	up.y = 1.0f;
+	transform_point(&deck, matrix);
+	transform_vector(&up, matrix);
+	if (dot_product(up, deck) <= 0.0f) return 0;
+
+	constexpr auto palette = [](int red, int green, int blue) {
+		return uint16_t(red | (green << 5) | (blue << 10));
+	};
+	struct Ring {
+		float y, half_length, half_width;
+		float shift = 0.0f, recess = 0.0f;
+		uint16_t color = 0;
+	};
+	// The deck's driving surface is at local Y 121.85. Keep the piers below it.
+	constexpr float pier_top = 121.80f;
+	constexpr Ring original[] = {
 		{-104.0f, 9.0f, 5.8f}, {-91.0f, 7.4f, 4.5f},
-		{110.0f, 3.5f, 2.1f}, {116.0f, 5.5f, 3.1f}, {122.1f, 5.5f, 3.1f},
+		{110.0f, 3.5f, 2.1f}, {116.0f, 5.5f, 3.1f}, {pier_top, 5.5f, 3.1f},
+	};
+	constexpr Ring concrete[] = {
+		{-110.0f, 11.2f, 7.1f, 0, 0, palette(14, 13, 11)},
+		{-100.0f, 11.2f, 7.1f, 0, 0, palette(15, 14, 12)},
+		{-91.0f, 7.4f, 4.7f, 0, 0, palette(17, 16, 14)},
+		{-67.0f, 7.0f, 4.4f, 0, 0, palette(17, 16, 14)},
+		{96.0f, 3.9f, 2.5f, 0, 0, palette(19, 18, 16)},
+		{114.0f, 5.9f, 3.4f, 0, 0, palette(18, 17, 15)},
+		{pier_top, 5.9f, 3.4f, 0, 0, palette(20, 19, 17)},
+	};
+	// The visible end tapers into the deck. The wider lower rings extend
+	// into the cliff instead of growing across the open side of the span.
+	constexpr Ring rock[] = {
+		{-112.0f, 24.0f, 14.0f, -2.0f, 4.0f, palette(16, 12, 8)},
+		{-53.0f, 22.0f, 13.0f, 1.0f, 3.0f, palette(18, 14, 10)},
+		{-14.0f, 18.0f, 14.0f, -1.0f, 2.0f, palette(21, 16, 12)},
+		{22.0f, 15.0f, 11.0f, 1.0f, 2.0f, palette(18, 14, 10)},
+		{52.0f, 14.0f, 10.0f, 0.0f, 1.0f, palette(21, 17, 12)},
+		{87.0f, 12.0f, 8.0f, 2.0f, 1.0f, palette(20, 16, 11)},
+		{120.9f, 10.0f, 6.0f, 4.0f, 0.0f, palette(22, 17, 12)},
 	};
 	constexpr float corners[4][2] = {{-1, -1}, {1, -1}, {1, 1}, {-1, 1}};
 	const uint8_t stone_light = out.back().luma;
 	int added = 0;
-	for (const float distance : {15.0f, 50.0f}) {
-		// The deck runs (0.5, -0.866) in XZ, with the fascia on its outer edge.
-		const float cx = src[0][0] + 0.5f * distance - 2.6f;
-		const float cz = src[0][2] - 0.8660254f * distance - 1.5f;
-		for (size_t level = 1; level < std::size(levels); ++level) {
+	auto append_shape = [&](const auto &rings, float distance, float side_x, float side_z) {
+		// The fascia runs (0.5, -0.866) in the object frame.
+		const float cx = src[0][0] + 0.5f * distance + side_x;
+		const float cz = src[0][2] - 0.8660254f * distance + side_z;
+		for (size_t level = 1; level < std::size(rings); ++level) {
 			for (size_t side = 0; side < std::size(corners); ++side) {
-				auto vertex = [&](float (&v)[5], const Level &ring, size_t corner, float u) {
-					const float along = corners[corner][0] * ring.half_length;
-					const float across = corners[corner][1] * ring.half_width;
+				auto vertex = [&](float (&v)[5], const Ring &ring, size_t corner, float u) {
+					const float along = corners[corner][0] * ring.half_length + ring.shift;
+					const float across = corners[corner][1] * ring.half_width - ring.recess;
 					v[0] = cx + 0.5f * along + 0.8660254f * across;
 					v[1] = ring.y;
 					v[2] = cz - 0.8660254f * along + 0.5f * across;
@@ -855,10 +927,10 @@ static int append_canyon_support(std::vector<GeoPoly> &out, const float (*src)[5
 				};
 				const size_t next = (side + 1) % std::size(corners);
 				float face[4][5];
-				vertex(face[0], levels[level - 1], next, 256.0f);
-				vertex(face[1], levels[level - 1], side, 0.0f);
-				vertex(face[2], levels[level], side, 0.0f);
-				vertex(face[3], levels[level], next, 256.0f);
+				vertex(face[0], rings[level - 1], next, 256.0f);
+				vertex(face[1], rings[level - 1], side, 0.0f);
+				vertex(face[2], rings[level], side, 0.0f);
+				vertex(face[3], rings[level], next, 256.0f);
 				GeoVertex camera[3];
 				for (int i = 0; i < 3; ++i) {
 					camera[i].x = face[i][0];
@@ -869,13 +941,25 @@ static int append_canyon_support(std::vector<GeoPoly> &out, const float (*src)[5
 				GeoVertex normal;
 				vector_cross3(&normal, &camera[0], &camera[1], &camera[2]);
 				if (dot_product(normal, camera[0]) >= 0.0f) continue;
-				if (append_source_poly(out, face, 4, matrix, focus_x, focus_y, planes, quantize)) {
-					out.back().luma = uint8_t(side % 2 ? stone_light : stone_light * 7 / 8);
-					++added;
+				if (!append_source_poly(out, face, 4, matrix, focus_x, focus_y, planes, quantize)) continue;
+				auto &poly = out.back();
+				const uint16_t color = rings[level - 1].color;
+				if (color) {
+					poly.texheader[0] = 0;
+					poly.local_solid_palette = color;
+					poly.luma = uint8_t(side % 2 ? 151 : 116);
+				} else {
+					poly.luma = uint8_t(side % 2 ? stone_light : stone_light * 7 / 8);
 				}
+				++added;
 			}
 		}
+	};
+	for (const float distance : {15.0f, 50.0f}) {
+		if (mixed) append_shape(concrete, distance, -2.6f, -1.5f);
+		else append_shape(original, distance, -2.6f, -1.5f);
 	}
+	if (mixed) append_shape(rock, 95.0f, -8.660254f, -5.0f);
 	return added;
 }
 
@@ -1144,6 +1228,7 @@ void Geo::model2_3d_process_polygon(raster_state *raster, uint32_t attr)
 		}
 
 		clipped_verts = NumVerts;
+		bool cut = false;
 
 		/* do clipping */
 		for (int i = 0; i < 4 && clipped_verts; i++)
@@ -1153,9 +1238,33 @@ void Geo::model2_3d_process_polygon(raster_state *raster, uint32_t attr)
 			// comparisons while avoiding the edge walk and vertex copies.
 			if (polygon_inside_plane(verts_in, clipped_verts, clip_plane))
 				continue;
+			cut = true;
 			clipped_verts = clip_polygon(verts_in, clipped_verts, verts_out, clip_plane);
 			std::swap(verts_in, verts_out);
 		}
+
+		// Ray-traced shadows: a polygon near the camera that the view's edges
+		// cut (a canyon wall or a row of trees running past the car): only its
+		// part inside the view was in the frame, so the shadow it casts beside
+		// the car was lost and the shadow's edge walked ahead of the car, a
+		// "wall of light" (23/11). Its parts outside the view become casters.
+		if (cut && top_margin_ && min_z > -cut_reach() && min_z < cut_reach() && behind_casters_on())
+			outside_parts(object.v, NumVerts, raster->clip_plane[raster->center_sel], 4,
+				[&](const GeoVertex *part, int n) {
+					GeoPoly &caster = shadow_casters_.emplace_back();
+					for (int k = 0; k < 4; k++) caster.texheader[k] = object.texheader[k];
+					caster.luma = object.luma;
+					for (int k = 0; k < 4; k++) caster.viewport[k] = raster->viewport[k];
+					caster.center[0] = raster->center[raster->center_sel][0];
+					caster.center[1] = raster->center[raster->center_sel][1];
+					caster.window = raster->cur_window;
+					caster.object_oba = cur_oba;
+					caster.mobile_key = current_mobile_key_;
+					caster.object_focus_x = cur_focus_x;
+					caster.object_focus_y = cur_focus_y;
+					caster.num_vertices = uint8_t(n);
+					for (int k = 0; k < n; k++) caster.v[k] = part[k];
+				});
 
 		if (clipped_verts > 2)
 		{
@@ -1541,12 +1650,35 @@ void Geo::replay_instance_reference(std::vector<GeoPoly> &output, bool recalcula
 			continue;
 
 		int clipped = count;
-		for (const auto &plane : entry.planes) {
+		GeoVertex whole[8];
+		bool cut = false, copied = false;
+		for (size_t p = 0; p < entry.planes.size(); ++p) {
+			const auto &plane = entry.planes[p];
 			if (!clipped) break;
 			if (polygon_inside_plane(verts, clipped, plane)) continue;
+			if (!copied) std::copy_n(verts, count, whole), copied = true;
+			cut = true;
 			clipped = clip_polygon(verts, clipped, out, plane);
 			std::swap(verts, out);
 		}
+		// As in the game's frame: cut by the view's edges near the camera, its
+		// parts outside the view become shadow casters (a wall running past the car).
+		if (cut && replay_casters_ && min_z > -cut_reach() && min_z < cut_reach())
+			outside_parts(whole, count, entry.planes.data(), int(entry.planes.size()),
+				[&](const GeoVertex *part, int n) {
+					GeoPoly &caster = replay_casters_->emplace_back();
+					std::copy(entry.geometry.texture_header.begin(), entry.geometry.texture_header.end(), caster.texheader);
+					caster.luma = entry.luma;
+					std::copy_n(entry.viewport, 4, caster.viewport);
+					std::copy_n(entry.center, 2, caster.center);
+					caster.window = entry.window;
+					caster.object_oba = entry.oba;
+					caster.mobile_key = entry.mobile_key;
+					caster.object_focus_x = entry.focus_x;
+					caster.object_focus_y = entry.focus_y;
+					caster.num_vertices = uint8_t(n);
+					std::copy_n(part, n, caster.v);
+				});
 		if (clipped < 3) continue;
 		auto &poly = output.emplace_back();
 		poly.reverse = entry.reverse;
@@ -1646,13 +1778,22 @@ bool pose_extrapolate() {
 
 } // namespace
 
+void Geo::track_shaft_route(bool enable) {
+	if (enable == track_shaft_route_) return;
+	if (!pose_presentation_) discard_pose_history();
+	if (enable) shaft_route_ticks_.fill(shaft_route_);
+	track_shaft_route_ = enable;
+}
+
 void Geo::stamp_pose_scene(SnapshotStamp stamp) {
-	if (!pose_presentation_ || stamp.tick != tick_) return;
+	if ((!pose_presentation_ && !track_shaft_route_) || stamp.tick != tick_) return;
 	current_stamp_ = stamp;
+	if (track_shaft_route_) shaft_route_ticks_[stamp.tick % shaft_route_ticks_.size()] = shaft_route_;
 	if (camera_lineage_ && camera_lineage_->finish_scene().hold) return;
 	if (!previous_stamp_ || previous_stamp_->session_id != stamp.session_id ||
 	    previous_stamp_->tick + 1 != stamp.tick || stamp.discontinuity_before ||
-	    mobile_identity_->reset_on_tick(stamp.tick) || mobile_identity_->reset_on_tick(previous_stamp_->tick))
+	    (mobile_identity_ && (mobile_identity_->reset_on_tick(stamp.tick) ||
+	                          mobile_identity_->reset_on_tick(previous_stamp_->tick))))
 		return;
 
 	const auto backgrounds = [](const std::vector<SceneObject> &scene) {
@@ -1671,9 +1812,17 @@ void Geo::stamp_pose_scene(SnapshotStamp stamp) {
 	if (match && !match->cut_candidate() && rigid_background_delta(match->transform) &&
 	    std::hypot(match->transform[9], match->transform[10], match->transform[11]) <= max_camera_step &&
 	    match->support * 2 >= match->common_objects) {
-		background_motion_ = match;
-		bind_windshield_reflection();
-		bind_ram_emissions();
+		if (track_shaft_route_) {
+			// The fit takes the old view into the new view. The camera
+			// advances when the static world moves back in the new view.
+			shaft_route_ -= match->transform[11];
+			shaft_route_ticks_[stamp.tick % shaft_route_ticks_.size()] = shaft_route_;
+		}
+		if (pose_presentation_) {
+			background_motion_ = match;
+			bind_windshield_reflection();
+			bind_ram_emissions();
+		}
 	}
 }
 
@@ -1820,7 +1969,7 @@ const std::vector<GeoPoly> *Geo::present_pose_pair(uint64_t now_ns, uint64_t del
 	// that tick, P(k) - P(k-1), fixed once the tick arrives. Two pairs
 	// meeting at a tick share it, so a car keeps its speed across ticks (with
 	// straight steps it changed speed at every tick: a shake seen at 120 Hz
-	// and not in a 60 frames/s recording, Grok Build's reading, 23/11), and
+	// and not in a 60 frames/s recording), and
 	// a new tick does not change the curve already being drawn (a central
 	// difference did: a slight vibration, 23/11). The tick before this
 	// pair's first one: the older pair's first tick when drawing the current
@@ -1860,7 +2009,7 @@ const std::vector<GeoPoly> *Geo::present_pose_pair(uint64_t now_ns, uint64_t del
 	// The camera on the same Hermite steps. The scenery motion d moves it in
 	// straight steps from tick to tick; with the cars smoothed and not the
 	// camera, a car moving with the camera (alongside, ahead) jerked on the
-	// screen at each tick (Grok Build's review, 23/11). Its position, in this
+	// screen at each tick. Its position, in this
 	// pair's latest frame: t_d at the first tick, 0 at the latest, entering
 	// with the previous step (the pair before's motion, carried into this
 	// frame) and leaving with this one. Every smoothed object moves by the
@@ -2077,6 +2226,10 @@ const std::vector<GeoPoly> *Geo::present_pose_pair(uint64_t now_ns, uint64_t del
 		++presentation;
 		if (presentation % 120 == 0) std::fflush(pose_trace);
 	}
+	if (track_shaft_route_)
+		presented_shaft_route_ = std::lerp(shaft_route_ticks_[previous_stamp_->tick % shaft_route_ticks_.size()],
+		                                  shaft_route_ticks_[current_stamp_->tick % shaft_route_ticks_.size()],
+		                                  blend.alpha);
 	presented_casters_.clear();
 	if (top_margin_ && behind_casters_on()) replay_casters_ = &presented_casters_;
 	replay_instance_reference(presented_polys_, true, sampled_matrices_);
@@ -3184,7 +3337,8 @@ GeoPtr Geo::geo_object_data(geo_state *geo, uint32_t opcode, GeoPtr input)
 	std::memcpy(cur_matrix, geo->matrix, sizeof cur_matrix);
 	cur_focus_x = geo->focus.x; cur_focus_y = geo->focus.y;
 
-	if (pose_presentation_) {
+	if (pose_presentation_ || (track_shaft_route_ && !current_mobile_key_.part &&
+	                           (oba & 0x01800000) == 0x00800000)) {
 		auto &scene_object = current_scene_.emplace_back();
 		scene_object.geometry.geometry = {oba, obc, cur_mode};
 		std::copy_n(geo->matrix, 12, scene_object.geometry.model_view.begin());
@@ -3821,7 +3975,7 @@ void Geo::parse(uint32_t read_start)
 
 	// reset raster frame variables
 	render_frame_start();
-	if (pose_presentation_) rotate_pose_frame();
+	if (pose_presentation_ || track_shaft_route_) rotate_pose_frame();
 	else if (instance_reference_) reference_primitives_.clear();
 
 	while (end_code == false && input.i < 0x20000/4 && op_count++ < 0x8000)

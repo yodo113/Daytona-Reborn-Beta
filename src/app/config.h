@@ -4,6 +4,7 @@
 #pragma once
 
 #include "app/controls.h"
+#include "app/music_cue.h"
 
 #include <string>
 #include <cstdint>
@@ -33,6 +34,8 @@ struct Config {
     bool mute = false;
     float music_volume = 1.0f;   // 0..1: the music against the effects (both 1: as the arcade mixes them)
     float effects_volume = 1.0f; // 0..1
+    MusicVersion music_version = MusicVersion::Arcade;
+    std::string music_directory; // empty: musiques-locales beside the executable
     bool native_audio = false; // applies on reset; reference remains the default
     // Enhancements (off by default).
     std::string language;      // interface (app/i18n.h): "fr", "en", ...; "" the system's (first run)
@@ -48,9 +51,11 @@ struct Config {
     bool sun_shadows = false;  // ray-traced sun shadows (Direct3D 12, ray tracing tier 1.1; next start)
     bool sky_light = false;    // with the shadows: the sky's light, hidden under and between things (next start)
     int sun_height = 0;        // the shadows' sun above the horizon, degrees (10..80); 0 = the game's own
-    // Display curve (Direct3D 12): 0 = the PC sRGB curve (the reference);
-    // 2.2..2.6 = the game's levels shown as on an arcade CRT. Restart required.
-    float display_gamma = 0.0f;
+    // Display curve (Direct3D 12): 0 = the PC sRGB curve; 2.2..2.6 = the
+    // game's levels shown as on an arcade CRT. Restart required. A new
+    // profile starts at 2.4, the cabinet's look (viewers asked for the arcade
+    // palette, 23/11); a saved profile keeps its value, 0 included.
+    float display_gamma = 2.4f;
     // Colour saturation of the final image (Direct3D 12): 1 = unchanged, 0.5..1.5.
     float display_saturation = 1.0f;
     uint32_t draw_budget = 0;   // 0 Automatic; positive Custom allowance (runtime/scenery.h)

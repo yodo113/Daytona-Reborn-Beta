@@ -1,0 +1,805 @@
+# Daytona Arcade Native: ar
+
+msgid "Tourner à gauche"
+msgstr "انعطف يسارا"
+
+msgid "Tourner à droite"
+msgstr "انعطف يمينا"
+
+msgid "Accélérer"
+msgstr "التسارع"
+
+msgid "Freiner"
+msgstr "الفرملة"
+
+msgid "Vitesse 1"
+msgstr "الغيار 1"
+
+msgid "Vitesse 2"
+msgstr "الغيار 2"
+
+msgid "Vitesse 3"
+msgstr "الغيار 3"
+
+msgid "Vitesse 4"
+msgstr "الغيار 4"
+
+msgid "Monter un rapport"
+msgstr "رفع الغيار"
+
+msgid "Descendre un rapport"
+msgstr "خفض الغيار"
+
+msgid "Vue 1 (rouge)"
+msgstr "المنظور 1 (أحمر)"
+
+msgid "Vue 2 (bleue)"
+msgstr "المنظور 2 (أزرق)"
+
+msgid "Vue 3 (jaune)"
+msgstr "المنظور 3 (أصفر)"
+
+msgid "Vue 4 (verte)"
+msgstr "المنظور 4 (أخضر)"
+
+msgid "Pièce"
+msgstr "عملة"
+
+msgid "Start"
+msgstr "ابدأ"
+
+msgid "Test"
+msgstr "اختبار"
+
+msgid "Service"
+msgstr "خدمة"
+
+msgid "Bouton "
+msgstr "زر "
+
+msgid "Gâchette "
+msgstr "زناد "
+
+msgid "Axe "
+msgstr "محور "
+
+msgid "Croix "
+msgstr "لوحة الاتجاهات "
+
+msgid "haut"
+msgstr "أعلى"
+
+msgid "bas"
+msgstr "أسفل"
+
+msgid "gauche"
+msgstr "يسار"
+
+msgid "droite"
+msgstr "يمين"
+
+msgid " (non connecté)"
+msgstr " (غير متصل)"
+
+msgid "volant (retour de force)"
+msgstr "مقود (رد فعل القوة)"
+
+msgid "volant (retour de force non ouvert ; nouvel essai)"
+msgstr "مقود (رد فعل القوة غير متاح، جار إعادة المحاولة)"
+
+msgid "manette (vibrations)"
+msgstr "يد تحكم (اهتزاز)"
+
+msgid "aucun"
+msgstr "لا يوجد"
+
+msgid "M O D E L   2    /    É D I T I O N   P C"
+msgstr "MODEL 2    /    إصدار الحاسوب"
+
+msgid "Préparation de la course..."
+msgstr "جار إعداد السباق..."
+
+msgid "Course solo"
+msgstr "سباق فردي"
+
+msgid "Retour"
+msgstr "رجوع"
+
+msgid "Mode de la prochaine course"
+msgstr "نمط السباق التالي"
+
+msgid "Mode de jeu"
+msgstr "نمط اللعب"
+
+msgid "Course normale"
+msgstr "سباق عادي"
+
+msgid "Time Attack"
+msgstr "سباق ضد الزمن"
+
+msgid "Boîte de la prochaine course"
+msgstr "ناقل حركة السباق التالي"
+
+msgid "Boîte de vitesses"
+msgstr "ناقل الحركة"
+
+msgid "Automatique"
+msgstr "تلقائي"
+
+msgid "Manuelle"
+msgstr "يدوي"
+
+msgid "Reprendre"
+msgstr "استئناف"
+
+msgid "Jouer"
+msgstr "العب"
+
+msgid "Réglages"
+msgstr "الإعدادات"
+
+msgid "Quitter"
+msgstr "خروج"
+
+msgid "Nouvelle course"
+msgstr "سباق جديد"
+
+msgid "SOLO   /   JEU LIBRE"
+msgstr "فردي   /   لعب مجاني"
+
+msgid "SDR   /   %d × %d"
+msgstr "SDR   /   %d × %d"
+
+msgid "Choisissez de nouveau le jeu de ROM avec Parcourir."
+msgstr "اختر مجموعة ROM مجددا من زر استعراض."
+
+msgid "Choisissez le jeu de ROM %s (.zip ou .7z)."
+msgstr "اختر مجموعة ROM %s بصيغة ZIP أو 7z."
+
+msgid "Les %d fichiers sont vérifiés."
+msgstr "تم التحقق من الملفات وعددها %d."
+
+msgid "%d fichiers sur %d absents ou incorrects : ce n'est pas le jeu %s."
+msgstr "ملفات مفقودة أو غير صحيحة. العدد %d من %d. المجموعة المطلوبة %s."
+
+msgid "Choix de la ROM : "
+msgstr "اختيار ROM: "
+
+msgid "Jeu de ROM (zip, 7z)"
+msgstr "مجموعة ROM (zip، 7z)"
+
+msgid "Tous les fichiers"
+msgstr "كل الملفات"
+
+msgid "Retour à l'accueil"
+msgstr "العودة إلى القائمة الرئيسية"
+
+msgid "  recompilation statique, moteur natif"
+msgstr "  إعادة ترجمة ثابتة، محرك أصلي"
+
+msgid "Jeu"
+msgstr "اللعبة"
+
+msgid "Jeu de ROM"
+msgstr "مجموعة ROM"
+
+msgid "Parcourir donne accès à votre ZIP/7z. Une copie vérifiée est gardée dans l'application."
+msgstr "استخدم استعراض لاختيار ملف ZIP أو 7z. يحتفظ التطبيق بنسخة تم التحقق منها."
+
+msgid "Parcourir..."
+msgstr "استعراض..."
+
+msgid "Vérifier"
+msgstr "تحقق"
+
+msgid "Fichiers"
+msgstr "الملفات"
+
+msgid "Affichage"
+msgstr "العرض"
+
+msgid "Arcade 4:3 (la borne d'origine)"
+msgstr "أركيد 4:3 (الجهاز الأصلي)"
+
+msgid "21:9 (ultra-large)"
+msgstr "21:9 (عريض جدا)"
+
+msgid "Format de l'image"
+msgstr "نسبة أبعاد الصورة"
+
+msgid ""
+"Arcade 4:3 : le cadrage de la borne, centré, avec des bandes sur les côtés d'un écran large.\n"
+"Automatique : la forme de la fenêtre en rendu natif, sinon le 4:3 d'origine.\n"
+"16:10, 16:9, 21:9 : la scène s'élargit sur les côtés, la voiture garde ses proportions."
+msgstr ""
+"أركيد 4:3: يعرض إطار الجهاز الأصلي في الوسط مع أشرطة جانبية على الشاشات العريضة.\n"
+"تلقائي: يتبع أبعاد النافذة في التصيير الأصلي، ويستخدم 4:3 الأصلي في الأنماط الأخرى.\n"
+"توسع النسب 16:10 و16:9 و21:9 المشهد على الجانبين مع الحفاظ على أبعاد السيارة النسبية."
+
+msgid "API graphique (redémarrer le jeu)"
+msgstr "واجهة الرسوميات (أعد تشغيل اللعبة)"
+
+msgid "Logiciel (exact)"
+msgstr "برمجي (دقيق)"
+
+msgid "Matériel (expérimental)"
+msgstr "عتادي (تجريبي)"
+
+msgid "Rendu"
+msgstr "التصيير"
+
+msgid ""
+"Logiciel : la 3D est calculée par le processeur, comme sur la carte d'arcade. Matériel :\n"
+"par la carte graphique ; en développement, très proche mais pas encore exact au pixel près."
+msgstr ""
+"التصيير البرمجي يحسب المشهد ثلاثي الأبعاد بالمعالج كما في جهاز الأركيد.\n"
+"التصيير العتادي يستخدم بطاقة الرسوميات. لا يزال قيد التطوير مع فروق طفيفة على مستوى البكسل."
+
+msgid "Plein écran"
+msgstr "ملء الشاشة"
+
+msgid "Cacher la souris pendant le jeu"
+msgstr "إخفاء مؤشر الفأرة أثناء اللعب"
+
+msgid ""
+"Pas de pointeur de souris pendant la partie. Il revient quand ce lanceur\n"
+"s'ouvre (Échap) et disparaît de nouveau avec Reprendre."
+msgstr ""
+"يختفي مؤشر الفأرة أثناء السباق. يظهر عند فتح المشغل بمفتاح Esc\n"
+"ثم يختفي مجددا عند اختيار استئناف."
+
+msgid "Bureau (sans bordure)"
+msgstr "سطح المكتب (بلا حدود)"
+
+msgid "Mode plein écran"
+msgstr "نمط ملء الشاشة"
+
+msgid ""
+"Bureau : plein écran à la résolution et à la fréquence du bureau.\n"
+"Un mode : plein écran exclusif à cette résolution et cette fréquence, par exemple\n"
+"un mode à 57,52 Hz créé dans les réglages du pilote graphique."
+msgstr ""
+"سطح المكتب: ملء الشاشة بدقة سطح المكتب ومعدل تحديثه.\n"
+"عند اختيار نمط معين، يستخدم ملء الشاشة الحصري الدقة والتردد المحددين،\n"
+"مثل نمط 57.52 Hz المنشأ في إعدادات برنامج تشغيل الرسوميات."
+
+msgid "Cadence d'affichage"
+msgstr "إيقاع عرض الإطارات"
+
+msgid "(tout décoché : la vitesse de la borne sur tout écran)"
+msgstr "(عند إلغاء جميع الخيارات، تبقى سرعة جهاز الأركيد على أي شاشة)"
+
+msgid "Cadence fluide sur un écran à 57,52 Hz"
+msgstr "عرض سلس على شاشة بتردد 57.52 Hz"
+
+msgid ""
+"Sur un écran réglé à 57,52 Hz (ou 115,05 Hz), une image du jeu par rafraîchissement (ou deux) :\n"
+"aucune image doublée ou sautée. La vitesse reste celle de la borne, à 1 %% près.\n"
+"Sans effet aux autres fréquences."
+msgstr ""
+"عند 57.52 Hz أو 115.05 Hz يدوم إطار اللعبة دورة تحديث أو دورتين.\n"
+"لا تتكرر الإطارات ولا تسقط. تبقى السرعة ضمن 1 %% من سرعة الأركيد.\n"
+"لا تأثير عند الترددات الأخرى."
+
+msgid "Caler sur l'écran (change la vitesse du jeu)"
+msgstr "المزامنة مع الشاشة (تغير سرعة اللعبة)"
+
+msgid ""
+"Fait tourner le jeu à une cadence qui divise exactement celle de l'écran : chaque image\n"
+"reste affichée le même temps et le mouvement est parfaitement fluide. Sur un écran à\n"
+"60, 120, 180 ou 240 Hz, le jeu tourne à 60 images/s, environ 4 %% plus vite que la borne\n"
+"(57,52) ; avec le son de référence, le son est aussi un peu plus rapide. Sans effet\n"
+"sur un écran à 144 ou 165 Hz, qui ne peut pas caler une cadence proche de la borne :\n"
+"utilisez alors la cadence VRR si l'écran gère G-Sync ou FreeSync.\n"
+"Décoché : le jeu tourne toujours à la vitesse de la borne."
+msgstr ""
+"يضبط معدل اللعبة ليقسم تردد الشاشة بدقة. وبالتالي يبقى كل إطار\n"
+"معروضا للمدة نفسها وتصبح الحركة سلسة. عند تردد\n"
+"60 أو 120 أو 180 أو 240 Hz تعمل اللعبة بمعدل 60 إطارا في الثانية، أي أسرع بنحو 4 %% من الأركيد\n"
+"(57.52). يتسارع الصوت المرجعي قليلا أيضا. لا تأثير\n"
+"عند 144 أو 165 Hz لأنهما لا يتيحان معدل إطارات قريبا من الأركيد.\n"
+"استخدم مزامنة VRR إذا كانت الشاشة تدعم G-Sync أو FreeSync.\n"
+"عند إلغاء الخيار، تعمل اللعبة دائما بسرعة جهاز الأركيد."
+
+msgid "Cadence VRR (G-Sync / FreeSync)"
+msgstr "إيقاع VRR (G-Sync / FreeSync)"
+
+msgid ""
+"Pour un écran à fréquence variable : chaque image dure exactement 1/57,52 s, l'écran\n"
+"se rafraîchit au rythme du jeu et chaque image reste affichée le même temps.\n"
+"Le VRR doit être actif dans l'écran et le pilote graphique ; sur un écran à\n"
+"fréquence fixe, le résultat ressemble au réglage par défaut."
+msgstr ""
+"لشاشات التحديث المتغير. يدوم كل إطار 1/57.52 ثانية بالضبط.\n"
+"تتحدث الشاشة بإيقاع اللعبة وتعرض الإطارات كلها للمدة نفسها.\n"
+"يجب تفعيل VRR في الشاشة وبرنامج تشغيل الرسوميات.\n"
+"على الشاشات ثابتة التردد تكون النتيجة قريبة من الإعداد الافتراضي."
+
+msgid "Actuellement : %s."
+msgstr "الحالة الحالية: %s."
+
+msgid "Passer le lanceur"
+msgstr "تخطي المشغل"
+
+msgid "(lance le jeu tout de suite ; Échap ouvre ce lanceur)"
+msgstr "(تبدأ اللعبة مباشرة، ويفتح Esc هذا المشغل)"
+
+msgid "Double tampon"
+msgstr "مخزن مؤقت مزدوج"
+
+msgid "Simple tampon"
+msgstr "مخزن مؤقت واحد"
+
+msgid "Une image sur trois"
+msgstr "إطار واحد من كل ثلاثة"
+
+msgid "Mode de dessin"
+msgstr "نمط الرسم"
+
+msgid ""
+"Double tampon : chaque image est dessinée, comme dans le jeu. Simple tampon : une sur deux ;\n"
+"une image sur trois : une sur trois. Plus rapide ; le jeu lui-même n'est pas ralenti."
+msgstr ""
+"يرسم التخزين المزدوج كل إطار، ويرسم التخزين المفرد إطارا من كل اثنين.\n"
+"الرسم مرة كل ثلاثة إطارات يقلل الحمل أكثر. تبقى سرعة اللعبة كما هي."
+
+msgid "Natif 2x"
+msgstr "أصلي 2x"
+
+msgid "Désactivé"
+msgstr "معطل"
+
+msgid "Natif direct"
+msgstr "أصلي مباشر"
+
+msgid "Résolution du rendu"
+msgstr "دقة التصيير"
+
+msgid ""
+"Les modes natifs suivent la fenêtre sous Direct3D 12.\n"
+"2x à 4x agrandissent la résolution d'origine."
+msgstr ""
+"تتبع الأنماط الأصلية حجم النافذة في Direct3D 12.\n"
+"تزيد الأنماط من 2x إلى 4x الدقة الأصلية."
+
+msgid "Améliorations"
+msgstr "التحسينات"
+
+msgid "Compteurs au bord de l'écran (expérimental)"
+msgstr "المؤشرات عند حواف الشاشة (تجريبي)"
+
+msgid "Étirer le fond du ciel (expérimental)"
+msgstr "تمديد خلفية السماء (تجريبي)"
+
+msgid ""
+"Montre davantage de la scène sur les côtés. Les compteurs restent en 4:3 au centre, ou bien\n"
+"les temps au tour, la position et les cartes passent sur les bords. En course, le ciel\n"
+"des côtés est bleu uni, ou bien l'image du ciel du jeu étirée sur tout l'écran."
+msgstr ""
+"يعرض مساحة إضافية من المشهد على الجانبين. تبقى المؤشرات في وسط إطار 4:3،\n"
+"أو تنتقل أزمنة اللفات والمركز والخرائط إلى الحواف. أثناء السباق، تظهر السماء على الجانبين\n"
+"باللون الأزرق أو تمتد صورة سماء اللعبة إلى كامل الشاشة."
+
+msgid "La plus courte"
+msgstr "الأقصر"
+
+msgid "Plus courte"
+msgstr "أقصر"
+
+msgid "Par défaut"
+msgstr "افتراضي"
+
+msgid "Plus loin"
+msgstr "أبعد"
+
+msgid "Le plus loin"
+msgstr "الأبعد"
+
+msgid "Distance d'affichage"
+msgstr "مسافة الرسم"
+
+msgid ""
+"Le décor autour du circuit. L'écran large ajoute aussi le décor sur les côtés.\n"
+"Plus court réduit la portée ; plus loin ajoute arbres et bâtiments, pas la route."
+msgstr ""
+"يضبط المشاهد حول الحلبة. تعرض الشاشة العريضة المزيد على الجانبين.\n"
+"تقليل المسافة يضيق النطاق، وزيادتها تضيف أشجارا ومباني مع بقاء الطريق كما هو."
+
+msgid "Décor en volume"
+msgstr "مشاهد ثلاثية الأبعاد"
+
+msgid ""
+"Sapins en volume, tribunes pleines, piliers sous le pont de Dinosaur Canyon.\n"
+"Pris en compte au prochain lancement du jeu."
+msgstr ""
+"يعرض أشجارا ثلاثية الأبعاد ومدرجات مكتملة وأعمدة تحت جسر Dinosaur Canyon.\n"
+"يطبق الخيار في المرة التالية التي تبدأ فيها اللعبة."
+
+msgid "Voitures adverses toujours détaillées"
+msgstr "سيارات المنافسين عالية التفاصيل دائما"
+
+msgid ""
+"Un seul modèle, le plus détaillé, à toutes les distances : plus de voitures\n"
+"qui changent d'aspect en approchant. Pris en compte au prochain lancement du jeu."
+msgstr ""
+"يستخدم النموذج الأعلى تفصيلا على أي مسافة كي تبقى هيئة السيارات ثابتة عند اقترابها.\n"
+"يطبق الخيار في المرة التالية التي تبدأ فيها اللعبة."
+
+msgid "Ombres du soleil (ray tracing, expérimental)"
+msgstr "ظلال الشمس (تتبع الأشعة، تجريبي)"
+
+msgid ""
+"Ombres projetées par le soleil du jeu (Direct3D 12, carte compatible ray tracing,\n"
+"résolution native). Pris en compte au prochain lancement du jeu."
+msgstr ""
+"يعرض الظلال التي تلقيها شمس اللعبة. يتطلب Direct3D 12 وبطاقة تدعم تتبع الأشعة\n"
+"والدقة الأصلية. يطبق الخيار عند تشغيل اللعبة في المرة التالية."
+
+msgid "Lumière du ciel (expérimental)"
+msgstr "إضاءة السماء (تجريبي)"
+
+msgid ""
+"Le ciel éclaire de partout : plus sombre sous les voitures, sous le portique,\n"
+"au pied des murs. Pris en compte au prochain lancement du jeu."
+msgstr ""
+"تضيء السماء من كل الاتجاهات وتبقى المناطق تحت السيارات والبوابة وعند أسفل الجدران أغمق.\n"
+"يطبق الخيار عند تشغيل اللعبة في المرة التالية."
+
+msgid "%d degrés"
+msgstr "%d درجة"
+
+msgid "celle du jeu"
+msgstr "الإعداد الأصلي للعبة"
+
+msgid "Hauteur du soleil"
+msgstr "ارتفاع الشمس"
+
+msgid ""
+"La direction reste celle du soleil du jeu. Plus bas, les ombres s'allongent\n"
+"(comme en fin d'après-midi). Pris en compte au prochain lancement du jeu."
+msgstr ""
+"يبقى اتجاه الشمس كما في اللعبة. عند خفضها تطول الظلال كما في آخر النهار.\n"
+"يطبق الخيار عند تشغيل اللعبة في المرة التالية."
+
+msgid "Lissage 120 images/s (expérimental)"
+msgstr "تنعيم بمعدل 120 إطارا في الثانية (تجريبي)"
+
+msgid ""
+"Images intermédiaires entre celles du jeu. Demande le rendu Matériel et le double\n"
+"tampon.\n"
+"Pris en compte au prochain lancement du jeu."
+msgstr ""
+"يضيف إطارات وسيطة. يتطلب التصيير العتادي\n"
+"والتخزين المزدوج.\n"
+"يُطبَّق عند تشغيل اللعبة في المرة التالية."
+
+msgid "PC (sRGB)"
+msgstr "الحاسوب (sRGB)"
+
+msgid "Borne %d,%d"
+msgstr "أركيد %d.%d"
+
+msgid "Couleurs de l'écran (redémarrer le jeu)"
+msgstr "ألوان الشاشة (أعد تشغيل اللعبة)"
+
+msgid ""
+"Borne 2,2 à 2,6 : les couleurs du jeu comme sur l'écran à tube de la borne,\n"
+"plus profondes et moins délavées. Conseillé : 2,4 (réglage par défaut).\n"
+"PC : les mêmes couleurs avec la courbe d'un écran de PC, plus claires."
+msgstr ""
+"الأركيد من 2.2 إلى 2.6: ألوان اللعبة كما تظهر على شاشة الأركيد الأنبوبية،\n"
+"أعمق وأقل بهتانًا. القيمة الموصى بها 2.4 (الإعداد الافتراضي).\n"
+"الحاسوب: الألوان نفسها بمنحنى شاشة الحاسوب، وتبدو أكثر سطوعًا."
+
+msgid "Saturation des couleurs (redémarrer le jeu)"
+msgstr "تشبع الألوان (أعد تشغيل اللعبة)"
+
+msgid "100 %% (origine)"
+msgstr "100 %% (أصلي)"
+
+msgid "Plus de 100 %% : des couleurs plus vives. 100 %% : les couleurs du jeu telles quelles."
+msgstr "فوق 100 %% تصبح الألوان أكثر حيوية. عند 100 %% تبقى ألوان اللعبة الأصلية."
+
+msgid "Personnalisé"
+msgstr "مخصص"
+
+msgid "Budget de polygones"
+msgstr "الحد الأقصى للمضلعات"
+
+msgid "Allocation personnalisée"
+msgstr "حد مخصص"
+
+msgid ""
+"Remplace l'allocation automatique. De 1 à 1 000 000.\n"
+"Trop bas, du décor peut manquer ; trop haut, le jeu peut ralentir."
+msgstr ""
+"يحل محل الحد التلقائي. النطاق من 1 إلى 1,000,000.\n"
+"قد تختفي أجزاء من المشهد عند خفضه كثيرا، وقد تتباطأ اللعبة عند رفعه كثيرا."
+
+msgid ""
+"Allocation actuelle : %u. Elle suit l'écran large et la distance d'affichage.\n"
+"La résolution et le suréchantillonnage ne la changent pas."
+msgstr ""
+"الحد الحالي: %u. يتغير بحسب العرض العريض ومسافة الرسم.\n"
+"لا تؤثر الدقة أو زيادة العينات فيه."
+
+msgid "Jeu en réseau (expérimental, réinitialiser)"
+msgstr "اللعب عبر الشبكة (تجريبي، يتطلب إعادة التشغيل)"
+
+msgid "Relier à d'autres bornes"
+msgstr "الاتصال بأجهزة أركيد أخرى"
+
+msgid "Port de cette borne"
+msgstr "منفذ هذا الجهاز"
+
+msgid "Borne suivante (hôte:port)"
+msgstr "الجهاز التالي (مضيف:منفذ)"
+
+msgid "Synchroniser les images (chaque borne attend la principale)"
+msgstr "مزامنة الإطارات (ينتظر كل جهاز الجهاز الرئيسي)"
+
+msgid "Réseau : %s"
+msgstr "الشبكة: %s"
+
+msgid ""
+"Les bornes se relient en anneau par le réseau (Wi-Fi ou câble) : chacune écoute sur son\n"
+"port et se connecte à la suivante ; à deux, chacune a l'autre pour suivante. Tous les\n"
+"ordinateurs peuvent prendre le même port, par exemple 15112, et Borne suivante =\n"
+"adresse de l'autre ordinateur:15112. En mode test (F2) > GAME SYSTEM, régler LINK ID\n"
+"(une MASTER, les autres SLAVE) et un CAR NUMBER différent sur chacune. Le jeu de 1994\n"
+"(révision A) permet le jeu en réseau."
+msgstr ""
+"تتصل أجهزة الأركيد في حلقة عبر Wi-Fi أو كابل. يستمع كل جهاز على منفذه\n"
+"ويتصل بالجهاز التالي. مع جهازين، يتصل كل منهما بالآخر. يمكن استخدام المنفذ نفسه\n"
+"على جميع الحواسيب، مثل 15112. اضبط الجهاز التالي على عنوان الحاسوب الآخر مع المنفذ.\n"
+"في نمط الاختبار (F2)، افتح GAME SYSTEM واضبط LINK ID (جهاز MASTER والبقية SLAVE).\n"
+"عين رقما مختلفا لكل جهاز في CAR NUMBER.\n"
+"تدعم لعبة 1994 بالإصدار A اللعب عبر الشبكة."
+
+msgid "Maintenir le bouton Test"
+msgstr "اضغط مطولا على زر الاختبار"
+
+msgid "Ouvre le menu de test : réglages des pièces, type de partie ; sans touche F2."
+msgstr "يفتح قائمة الاختبار لإعداد العملات ونوع اللعب دون مفتاح F2."
+
+msgid "(ouvre le menu de test : réglages des pièces, type de partie ; sans touche F2)"
+msgstr "(يفتح قائمة الاختبار لإعداد العملات ونوع اللعب دون F2)"
+
+msgid ""
+"Cochez, puis Démarrer ou Reprendre : une fois le jeu lancé, le bouton Test est maintenu\n"
+"3 secondes, ce qui ouvre le menu de test, puis la case se décoche toute seule.\n"
+"F2, ou tout bouton affecté à Test, fonctionne toujours."
+msgstr ""
+"حدد الخيار ثم اختر ابدأ أو استئناف. عند بدء اللعبة يبقى زر الاختبار مضغوطا\n"
+"لمدة 3 ثوان لفتح القائمة، ثم يلغى تحديد الخيار تلقائيا.\n"
+"يبقى F2 وأي زر مخصص للاختبار صالحا للاستخدام."
+
+msgid "Réinitialiser"
+msgstr "إعادة ضبط"
+
+msgid "Démarrer"
+msgstr "ابدأ"
+
+msgid "Commandes"
+msgstr "التحكم"
+
+msgid "Manette : %s"
+msgstr "يد التحكم: %s"
+
+msgid "aucune connectée"
+msgstr "لا يوجد جهاز متصل"
+
+msgid "Volants et joysticks : %s"
+msgstr "المقود وعصا التحكم: %s"
+
+msgid "aucun connecté"
+msgstr "لا يوجد جهاز متصل"
+
+msgid "Direction"
+msgstr "التوجيه"
+
+msgid "Accélérateur"
+msgstr "دواسة الوقود"
+
+msgid "Frein"
+msgstr "المكابح"
+
+msgid "Zone morte"
+msgstr "المنطقة الميتة"
+
+msgid "Inverser la direction"
+msgstr "عكس التوجيه"
+
+msgid "Zone morte du volant (expérimental)"
+msgstr "المنطقة الميتة للمقود (تجريبي)"
+
+msgid "Sensibilité du volant"
+msgstr "حساسية المقود"
+
+msgid ""
+"100 %% : linéaire. Plus bas : plus doux près du centre. Plus haut : plus vif.\n"
+"Seulement pour l'axe de direction d'un volant ou joystick ; le braquage complet est conservé."
+msgstr ""
+"عند 100 %% تكون الاستجابة خطية. خفض النسبة يجعلها أهدأ قرب المركز، ورفعها يزيد حدتها.\n"
+"يخص محور توجيه المقود أو عصا التحكم فقط. يبقى مدى الدوران الكامل متاحا."
+
+msgid "Sensibilité du stick (manette)"
+msgstr "حساسية العصا (يد التحكم)"
+
+msgid "Vitesse de braquage (manette)"
+msgstr "سرعة التوجيه (يد التحكم)"
+
+msgid "Immédiate"
+msgstr "فورية"
+
+msgid ""
+"Stick de la manette seulement. Sensibilité : plus bas, plus doux près du centre (braquage complet gardé).\n"
+"Vitesse : à quelle vitesse le volant du jeu suit le stick, par image (100 %% : aussitôt)."
+msgstr ""
+"لعصا يد التحكم فقط. خفض الحساسية يجعل الاستجابة أهدأ قرب المركز مع الحفاظ على الدوران الكامل.\n"
+"تحدد السرعة مدى متابعة المقود الافتراضي للعصا لكل إطار (عند 100 %% تكون الاستجابة فورية)."
+
+msgid ""
+"Gâchettes, sticks, volants et pédales sont analogiques. Pour affecter un axe de volant ou de pédale,\n"
+"cliquez sur son bouton, puis tournez le volant ou appuyez sur la pédale aussi loin que vous voulez\n"
+"le braquage ou la course complète, et relâchez : cela fixe sa plage."
+msgstr ""
+"الأزرار الزنادية والعصي والمقود والدواسات عناصر تحكم تناظرية. لتعيين محور مقود أو دواسة،\n"
+"انقر الزر المقابل ثم أدر المقود أو اضغط الدواسة إلى الحد المطلوب للحركة الكاملة،\n"
+"ثم اتركه لضبط نطاقه."
+
+msgid "Ancienne prise en charge des volants Logitech (redémarrer le jeu)"
+msgstr "دعم مقود Logitech القديم (أعد تشغيل اللعبة)"
+
+msgid ""
+"Volants Logitech par le pilote du système : nécessaire pour un volant listé mais qui ne fait\n"
+"rien quand on l'affecte (le Driving Force d'origine). Décoché : le pilote de SDL, qui donne\n"
+"le retour de force aux volants récents sous macOS. Après un changement, redémarrez et\n"
+"affectez de nouveau les commandes du volant."
+msgstr ""
+"يستخدم برنامج تشغيل النظام لمقود Logitech الذي يظهر في القائمة ولا يستجيب\n"
+"أثناء التعيين مثل Driving Force الأصلي. عند إلغاء الخيار يستخدم برنامج SDL\n"
+"الذي يتيح رد فعل القوة للمقود الأحدث على macOS. بعد أي تغيير، أعد تشغيل اللعبة\n"
+"ثم عين أزرار المقود ومحاوره مجددا."
+
+msgid "Retour de force (expérimental)"
+msgstr "رد فعل القوة (تجريبي)"
+
+msgid "Coupé"
+msgstr "متوقف"
+
+msgid "Inverser la force"
+msgstr "عكس اتجاه القوة"
+
+msgid "Journal du retour de force"
+msgstr "سجل رد فعل القوة"
+
+msgid "Centrage calculé par le jeu"
+msgstr "إعادة المقود للوسط بحساب اللعبة"
+
+msgid ""
+"Pour un volant qui pousse aux chocs mais ne se recentre pas dans les virages : son pilote\n"
+"Linux n'a pas d'effet de ressort (la 1re ligne du journal dit \"spring no\").\n"
+"Le recentrage du jeu est alors calculé ici d'après la position du volant et\n"
+"envoyé comme une force constante. Laissez décoché si le volant se recentre déjà."
+msgstr ""
+"إذا اهتز المقود عند الصدمات ولم يعد للوسط عند الانعطاف، فقد يكون برنامج Linux\n"
+"بلا تأثير نابضي. يظهر عندئذ \"spring no\" في السطر الأول من السجل.\n"
+"تحسب اللعبة قوة إعادة المقود للوسط استنادا إلى موضعه،\n"
+"وترسلها كقوة ثابتة. اترك الخيار معطلا إذا كان المقود يعود إلى الوسط بالفعل."
+
+msgid ""
+"Le moteur du volant de la borne (recentrage, résistance, volant qui tire), sur l'appareil\n"
+"affecté à la direction ; une manette vibre quand la voiture est poussée. Actuellement : %s.\n"
+"Volants et retour de force ne sont pas encore testés sur du vrai matériel : avis bienvenus.\n"
+"Le journal va dans daytona.log, à côté de launcher.ini sous Windows, sinon dans le terminal."
+msgstr ""
+"يحاكي محرك مقود الأركيد وقوة عودته للوسط ومقاومته وشده على الجهاز المعين للتوجيه.\n"
+"تهتز يد التحكم عند دفع السيارة. الحالة الحالية: %s.\n"
+"لم يختبر رد فعل القوة على أجهزة فعلية بعد. نرحب بملاحظاتك.\n"
+"في Windows يسجل البرنامج في daytona.log بجوار launcher.ini، وفي الأنظمة الأخرى في الطرفية."
+
+msgid "Commande"
+msgstr "الأمر"
+
+msgid "Clavier"
+msgstr "لوحة المفاتيح"
+
+msgid "Manette"
+msgstr "يد التحكم"
+
+msgid "Volant / joystick (expérimental)"
+msgstr "مقود / عصا تحكم (تجريبي)"
+
+msgid "Appuyez sur une touche..."
+msgstr "اضغط مفتاحا..."
+
+msgid "Appuyez ou bougez..."
+msgstr "اضغط أو حرك..."
+
+msgid "effacer"
+msgstr "مسح"
+
+msgid "Aussi loin que voulu, puis relâchez..."
+msgstr "حرك إلى الحد المطلوب ثم اترك..."
+
+msgid "Appuyez, ou bougez à fond et relâchez..."
+msgstr "اضغط أو حرك حتى النهاية ثم اترك..."
+
+msgid "Échap annule une affectation ; Retour arrière efface une touche."
+msgstr "يلغي Esc التعيين، ويحذف Backspace المفتاح المعين."
+
+msgid "Remettre les réglages par défaut"
+msgstr "استعادة الإعدادات الافتراضية"
+
+msgid "Son"
+msgstr "الصوت"
+
+msgid "Volume"
+msgstr "مستوى الصوت"
+
+msgid "Muet"
+msgstr "كتم الصوت"
+
+msgid "Musique"
+msgstr "الموسيقى"
+
+msgid "Effets"
+msgstr "المؤثرات"
+
+msgid ""
+"L'équilibre entre la musique et tout le reste (moteur, dérapages, chocs).\n"
+"100 %% et 100 %% : le mélange de la carte son de la borne."
+msgstr ""
+"يوازن الموسيقى مع بقية الأصوات مثل المحرك والانزلاق والصدمات.\n"
+"عند ضبط القيمتين على 100 %% و100 %% يكون المزج كمزج لوحة صوت الأركيد."
+
+msgid "Son natif (expérimental, réinitialiser)"
+msgstr "صوت أصلي (تجريبي، يتطلب إعادة التشغيل)"
+
+msgid "Séquenceur et mixeur natifs ; le son de référence reste disponible pour comparer."
+msgstr "يستخدم مشغل تسلسلات ومازج صوت أصليين. يبقى الصوت المرجعي متاحا للمقارنة."
+
+msgid " sur un écran à %.2f Hz"
+msgstr " على شاشة بتردد %.2f Hz"
+
+msgid "vitesse de la borne, 57,52 images/s%s"
+msgstr "سرعة الأركيد، 57.52 إطارا في الثانية%s"
+
+msgid "à chaque rafraîchissement"
+msgstr "عند كل تحديث"
+
+msgid "tous les %d rafraîchissements"
+msgstr "كل %d تحديثات"
+
+msgid ", vitesse %+.1f %%"
+msgstr "، السرعة %+.1f %%"
+
+msgid "calé, %.2f images/s, une image %s%s%s"
+msgstr "متزامن، %.2f إطارا في الثانية، إطار واحد %s%s%s"
+
+msgid "VRR, 57,52 images/s, chacune tenue 17,38 ms%s"
+msgstr "VRR، 57.52 إطارا في الثانية، مدة الإطار 17.38 ms%s"
+
+# Plus utilisés (no longer used):
+#~ msgid ""
+#~ "Images intermédiaires entre celles du jeu. Demande le rendu Matériel et le double\n"
+#~ "tampon. Des voitures adverses peuvent encore trembler ou se dédoubler.\n"
+#~ "Pris en compte au prochain lancement du jeu."
+#~ msgid "PC (origine)"
+#~ msgid ""
+#~ "PC : les couleurs du jeu comme avant (image d'origine).\n"
+#~ "Borne 2,2 à 2,6 : les mêmes couleurs comme sur un écran de borne d'arcade,\n"
+#~ "plus profondes et moins délavées. Conseillé : 2,4."
+
+msgid "Version de la musique"
+msgstr "إصدار الموسيقى"
+
+msgid "Arcade"
+msgstr "الأركيد"
+
+msgid "Saturn / Windows (CD)"
+msgstr "ساتورن / ويندوز (قرص CD)"
+
+msgid "Dreamcast"
+msgstr "دريم كاست"

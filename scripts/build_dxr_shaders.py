@@ -19,9 +19,10 @@ GPU = os.path.join(ROOT, "src", "app", "gpu")
 WORK = os.path.join(ROOT, "build", "dxr_shaders")
 
 # source, entry point, profile
-ENTRIES = [("dxr.hlsl", "ps_view_z", "ps_6_0"), ("dxr.hlsl", "ps_front_z", "ps_6_0"),
+ENTRIES = [("dxr.hlsl", "ps_view_z", "ps_6_0"), ("dxr.hlsl", "ps_view_z2", "ps_6_0"), ("dxr.hlsl", "ps_front_z", "ps_6_0"),
            ("dxr.hlsl", "ps_quad_z", "ps_6_0"), ("dxr.hlsl", "ps_shade", "ps_6_0"),
-           ("dxr_shadow.hlsl", "cs_shadow", "cs_6_5"), ("dxr_shadow.hlsl", "cs_shafts", "cs_6_5")]
+           ("dxr_shadow.hlsl", "cs_shadow", "cs_6_5"), ("dxr_shadow.hlsl", "cs_shafts", "cs_6_5"),
+           ("dxr_shadow.hlsl", "cs_shadow_large", "cs_6_5"), ("dxr_shadow.hlsl", "cs_shafts_large", "cs_6_5")]
 
 
 def find_dxc():

@@ -73,3 +73,6 @@ zig-windows.cmake
 .DS_Store
 __pycache__/
 *.pyc
+
+# User-supplied race music
+musiques-locales/

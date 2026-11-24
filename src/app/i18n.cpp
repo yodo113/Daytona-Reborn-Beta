@@ -5,10 +5,13 @@
 
 #include <algorithm>
 #include <cstdint>
+#include <cstdarg>
+#include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <fstream>
 #include <sstream>
+#include <string_view>
 #include <unordered_map>
 
 namespace app::i18n {
@@ -41,7 +44,7 @@ void load(const std::string &code, std::unordered_map<std::string, std::string> 
     if (!read_file(lang_dir() + code + ".po", text)) return;
     for (auto &[id, str] : parse_po(text)) {
         if (id.empty() || str.empty()) continue;
-        into[id] = code == "ar" ? shape_arabic(str) : str;
+        into[id] = str;
     }
 }
 
@@ -110,10 +113,49 @@ uint32_t lam_alef(uint32_t alef) { // isolated form of the ligature, final is +1
     }
 }
 
+// End of an ASCII printf sequence, or its start for a literal percent.
+template <typename Text>
+size_t printf_end(const Text &s, size_t start) {
+    size_t i = start + 1;
+    if (i == s.size()) return start;
+    if (s[i] == '%') return i + 1;
+    auto contains = [](const char *set, uint32_t cp) { return cp > 0 && cp < 128 && std::strchr(set, int(cp)); };
+    while (i < s.size() && contains("-+ #0", s[i])) ++i;
+    if (i < s.size() && s[i] == '*') ++i;
+    else while (i < s.size() && s[i] >= '0' && s[i] <= '9') ++i;
+    if (i < s.size() && s[i] == '.') {
+        ++i;
+        if (i < s.size() && s[i] == '*') ++i;
+        else while (i < s.size() && s[i] >= '0' && s[i] <= '9') ++i;
+    }
+    if (i < s.size() && contains("hljztL", s[i])) {
+        const auto length = s[i++];
+        if ((length == 'h' || length == 'l') && i < s.size() && s[i] == length) ++i;
+    }
+    return i < s.size() && contains("diouxXfFeEgGaAcspn", s[i]) ? i + 1 : start;
+}
+
+bool same_formats(std::string_view source, std::string_view translation) {
+    auto next = [](std::string_view text, size_t &pos) {
+        const size_t begin = text.find('%', pos);
+        if (begin == std::string_view::npos) return std::string_view{};
+        pos = std::max(begin + 1, printf_end(text, begin));
+        return text.substr(begin, pos - begin);
+    };
+    size_t a = 0, b = 0;
+    while (true) {
+        const auto original = next(source, a), localized = next(translation, b);
+        if (original != localized) return false;
+        if (original.empty()) return true;
+    }
+}
+
+bool digit(uint32_t cp) { return cp >= '0' && cp <= '9'; }
+
 enum Dir { L, R, N };
 Dir dir_of(uint32_t cp) {
     if (is_arabic(cp)) return R;
-    if ((cp >= '0' && cp <= '9') || (cp >= 'A' && cp <= 'Z') || (cp >= 'a' && cp <= 'z') || (cp >= 0xC0 && cp < 0x0600))
+    if (digit(cp) || (cp >= 'A' && cp <= 'Z') || (cp >= 'a' && cp <= 'z') || (cp >= 0xC0 && cp < 0x0600))
         return L;
     return N;
 }
@@ -160,6 +202,21 @@ std::string shape_line(const std::vector<uint32_t> &in) {
     // reversed and each left-to-right run turned back
     std::vector<Dir> d(shaped.size());
     for (size_t i = 0; i < shaped.size(); ++i) d[i] = dir_of(shaped[i]);
+    for (size_t i = 0; i < shaped.size(); ++i) {
+        const auto cp = shaped[i];
+        if (cp == '%') {
+            // Keep unexpanded formats usable (including ImGui slider labels).
+            const size_t end = printf_end(shaped, i);
+            if (end > i) {
+                std::fill(d.begin() + ptrdiff_t(i), d.begin() + ptrdiff_t(end), L);
+                i = end - 1;
+            } else if (i > 0 && digit(shaped[i - 1])) {
+                d[i] = L;
+            }
+        } else if ((cp == '+' || cp == '-') && i + 1 < shaped.size() && digit(shaped[i + 1])) {
+            d[i] = L;
+        }
+    }
     for (size_t i = 0; i < shaped.size(); ++i) {
         if (d[i] != N) continue;
         size_t j = i;
@@ -251,17 +308,57 @@ std::string system_default() {
     return pick;
 }
 
+namespace {
+
+struct Translation {
+    const std::string *value = nullptr;
+    bool arabic = false;
+};
+
+Translation lookup(const std::string &key) {
+    if (auto it = g_text.find(key); it != g_text.end()) return {&it->second, g_current == "ar"};
+    if (auto it = g_english.find(key); it != g_english.end()) return {&it->second, false};
+    return {};
+}
+
+} // namespace
+
+const char *logical(const char *french) {
+    if (g_current == "fr" || !french || !*french) return french;
+    const auto found = lookup(french);
+    return found.value && same_formats(french, *found.value) ? found.value->c_str() : french;
+}
+
 const char *tr(const char *french) {
     if (g_current == "fr" || !french || !*french) return french;
     const char *hash = std::strstr(french, "##");
     const std::string key = hash ? std::string(french, size_t(hash - french)) : std::string(french);
-    const std::string *found = nullptr;
-    if (auto it = g_text.find(key); it != g_text.end()) found = &it->second;
-    else if (auto e = g_english.find(key); e != g_english.end()) found = &e->second;
-    if (!hash) return found ? found->c_str() : french;
+    const auto found = lookup(key);
+    if (!hash && !found.arabic) return found.value ? found.value->c_str() : french;
     auto [it, added] = g_cache.try_emplace(french);
-    if (added) it->second = (found ? *found : key) + hash;
+    if (added) {
+        it->second = found.arabic ? shape_arabic(*found.value) : found.value ? *found.value : key;
+        if (hash) it->second += hash;
+    }
     return it->second.c_str();
+}
+
+std::string format(const char *french, ...) {
+    const auto found = g_current == "fr" ? Translation{} : lookup(french);
+    const bool translated = found.value && same_formats(french, *found.value);
+    const char *pattern = translated ? found.value->c_str() : french;
+    std::va_list args, count_args;
+    va_start(args, french);
+    va_copy(count_args, args);
+    const int length = std::vsnprintf(nullptr, 0, pattern, count_args);
+    va_end(count_args);
+    std::string text;
+    if (length >= 0) {
+        text.resize(size_t(length));
+        std::vsnprintf(text.data(), text.size() + 1, pattern, args);
+    }
+    va_end(args);
+    return translated && found.arabic ? shape_arabic(text) : text;
 }
 
 void add_fonts() {

@@ -193,7 +193,7 @@ void GpuRenderer::shutdown() {
     for (SDL_GPUGraphicsPipeline **p : {&quad_pipe_, &back_pipe_, &front_pipe_})
         if (*p) SDL_ReleaseGPUGraphicsPipeline(dev_, *p), *p = nullptr;
     if (sampler_) SDL_ReleaseGPUSampler(dev_, sampler_), sampler_ = nullptr;
-    for (SDL_GPUGraphicsPipeline **p : {&z_pipe_, &z_front_pipe_, &z_quad_pipe_, &shade_pipe_})
+    for (SDL_GPUGraphicsPipeline **p : {&z_pipe_, &z_front_pipe_, &z_quad_pipe_, &shade_pipe_, &car_z_pipe_})
         if (*p) SDL_ReleaseGPUGraphicsPipeline(dev_, *p), *p = nullptr;
     if (view_z_) SDL_ReleaseGPUTexture(dev_, view_z_), view_z_ = nullptr;
     if (light_) SDL_ReleaseGPUTexture(dev_, light_), light_ = nullptr;
@@ -271,9 +271,10 @@ void GpuRenderer::build(const rt::Video &video, int w, int h, int scale, bool sh
     cameras_.clear();
     shadow_polys_.clear();
     z_draws_.clear();
+    car_z_draws_.clear();
     cutout_xyz_.clear();
     cutout_records_.clear();
-    main_camera_ = ~0u;
+    main_camera_ = car_camera_ = ~0u;
     const rt::VideoMem &mem = video.gpu_mem();
     const int windows = video.gpu_windows();
     // widescreen: the screen is `margin` wider on each side; x shifts by it
@@ -293,8 +294,9 @@ void GpuRenderer::build(const rt::Video &video, int w, int h, int scale, bool sh
     order_.resize(polys.size());
     std::iota(order_.begin(), order_.end(), size_t(0));
     std::sort(order_.begin(), order_.end(), [&](size_t a, size_t b) {
-        if (polys[a].window != polys[b].window) return polys[a].window > polys[b].window;
-        if (polys[a].z != polys[b].z) return polys[a].z < polys[b].z;
+        const auto &left = polys[a], &right = polys[b];
+        if (left.window != right.window) return left.window > right.window;
+        if (left.z != right.z) return left.z < right.z;
         return a > b;
     });
     const float depth_step = 1.0f / float(order_.size() + 2);
@@ -379,7 +381,8 @@ void GpuRenderer::build(const rt::Video &video, int w, int h, int scale, bool sh
 
         // colour: the solid renderer's (palette entry, luma translation, gamma)
         const uint32_t luma = poly.luma >> 2;
-        const uint16_t color = le16(mem.palram, m2gpu::polygon_palette_index(poly.texheader[3]));
+        const uint16_t color = poly.local_solid_palette ? poly.local_solid_palette :
+            le16(mem.palram, m2gpu::polygon_palette_index(poly.texheader[3]));
         const float r = gamma_[le16(mem.colorxlat, 0x0000 / 2 + (((color >> 0) & 0x1f) << 8) + luma) & 0xff] / 255.0f;
         const float g = gamma_[le16(mem.colorxlat, 0x4000 / 2 + (((color >> 5) & 0x1f) << 8) + luma) & 0xff] / 255.0f;
         const float b = gamma_[le16(mem.colorxlat, 0x8000 / 2 + (((color >> 10) & 0x1f) << 8) + luma) & 0xff] / 255.0f;
@@ -406,7 +409,7 @@ void GpuRenderer::build(const rt::Video &video, int w, int h, int scale, bool sh
                     r, g, b, 1.0f, {material.info[0], material.info[1], material.info[2], material.info[3]},
                     {material.more[0], material.more[1]}};
         }
-        if (triangles_) {
+        if (triangles_ && i < polys.size()) {
             // The shadows' camera is the most common one (window, centre,
             // focal length); polygons drawn through another (the 3D minimap
             // in its own window) neither cast nor receive shadows.
@@ -458,26 +461,70 @@ void GpuRenderer::build(const rt::Video &video, int w, int h, int scale, bool sh
     const auto main = std::max_element(cameras_.begin(), cameras_.end(),
                                        [](const auto &a, const auto &b) { return a.second < b.second; });
     main_camera_ = main == cameras_.end() ? ~0u : uint32_t(main - cameras_.begin());
+    // Each camera's part: 1 the scenery's (the main camera, or one that only
+    // differs from it by a hair of focal length: the zoom at the start of a
+    // race splits the scenery between two, 242.71 and 243.04 on Expert, 23/11,
+    // and up to 1200 polygons, the start gantry among them, had no shadow),
+    // 2 the player's car, 0 none. The scale brings a camera's triangles to
+    // the main focal length.
+    std::vector<uint8_t> part(cameras_.size(), 0);
+    std::vector<std::array<float, 2>> rescale(cameras_.size(), {1.0f, 1.0f});
+    if (main_camera_ != ~0u) {
+        const auto &m = cameras_[main_camera_].first;
+        for (size_t c = 0; c < cameras_.size(); ++c) {
+            const auto &k = cameras_[c].first;
+            if (k[2] <= 0.0f || k[3] <= 0.0f) continue;
+            rescale[c] = {m[2] / k[2], m[3] / k[3]};
+            if (c == main_camera_ || (k[4] == m[4] && k[0] == m[0] && k[1] == m[1] &&
+                                      std::fabs(rescale[c][0] - 1.0f) < 0.02f && std::fabs(rescale[c][1] - 1.0f) < 0.02f))
+                part[c] = 1;
+        }
+    }
+    // The player's car: the game draws it through its own camera, in the
+    // same window but with another centre and focal length (Expert, 23/11:
+    // centre y 196 against 242, focal length 280 against 210, 76 polygons).
+    // The same eye, so its points are the same in the true camera space:
+    // its triangles go into the structure rescaled to the main focal length
+    // (it casts its shadow), its view z is drawn negated (it receives them).
+    if (main_camera_ != ~0u) {
+        const auto &m = cameras_[main_camera_];
+        uint32_t best = 0;
+        for (size_t c = 0; c < cameras_.size(); ++c)
+            if (part[c] == 0 && cameras_[c].first[4] == m.first[4] && cameras_[c].first[0] == m.first[0] &&
+                cameras_[c].first[2] > 0.0f && cameras_[c].first[3] > 0.0f && cameras_[c].second > best)
+                best = cameras_[c].second, car_camera_ = uint32_t(c);
+        if (car_camera_ != ~0u) part[car_camera_] = 2;
+    }
+    // Moved down in place (a triangle never moves up), rescaled to the main
+    // focal length.
+    auto keep = [](std::vector<float> &xyz, size_t to, uint32_t from, uint32_t count, std::array<float, 2> f) {
+        for (uint32_t t = 0; t < 3 * count; ++t) {
+            const float *v = xyz.data() + 3 * (from * 3 + t);
+            float *d = xyz.data() + 3 * (to * 3 + t);
+            d[0] = v[0] * f[0], d[1] = v[1] * f[1], d[2] = v[2];
+        }
+    };
+    auto add_run = [](std::vector<ZDraw> &draws, const ShadowPoly &s) {
+        if (!draws.empty() && draws.back().batch == s.batch && draws.back().first + draws.back().count == s.first)
+            draws.back().count += s.count;
+        else
+            draws.push_back({s.first, s.count, s.batch});
+    };
     size_t kept = 0, kept_cut = 0; // in triangles
     for (const ShadowPoly &s : shadow_polys_) {
-        if (s.camera != main_camera_) continue;
+        const uint8_t role = s.camera < part.size() ? part[s.camera] : 0;
+        if (role == 0 || (role == 2 && s.cutout)) continue;
         if (s.cutout) {
-            if (kept_cut != s.tri_first) {
-                std::copy_n(cutout_xyz_.begin() + 9 * s.tri_first, 9 * s.tri_count, cutout_xyz_.begin() + 9 * kept_cut);
+            keep(cutout_xyz_, kept_cut, s.tri_first, s.tri_count, rescale[s.camera]);
+            if (kept_cut != s.tri_first)
                 std::copy_n(cutout_records_.begin() + 8 * s.tri_first, 8 * s.tri_count,
                             cutout_records_.begin() + 8 * kept_cut);
-            }
             kept_cut += s.tri_count;
         } else {
-            if (kept != s.tri_first)
-                std::copy_n(triangles_->begin() + 9 * s.tri_first, 9 * s.tri_count, triangles_->begin() + 9 * kept);
+            keep(*triangles_, kept, s.tri_first, s.tri_count, rescale[s.camera]);
             kept += s.tri_count;
         }
-        if (!z_draws_.empty() && z_draws_.back().batch == s.batch &&
-            z_draws_.back().first + z_draws_.back().count == s.first)
-            z_draws_.back().count += s.count;
-        else
-            z_draws_.push_back({s.first, s.count, s.batch});
+        add_run(role == 2 ? car_z_draws_ : z_draws_, s);
     }
     triangles_->resize(9 * kept);
     cutout_xyz_.resize(9 * kept_cut);
@@ -492,7 +539,11 @@ void GpuRenderer::build(const rt::Video &video, int w, int h, int scale, bool sh
             if (renderer == 1) continue;
             const std::array<float, 5> camera{float(crtc_x + poly.center[0]), float((384 - poly.center[1]) + crtc_y),
                                               poly.object_focus_x, poly.object_focus_y, float(poly.window)};
-            if (camera != main_key || rt::Geo::hud_overlay_address(poly.object_oba)) continue;
+            if (camera[0] != main_key[0] || camera[1] != main_key[1] || camera[4] != main_key[4] ||
+                camera[2] <= 0.0f || camera[3] <= 0.0f || rt::Geo::hud_overlay_address(poly.object_oba))
+                continue;
+            const float fx = main_key[2] / camera[2], fy = main_key[3] / camera[3];
+            if (std::fabs(fx - 1.0f) >= 0.02f || std::fabs(fy - 1.0f) >= 0.02f) continue;
             const bool cutout = renderer == 3 && !poly.local_texture;
             std::vector<float> &xyz = cutout ? cutout_xyz_ : *triangles_;
             if (cutout) {
@@ -512,7 +563,7 @@ void GpuRenderer::build(const rt::Video &video, int w, int h, int scale, bool sh
             for (int k = 1; k + 1 < poly.num_vertices; k++)
                 for (int corner : {0, k, k + 1}) {
                     const rt::GeoVertex &g = poly.v[corner];
-                    xyz.insert(xyz.end(), {g.x, g.y, g.p[0]});
+                    xyz.insert(xyz.end(), {g.x * fx, g.y * fy, g.p[0]});
                 }
         }
     }
@@ -758,16 +809,23 @@ bool GpuRenderer::render(SDL_GPUCommandBuffer *cmd, SDL_GPUTexture *target, int 
     SDL_BindGPUGraphicsPipeline(pass, z_pipe_);
     SDL_GPUBufferBinding vb{vbuf_, 0};
     SDL_BindGPUVertexBuffers(pass, 0, &vb, 1);
-    for (const ZDraw &d : z_draws_) { // the main camera's polygons only
-        const Batch &b = batches_[d.batch];
-        const int x0 = b.clip.x * pixel_w / w;
-        const int y0 = b.clip.y * pixel_h / h;
-        const int x1 = (b.clip.x + b.clip.w) * pixel_w / w;
-        const int y1 = (b.clip.y + b.clip.h) * pixel_h / h;
-        if (x1 <= x0 || y1 <= y0) continue;
-        const SDL_Rect clip{x0, y0, x1 - x0, y1 - y0};
-        SDL_SetGPUScissor(pass, &clip);
-        SDL_DrawGPUPrimitives(pass, d.count, 1, d.first, 0);
+    auto draw_z = [&](const std::vector<ZDraw> &draws) {
+        for (const ZDraw &d : draws) {
+            const Batch &b = batches_[d.batch];
+            const int x0 = b.clip.x * pixel_w / w;
+            const int y0 = b.clip.y * pixel_h / h;
+            const int x1 = (b.clip.x + b.clip.w) * pixel_w / w;
+            const int y1 = (b.clip.y + b.clip.h) * pixel_h / h;
+            if (x1 <= x0 || y1 <= y0) continue;
+            const SDL_Rect clip{x0, y0, x1 - x0, y1 - y0};
+            SDL_SetGPUScissor(pass, &clip);
+            SDL_DrawGPUPrimitives(pass, d.count, 1, d.first, 0);
+        }
+    };
+    draw_z(z_draws_); // the main camera's polygons
+    if (car_z_pipe_ && !car_z_draws_.empty()) { // the player's car: negative view z
+        SDL_BindGPUGraphicsPipeline(pass, car_z_pipe_);
+        draw_z(car_z_draws_);
     }
     if (cpu_front) {
         SDL_BindGPUGraphicsPipeline(pass, z_quad_pipe_);
@@ -794,6 +852,11 @@ bool GpuRenderer::render(SDL_GPUCommandBuffer *cmd, SDL_GPUTexture *target, int 
     shadow_frame_.origin[1] = camera->first[1];
     shadow_frame_.focus[0] = camera->first[2];
     shadow_frame_.focus[1] = camera->first[3];
+    const auto car = car_camera_ < cameras_.size() ? cameras_.begin() + car_camera_ : camera;
+    shadow_frame_.origin2[0] = car->first[0];
+    shadow_frame_.origin2[1] = car->first[1];
+    shadow_frame_.focus2[0] = car->first[2];
+    shadow_frame_.focus2[1] = car->first[3];
     shadow_frame_.cutout_xyz = &cutout_xyz_;
     shadow_frame_.cutout_records = &cutout_records_;
     shadow_frame_.tex0 = have_mem ? mem.tex0 : nullptr;
@@ -823,6 +886,7 @@ bool GpuRenderer::enable_shadows() {
     SDL_GPUShader *vs_poly = dxil(k_vs_poly_dxil, sizeof k_vs_poly_dxil, "vs_poly", SDL_GPU_SHADERSTAGE_VERTEX, 1, 0, 0);
     SDL_GPUShader *vs_quad = dxil(k_vs_quad_dxil, sizeof k_vs_quad_dxil, "vs_quad", SDL_GPU_SHADERSTAGE_VERTEX, 1, 0, 0);
     SDL_GPUShader *ps_z = dxil(k_ps_view_z_dxil, sizeof k_ps_view_z_dxil, "ps_view_z", SDL_GPU_SHADERSTAGE_FRAGMENT, 0, 0, 0);
+    SDL_GPUShader *ps_z2 = dxil(k_ps_view_z2_dxil, sizeof k_ps_view_z2_dxil, "ps_view_z2", SDL_GPU_SHADERSTAGE_FRAGMENT, 0, 0, 0);
     SDL_GPUShader *ps_front = dxil(k_ps_front_z_dxil, sizeof k_ps_front_z_dxil, "ps_front_z",
                                    SDL_GPU_SHADERSTAGE_FRAGMENT, 0, 0, 2);
     SDL_GPUShader *ps_quad = dxil(k_ps_quad_z_dxil, sizeof k_ps_quad_z_dxil, "ps_quad_z", SDL_GPU_SHADERSTAGE_FRAGMENT, 0, 1, 0);
@@ -857,6 +921,10 @@ bool GpuRenderer::enable_shadows() {
     pi.target_info.depth_stencil_format = SDL_GPU_TEXTUREFORMAT_D16_UNORM;
     pi.target_info.has_depth_stencil_target = true;
     if (shaders) z_pipe_ = SDL_CreateGPUGraphicsPipeline(dev_, &pi);
+    if (shaders && ps_z2) { // optional: without it the car simply gets no shadow
+        pi.fragment_shader = ps_z2;
+        car_z_pipe_ = SDL_CreateGPUGraphicsPipeline(dev_, &pi);
+    }
 
     SDL_GPUVertexBufferDescription qvb{0, sizeof(QuadVertex), SDL_GPU_VERTEXINPUTRATE_VERTEX, 0};
     SDL_GPUVertexAttribute qattr[2] = {
@@ -900,11 +968,11 @@ bool GpuRenderer::enable_shadows() {
         qi.fragment_shader = ps_shade;
         shade_pipe_ = SDL_CreateGPUGraphicsPipeline(dev_, &qi);
     }
-    for (SDL_GPUShader *s : {vs_poly, vs_quad, ps_z, ps_front, ps_quad, ps_shade})
+    for (SDL_GPUShader *s : {vs_poly, vs_quad, ps_z, ps_z2, ps_front, ps_quad, ps_shade})
         if (s) SDL_ReleaseGPUShader(dev_, s);
     if (!z_pipe_ || !z_front_pipe_ || !z_quad_pipe_ || !shade_pipe_) {
         error_ = std::string("shadow pipelines: ") + SDL_GetError();
-        for (SDL_GPUGraphicsPipeline **p : {&z_pipe_, &z_front_pipe_, &z_quad_pipe_, &shade_pipe_})
+        for (SDL_GPUGraphicsPipeline **p : {&z_pipe_, &z_front_pipe_, &z_quad_pipe_, &shade_pipe_, &car_z_pipe_})
             if (*p) SDL_ReleaseGPUGraphicsPipeline(dev_, *p), *p = nullptr;
         return false;
     }

@@ -28,7 +28,7 @@ cbuffer Hdr10Settings : register(b0, space3) {
     float paper_white_nits;
     // Display curve for the game's levels. 0: the sRGB curve of a PC
     // display (the reference). Otherwise a power law, as on an arcade CRT
-    // (about 2.4): levels = light^(1/gamma).
+    // (about 2.4): light = level^gamma.
     float display_gamma;
     // Colour saturation in light (1 = unchanged): each colour moves away
     // from the grey of the same luminance (BT.709 weights), not clipped here.

@@ -5,21 +5,15 @@ legal problem, or hours re-deriving something already established.
 
 ---
 
-## Technical decisions and handoffs
-
-Development approvals and handoffs follow the permanent rules in
-[Project continuity](docs/PROJECT_CONTINUITY.md#autorité-technique-et-relais).
-
 ## Git
 
 1. **No `Co-Authored-By` trailer. Ever.** Commits are made under the user's
    name only, with no attribution of any kind to an assistant or tool. This
    overrides any default attribution a harness or tool suggests, every time,
    without exception.
-2. **Never mention Claude, AI, or an assistant** in a commit message, branch
-   name, PR body, tag, or any committed file. `CLAUDE.md` is git-ignored and
-   its line in `.gitignore` is the only such reference in the repository.
-   `rules.md` is the committed copy of the rules.
+2. **Keep private data and coordination out of the public repository.**
+   Commit technical evidence and public documentation. Keep private paths,
+   session identifiers and handoff records outside the published tree.
 3. **Commit messages are short and plain.** Subject under ~70 characters. A few
    lines of body: what changed, the measurement that justifies it, anything
    that would bite the next person. No user's name, no quotes of the user, no
@@ -97,23 +91,13 @@ Development approvals and handoffs follow the permanent rules in
 
 ## Every commit updates the record
 
-13. **`HANDOFF.md` is updated on every commit**, in the same commit as the work
-    it describes: current state, what is complete, what is next in order, and
-    every finding from the session — **including the ones that turned out
-    wrong, and why.** Recorded failure modes are worth more than a clean
-    narrative; keep a "what not to re-propose" section current.
+13. **Keep public documentation current.** Record build, behavior and
+    compatibility changes in the relevant guide or design document.
 
 ## The Model 2 MiSTer core reference
 
-14. **`/home/ben/source/sega-model2-mister` is read-only from this project.**
-    Never write to its working copy, never run a build or tool inside it, never
-    commit to it from here. Read its RTL and its `docs/model2a-design-study.md`
-    freely. It is developed locally and its newest work is not always pushed or
-    committed — when something looks inconsistent, check whether the relevant
-    work there is still uncommitted before concluding anything.
-
-    Knowledge flows both ways: a replay divergence that points at a bug in the
-    core is recorded in `HANDOFF.md` for that project, not fixed from here.
+14. **Use the Model 2 MiSTer core as a reference.** Consult its RTL and design
+    study for comparisons. Report discrepancies with a reproducible trace.
 
 ## Standing engineering rules
 

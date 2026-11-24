@@ -6,7 +6,10 @@
 
 namespace app::i18n {
 inline const char *(*translate)(const char *) = nullptr;
+inline const char *(*translate_logical)(const char *) = nullptr;
 inline const char *tx(const char *french) { return translate ? translate(french) : french; }
+inline const char *tx_logical(const char *french) { return translate_logical ? translate_logical(french) : french; }
 } // namespace app::i18n
 
 #define TXR(text) ::app::i18n::tx(text)
+#define TXRL(text) ::app::i18n::tx_logical(text)

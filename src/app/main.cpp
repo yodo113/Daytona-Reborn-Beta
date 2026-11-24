@@ -40,6 +40,9 @@
 #include "app/launcher.h"
 #include "app/i18n.h"
 #include "app/native_audio.h"
+#ifndef M2_MOBILE
+#include "app/local_music.h"
+#endif
 #include "app/player_input_trace.h"
 #include <ostream>
 #include <streambuf>
@@ -447,7 +450,8 @@ int main(int argc, char **argv) {
     app::Config cfg;
     cfg.load();
     app::i18n::set(cfg.language.empty() ? app::i18n::system_default() : cfg.language); // before the fonts
-    app::i18n::translate = &app::i18n::tr; // pacing, controls, force feedback (app/i18n_mark.h)
+    app::i18n::translate = &app::i18n::tr; // controls and force feedback labels
+    app::i18n::translate_logical = &app::i18n::logical; // pacing status, formatted in the launcher
     // Launcher enhancements the runtime reads from the environment once, on
     // first use; a variable the player set by hand wins.
     if (cfg.scenery_3d)
@@ -705,6 +709,9 @@ int main(int argc, char **argv) {
     if (!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_GAMEPAD)) return fail("SDL_Init");
     if (!SDL_InitSubSystem(SDL_INIT_HAPTIC)) std::fprintf(stderr, "daytona: no force feedback (%s)\n", SDL_GetError());
     Audio audio;
+#ifndef M2_MOBILE
+    app::LocalMusic local_music;
+#endif
     app::NativeAudio<snd::NativeSoundEngine> native_audio;
     const bool audio_initialized = SDL_InitSubSystem(SDL_INIT_AUDIO);
     bool have_audio = false, native_active = false, native_fault = false;
@@ -938,7 +945,7 @@ int main(int argc, char **argv) {
     float dxr_sun_size = 0.53f;
     // light shafts: sunlit air between shadows (M2_DXR_SHAFTS strength, 0 = off,
     // M2_DXR_SHAFT_DIST how far the eye ray is marched, camera units)
-    float dxr_shafts = 0.8f, dxr_shaft_dist = 60.0f; // on with the sun shadows (23/11); weighted by the angle to the sun
+    float dxr_shafts = 0.2f, dxr_shaft_dist = 60.0f; // with the shadows; 0.8, then 0.4 until 24/11: a veil that moved with the car; weighted by the angle to the sun
     int dxr_sun_height = cfg.sun_height; // degrees, 0 = the game's own (M2_DXR_SUN_HEIGHT overrides)
     bool dxr_sun_fixed = false;
     const char *dxr_scene_env = std::getenv("M2_DXR_SCENE");
@@ -1043,6 +1050,9 @@ int main(int argc, char **argv) {
         pose_discontinuity = true;
         ffb.reset(); // a new game: the drive board as at power-on
         native_audio.close(); // joins callback before replacing its ROMs/engine
+#ifndef M2_MOBILE
+        local_music.reset();
+#endif
         audio.close();
         game.reset();
         link.reset();
@@ -1157,15 +1167,27 @@ int main(int argc, char **argv) {
         running = false;
     }
 #endif
+    auto arcade_music_volume = [&] {
+#ifndef M2_MOBILE
+        if (local_music.playing()) return 0.f;
+#endif
+        return cfg.music_volume;
+    };
     auto sync_native_audio = [&] {
         if (native_fault) in_launcher = true;
+#ifndef M2_MOBILE
+        if (audio_initialized && std::strcmp(rt::rom_set_name(), "daytona") == 0) {
+            local_music.configure(cfg.music_version, cfg.music_directory);
+            local_music.sync(game && !in_launcher && running, cfg.mute || solo ? 0.f : cfg.volume * cfg.music_volume);
+        }
+#endif
         if (!native_audio.available()) return;
         native_audio.volume(
 #ifndef M2_MOBILE
             solo ? 0.f :
 #endif
             cfg.volume);
-        native_audio.volumes(cfg.music_volume, cfg.effects_volume);
+        native_audio.volumes(arcade_music_volume(), cfg.effects_volume);
         native_audio.mute(cfg.mute);
         if (in_launcher || !running) {
             if (!native_audio.pause() && timed_audio_active) {
@@ -1402,6 +1424,11 @@ int main(int argc, char **argv) {
             game->set_stretch_backdrop(cfg.stretch_backdrop);
             rt::GameLoop::set_draw_distance(cfg.draw_distance);
             game->set_draw_budget(cfg.draw_budget);
+#ifndef M2_MOBILE
+            const bool track_shafts = dxr_shadows && dxr_shafts > 0.0f && native_resolution &&
+                                      cfg.renderer == "hardware" && gpu.ok();
+            game->board().track_shaft_route(track_shafts);
+#endif
             for (int frames = pacer.frames(now); frames > 0; --frames) {
                 rt::Inputs inputs = cfg.controls.sample(SDL_GetKeyboardState(nullptr), devices);
 #ifndef M2_MOBILE
@@ -1418,7 +1445,15 @@ int main(int argc, char **argv) {
                     if (cfg.hold_test != test_hold.armed()) cfg.hold_test ? test_hold.arm() : test_hold.cancel();
                     if (test_hold.apply(game->frames(), inputs.in0)) cfg.hold_test = false; // held: the box clears
                 }
-                game->run_frame(inputs);
+#ifndef M2_MOBILE
+                if (local_music.available() && game->sound()) {
+                    game->run_frame_deferred_sound(inputs);
+                    local_music.consume(game->deferred_sound_bytes());
+                    game->sound()->set_volumes(arcade_music_volume(), cfg.effects_volume);
+                    game->complete_deferred_sound(game->execute_deferred_sound());
+                } else
+#endif
+                    game->run_frame(inputs);
 #ifndef M2_MOBILE
                 if (interpolate_poses && !pose_session && (solo || pc_race)) {
                     pose_session = game->board().enable_pose_presentation();
@@ -1427,7 +1462,7 @@ int main(int argc, char **argv) {
                         interpolate_poses = false;
                     }
                 }
-                if (pose_session) {
+                if (pose_session || track_shafts) {
                     pose_interval_ns = uint64_t(std::llround(1e9 / pacer.pacing().game_hz));
                     const uint64_t owed = uint64_t(frames - 1) * pose_interval_ns;
                     // Clock mode may process the tick after its deadline.
@@ -1447,7 +1482,7 @@ int main(int argc, char **argv) {
                         // jumped ahead, a car doubled forward (22/11). Sample
                         // that much further back: the mean lag (the
                         // deviation is measured, not added).
-                        if (frames == 1) {
+                        if (pose_session && frames == 1) {
                             const double lag = double(SDL_GetTicksNS() - std::min(SDL_GetTicksNS(), tick_time));
                             const double clamped = std::min(lag, double(pose_interval_ns));
                             pose_lag_mean += (clamped - pose_lag_mean) * 0.05;
@@ -1472,6 +1507,12 @@ int main(int argc, char **argv) {
 #endif
                 if (native_active) {
                     const auto bytes = game->board().take_sound_bytes();
+#ifndef M2_MOBILE
+                    if (local_music.available()) {
+                        local_music.consume(bytes);
+                        native_audio.volumes(arcade_music_volume(), cfg.effects_volume);
+                    }
+#endif
                     bool accepted;
                     if (timed_audio_active) {
                         const auto stamp = app::NativeAudioSimClock{}.frame_for(game->frames() - 1);
@@ -1535,7 +1576,7 @@ int main(int argc, char **argv) {
             launcher.set_ffb_device(ffb.device_kind());
             launcher.set_link_status(link_status(game->board().comm_board(), link.get(), cfg));
             if (game->sound()) {
-                game->sound()->set_volumes(cfg.music_volume, cfg.effects_volume);
+                game->sound()->set_volumes(arcade_music_volume(), cfg.effects_volume);
                 if (have_audio) audio.push(*game->sound(),
 #ifndef M2_MOBILE
                     solo || in_launcher ? 0.f :
@@ -1692,8 +1733,18 @@ int main(int argc, char **argv) {
                         shade.light = frame->light;
                         shade.width = frame->width;
                         shade.height = frame->height;
+                        // At large 2x targets, the shadow queries still cover
+                        // every two displayed pixels in each direction.
+                        static const bool full_dxr_rate = [] {
+                            const char *v = std::getenv("M2_DXR_FULL_RATE");
+                            return v && v[0] == '1';
+                        }();
+                        shade.large_supersampled = !full_dxr_rate && raster_scale == 2 &&
+                                                  uint64_t(frame->width) * frame->height >= 5120ull * 2160;
                         std::copy(std::begin(frame->to_screen), std::end(frame->to_screen), shade.to_screen);
                         std::copy(std::begin(frame->origin), std::end(frame->origin), shade.origin);
+                        std::copy(std::begin(frame->origin2), std::end(frame->origin2), shade.origin2);
+                        std::copy(std::begin(frame->focus2), std::end(frame->focus2), shade.focus2);
                         shade.cutout_xyz = frame->cutout_xyz;
                         shade.cutout_records = frame->cutout_records;
                         shade.tex0 = frame->tex0;
@@ -1753,6 +1804,10 @@ int main(int argc, char **argv) {
                             shade.sun_radius = dxr_sun_size * 0.5f * 3.14159265f / 180.0f;
                             shade.shaft = dxr_shafts;
                             shade.shaft_dist = dxr_shaft_dist;
+                            if (shade.shaft > 0.0f) {
+                                const double steps = game->board().shaft_route(pose_polys != nullptr) * 12.0 / shade.shaft_dist;
+                                shade.shaft_phase = float(steps - std::floor(steps));
+                            }
                             shade.focus[0] = frame->focus[0];
                             shade.focus[1] = frame->focus[1];
                             lit = dxr_scene.build(dxr_triangles, &shade);
@@ -2120,6 +2175,9 @@ int main(int argc, char **argv) {
             stats.unsupported_modulation);
     }
     native_audio.close();
+#ifndef M2_MOBILE
+    local_music.close();
+#endif
     audio.close();
     SDL_WaitForGPUIdle(dev);
 #ifndef M2_MOBILE

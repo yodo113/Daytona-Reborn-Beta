@@ -1,4 +1,4 @@
-# Daytona Arcade Native beta 0.10
+# Daytona Arcade Native beta 0.11
 
 Daytona Arcade Native runs *Daytona USA* (Sega Model 2, Revision A, 1994)
 as native code on Windows. It builds on alphanu1's
@@ -43,5 +43,13 @@ project does not include ROMs or a prebuilt game.
   window. You can also choose 16:10, 16:9 or 21:9.
 - For experimental 120 frames/s smoothing, select the Hardware renderer
   and the Double buffer draw mode, enable smoothing, then restart the game.
+
+- New profiles use the **Cabinet** colour preset (gamma 2.4).
+- To try **Sun shadows (experimental ray tracing)**, enable them in
+  **Settings**, **Display** and restart. Direct3D 12 with DXR 1.1 is
+  required. Sky light is optional.
+- Music selection is under **Audio**. See the
+  [release notes](NOTES-BETA-EN.md#local-music-files) for the filenames
+  used by Saturn / Windows and Dreamcast.
 
 [Release notes](NOTES-BETA-EN.md) · [Guide français](INSTALLATION-FR.md)

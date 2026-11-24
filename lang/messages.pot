@@ -428,7 +428,7 @@ msgid ""
 "Pris en compte au prochain lancement du jeu."
 msgstr ""
 
-msgid "PC (origine)"
+msgid "PC (sRGB)"
 msgstr ""
 
 msgid "Borne %d,%d"
@@ -438,9 +438,9 @@ msgid "Couleurs de l'écran (redémarrer le jeu)"
 msgstr ""
 
 msgid ""
-"PC : les couleurs du jeu comme avant (image d'origine).\n"
-"Borne 2,2 à 2,6 : les mêmes couleurs comme sur un écran de borne d'arcade,\n"
-"plus profondes et moins délavées. Conseillé : 2,4."
+"Borne 2,2 à 2,6 : les couleurs du jeu comme sur l'écran à tube de la borne,\n"
+"plus profondes et moins délavées. Conseillé : 2,4 (réglage par défaut).\n"
+"PC : les mêmes couleurs avec la courbe d'un écran de PC, plus claires."
 msgstr ""
 
 msgid "Saturation des couleurs (redémarrer le jeu)"
@@ -697,4 +697,16 @@ msgid "calé, %.2f images/s, une image %s%s%s"
 msgstr ""
 
 msgid "VRR, 57,52 images/s, chacune tenue 17,38 ms%s"
+msgstr ""
+
+msgid "Version de la musique"
+msgstr ""
+
+msgid "Arcade"
+msgstr ""
+
+msgid "Saturn / Windows (CD)"
+msgstr ""
+
+msgid "Dreamcast"
 msgstr ""

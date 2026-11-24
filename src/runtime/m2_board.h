@@ -120,6 +120,8 @@ public:
     std::optional<DrawnScene> copy_drawn_scene() const;
 
     bool enable_pose_presentation();
+    void track_shaft_route(bool enable) { geo_->track_shaft_route(enable); }
+    double shaft_route(bool presented) const { return geo_->shaft_route(presented); }
     void stamp_pose_scene(SnapshotStamp stamp) {
         if (last_drawn_tick() == stamp.tick) geo_->stamp_pose_scene(stamp);
         else geo_->discard_pose_history();

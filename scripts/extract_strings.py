@@ -10,7 +10,7 @@ import re
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 LIT = r'"(?:[^"\\\n]|\\.)*"'
-CALL = re.compile(r'\bTXR?\(\s*(' + LIT + r'(?:\s*' + LIT + r')*)\s*\)')
+CALL = re.compile(r'\bTX(?:RL|R|L|F)?\(\s*(' + LIT + r'(?:\s*' + LIT + r')*)\s*[,)]')
 
 
 def c_unescape(body: str) -> str:

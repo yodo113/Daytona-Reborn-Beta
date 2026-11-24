@@ -280,7 +280,7 @@ def main():
         print(no_rom_help())
 
     say("Running the tests")
-    run(["ctest", "--test-dir", build, "-C", "Release", "--output-on-failure"], check=False)
+    run(["ctest", "--test-dir", build, "-C", "Release", "--output-on-failure"])
     say("Done")
     for label, exe in games:
         print(f"\n{label} is built. Start it with:\n\n    " + os.path.relpath(exe, ROOT))

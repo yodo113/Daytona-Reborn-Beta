@@ -11,6 +11,10 @@ int main() {
     };
     app::Config original;
     check(original.draw_budget == 0 && original.aspect_ratio() == 0, "new installs preserve original defaults");
+    check(original.music_version == app::MusicVersion::Arcade && original.music_directory.empty(),
+          "new settings use arcade music next to the game by default");
+    original.music_version = app::MusicVersion::Dreamcast;
+    original.music_directory = "my tracks/music";
     original.aspect = "21:9";
     original.draw_distance = 2;
     original.draw_budget = 5000;
@@ -19,6 +23,11 @@ int main() {
     app::Config loaded;
     std::istringstream input(output.str());
     loaded.read(input);
+    check(loaded.music_version == app::MusicVersion::Dreamcast && loaded.music_directory == "my tracks/music",
+          "music version and local directory survive save/load");
+    std::istringstream unknown("music_version=unsupported\n");
+    loaded.read(unknown);
+    check(loaded.music_version == app::MusicVersion::Arcade, "unsupported music version falls back to Arcade");
     check(loaded.aspect_ratio() == 21.0 / 9.0 && loaded.draw_budget == 5000 && loaded.draw_distance == 2,
           "custom budget independent of aspect and distance survives save/load");
     std::istringstream automatic("draw_budget=0\naspect=21:9\n");

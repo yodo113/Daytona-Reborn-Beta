@@ -6,7 +6,7 @@
 // screen = origin + x / z). A pixel's point is rebuilt from its view z and
 // its screen position; `sun` is the light vector already scaled the same way.
 
-#define ROOT "RootConstants(num32BitConstants=20, b0), SRV(t0), DescriptorTable(SRV(t1), UAV(u0)), SRV(t2), SRV(t3), UAV(u1)"
+#define ROOT "RootConstants(num32BitConstants=23, b0), SRV(t0), DescriptorTable(SRV(t1), UAV(u0)), SRV(t2), SRV(t3), UAV(u1)"
 
 // Cut-out triangles (renderer 3: fir trees, fences) are the structure's
 // second, non-opaque geometry: a ray passes where their texel is the
@@ -59,7 +59,11 @@ struct Params {
     float sun_radius;  // the sun's disc, angular radius in radians (soft edges; 0 = a point)
     float shaft;       // light shafts: their strength (0 = off)
     float shaft_dist;  // how far an eye ray is marched for them, camera units (z)
-    float2 pad;
+    // The player's car's own camera (the game draws it with another centre
+    // and focal length): its pixels carry a negative view z (ps_view_z2).
+    float2 origin2;
+    float2 focus2;
+    float shaft_phase; // fraction of a sample step travelled by the camera
 };
 ConstantBuffer<Params> p : register(b0);
 RaytracingAccelerationStructure scene : register(t0);
@@ -83,9 +87,13 @@ bool blocked(float3 from, float3 along, float tmin, float tmax) {
 }
 
 // The pixel's point in the true camera space (focal length divided out).
+// A negative z is the player's car, seen through its own camera.
 float3 true_point(int2 xy, float z) {
     const float2 screen = (float2(xy) + 0.5) * p.to_screen;
-    return float3((screen.x - p.origin.x) * z / p.focus.x, (p.origin.y - screen.y) * z / p.focus.y, z);
+    const bool car = z < 0.0;
+    const float2 o = car ? p.origin2 : p.origin, f = car ? p.focus2 : p.focus;
+    z = abs(z);
+    return float3((screen.x - o.x) * z / f.x, (o.y - screen.y) * z / f.y, z);
 }
 
 static const uint kSkyRays = 6;
@@ -97,13 +105,16 @@ groupshared float z_block[8][8];   // its view z
 // it), then rays over the hemisphere, cosine-weighted and rotated per block,
 // leaving from just above the surface; a ray blocked within sky_radius sees
 // no sky. 1 = all the sky.
-float sky_at(int2 c, float z, float3 at_true) {
+float sky_at(int2 c, float z, float3 at_true, uint grid_shift, uint rays) {
+    // signed: a neighbour on the player's car is rebuilt with its camera
     const float zl = view_z[c - int2(1, 0)], zr = view_z[c + int2(1, 0)];
     const float zu = view_z[c - int2(0, 1)], zd = view_z[c + int2(0, 1)];
-    const float3 dx = abs(zr - z) < abs(zl - z) && zr > 0.0 ? true_point(c + int2(1, 0), zr) - at_true
-                                                            : at_true - true_point(c - int2(1, 0), max(zl, 1e-6));
-    const float3 dy = abs(zd - z) < abs(zu - z) && zd > 0.0 ? true_point(c + int2(0, 1), zd) - at_true
-                                                            : at_true - true_point(c - int2(0, 1), max(zu, 1e-6));
+    const float3 dx = abs(abs(zr) - z) < abs(abs(zl) - z) && zr != 0.0
+        ? true_point(c + int2(1, 0), zr) - at_true
+        : at_true - true_point(c - int2(1, 0), abs(zl) > 1e-6 ? zl : 1e-6);
+    const float3 dy = abs(abs(zd) - z) < abs(abs(zu) - z) && zd != 0.0
+        ? true_point(c + int2(0, 1), zd) - at_true
+        : at_true - true_point(c - int2(0, 1), abs(zu) > 1e-6 ? zu : 1e-6);
     float3 n = normalize(cross(dx, dy));
     if (!all(isfinite(n))) return 1.0;
     if (dot(n, at_true) > 0.0) n = -n; // towards the eye
@@ -112,16 +123,16 @@ float sky_at(int2 c, float z, float3 at_true) {
     const float3 from = (at_true + n * max(0.004 * z, 0.02)) * scale;
     const float3 t = normalize(abs(n.y) < 0.9 ? cross(n, float3(0, 1, 0)) : cross(n, float3(1, 0, 0)));
     const float3 b = cross(n, t);
-    const uint hash = (uint(c.x >> 1) * 73856093u) ^ (uint(c.y >> 1) * 19349663u);
+    const uint hash = (uint(c.x >> grid_shift) * 73856093u) ^ (uint(c.y >> grid_shift) * 19349663u);
     const float spin = float(hash & 1023u) / 1024.0 * 6.2831853;
     uint open = 0;
-    [unroll] for (uint k = 0; k < kSkyRays; ++k) {
-        const float r = sqrt((float(k) + 0.5) / float(kSkyRays));
+    [unroll] for (uint k = 0; k < rays; ++k) {
+        const float r = sqrt((float(k) + 0.5) / float(rays));
         const float a = spin + float(k) * 2.3999632; // golden angle
         const float3 d = t * (r * cos(a)) + b * (r * sin(a)) + n * sqrt(1.0 - r * r);
         if (!blocked(from, d * p.sky_radius * scale, 0.0, 1.0)) ++open;
     }
-    return float(open) / float(kSkyRays);
+    return float(open) / float(rays);
 }
 
 // The sun at a point: 1 lit, p.strength in shadow. The sun is a disc, not a
@@ -158,17 +169,25 @@ groupshared float sun_block[8][8]; // the sun once per 2x2 block, as the sky
 // the shade adds nothing. Scaled by how deep the ray went (full from 0.4
 // shaft_dist).
 static const uint kShaftSteps = 12;
-RWStructuredBuffer<float> haze_lo : register(u1); // the shafts, one per 8x8 pixels (cs_shafts)
-float shafts_at(int2 c, float z, float jitter) {
+RWStructuredBuffer<float> haze_lo : register(u1); // the shafts, one per light-shaft sample cell
+float shafts_at(int2 c, float z) {
     const float far_z = z > 0.0 ? min(z, p.shaft_dist) : p.shaft_dist;
     const float3 dir = true_point(c, 1.0); // the eye ray, z = 1
     const float3 scale = float3(p.focus, 1.0);
-    uint lit = 0;
-    [unroll] for (uint k = 0; k < kShaftSteps; ++k) {
-        const float t = (float(k) + jitter) / float(kShaftSteps) * far_z;
-        if (!blocked(dir * t * scale, p.sun, 0.0, 1e7)) ++lit;
+    const float step_z = p.shaft_dist / float(kShaftSteps);
+    const float phase = frac(p.shaft_phase);
+    float lit_length = 0.0, last_t = 0.0;
+    bool last_lit = false;
+    [loop] for (uint k = 0; k < kShaftSteps; ++k) {
+        const float t = (float(k + 1) - phase) * step_z;
+        if (t > far_z) break;
+        last_lit = !blocked(dir * t * scale, p.sun, 0.0, 1e7);
+        if (last_lit) lit_length += t - last_t;
+        last_t = t;
     }
-    const float f = float(lit) / float(kShaftSteps);
+    if (last_t == 0.0) return 0.0;
+    if (last_lit) lit_length += far_z - last_t;
+    const float f = saturate(lit_length / far_z);
     // Air scatters sunlight mostly forward: shafts show looking towards the
     // sun and hardly with the sun behind (a forest seen with the sun at the
     // back was a white fog, 23/11). ((1 + cos) / 2)^1.5: 1 facing the sun,
@@ -178,29 +197,27 @@ float shafts_at(int2 c, float z, float jitter) {
     return p.shaft * forward * min(4.0 * f * (1.0 - f) * far_z / (0.4 * p.shaft_dist), 1.0);
 }
 
-[RootSignature(ROOT)]
-[numthreads(16, 16, 1)]
-void cs_shadow(uint3 id : SV_DispatchThreadID, uint3 local : SV_GroupThreadID) {
-    const bool inside = all(id.xy < p.size);
-    const float z = inside ? view_z[id.xy] : 0.0;
-    const float3 at_true = true_point(int2(id.xy), z);
-    // The sun and the sky once per 2x2 block (its top-left pixel; the
-    // supersampled frame is averaged down by 2 anyway), shared through the
-    // group: a quarter of the rays. Per pixel, the sun cost 5.0 ms on
-    // average and 16.2 ms at worst at 5120x2160, for 8.3 ms a frame at 120
-    // frames/s (23/11).
-    if ((local.x & 1u) == 0 && (local.y & 1u) == 0) {
+void shade_pixel(uint3 id, uint3 local, uint pixel_scale, uint shaft_stride, uint sky_rays) {
+    const uint2 base = id.xy * pixel_scale;
+    const int2 c = int2(min(base + pixel_scale - 1u, p.size - 1u));
+    const bool inside = all(base < p.size);
+    const float z_signed = inside ? view_z[c] : 0.0; // < 0: the player's car
+    const float z = abs(z_signed);
+    const float3 at_true = true_point(c, z_signed);
+    // One work item per output pixel at large 2x targets. Neighbouring
+    // work items still share the sky and sun samples in a 2x2 block.
+    if (all((local.xy & 1u) == 0u)) {
         const int2 b = int2(local.xy >> 1);
-        z_block[b.y][b.x] = z;
+        z_block[b.y][b.x] = pixel_scale == 1 ? z : z_signed;
         sun_block[b.y][b.x] = z > 0.0 ? sun_at(at_true, z, ign(int2(id.xy >> 1))) : 1.0;
-        if (p.sky > 0.0) sky_block[b.y][b.x] = z > 0.0 ? sky_at(int2(id.xy), z, at_true) : 1.0;
+        if (p.sky > 0.0) sky_block[b.y][b.x] = z > 0.0 ? sky_at(c, z, at_true, pixel_scale, sky_rays) : 1.0;
     }
     GroupMemoryBarrierWithGroupSync();
-    // the shafts: cs_shafts' 8x8 grid, bilinear
+    // Reconstruct the light shafts from the grid with bilinear filtering.
     float haze = 0.0;
     if (p.shaft > 0.0) {
-        const uint2 lo = (p.size + 7u) / 8u;
-        const float2 g = clamp((float2(id.xy) + 0.5) / 8.0 - 0.5, 0.0, float2(lo - 1u));
+        const uint2 lo = (p.size + shaft_stride - 1u) / shaft_stride;
+        const float2 g = clamp((float2(base) + 0.5 * float(pixel_scale)) / float(shaft_stride) - 0.5, 0.0, float2(lo - 1u));
         const uint2 g0 = uint2(g), g1 = min(g0 + 1u, lo - 1u);
         const float2 w = g - float2(g0);
         const float a = lerp(haze_lo[g0.y * lo.x + g0.x], haze_lo[g0.y * lo.x + g1.x], w.x);
@@ -208,36 +225,82 @@ void cs_shadow(uint3 id : SV_DispatchThreadID, uint3 local : SV_GroupThreadID) {
         haze = lerp(a, b, w.y);
     }
     if (!inside) return;
-    if (z <= 0.0) { // no polygon, or a front layer (the HUD: no haze over it)
-        light[id.xy] = float2(1.0, 0.0);
+
+    // Average nearby samples on this surface only. Reject samples across
+    // silhouettes, including the player's car, which has its own camera.
+    const int2 b = int2(local.xy >> 1);
+    const float depth = pixel_scale == 1 ? z : z_signed;
+    float sun_sum = 0.0, sky_sum = 0.0, weight = 0.0;
+    if (z > 0.0) {
+        [unroll] for (int j = -1; j <= 1; ++j)
+            [unroll] for (int i = -1; i <= 1; ++i) {
+                const int2 o = clamp(b + int2(i, j), 0, 7);
+                const float w = abs(z_block[o.y][o.x] - depth) <= 0.05 * z ? 1.0 : 0.0;
+                sun_sum += w * sun_block[o.y][o.x];
+                if (p.sky > 0.0) sky_sum += w * sky_block[o.y][o.x];
+                weight += w;
+            }
+    }
+    const float sun = weight > 0.0 ? sun_sum / weight : z > 0.0 ? sun_at(at_true, z, ign(c)) : 1.0;
+    const float sky = p.sky <= 0.0 ? 1.0 : weight > 0.0 ? sky_sum / weight : sky_block[b.y][b.x];
+    const float lit = saturate((sun - p.strength) / max(1.0 - p.strength, 1e-3));
+    const float2 packed = z > 0.0 ? float2(sun * (1.0 - p.sky + p.sky * sky), haze * (1.0 - lit))
+                                  : float2(1.0, 0.0);
+    if (pixel_scale == 1) {
+        light[c] = packed;
         return;
     }
-    // Average the 3x3 blocks around, those at about the same depth (5 %)
-    // only, so an edge stays sharp; the soft sun edge gets 18 rays.
-    const int2 b = int2(local.xy >> 1);
-    float sun_sum = 0.0, sky_sum = 0.0, weight = 0.0;
-    [unroll] for (int j = -1; j <= 1; ++j)
-        [unroll] for (int i = -1; i <= 1; ++i) {
-            const int2 o = clamp(b + int2(i, j), 0, 7);
-            const float w = abs(z_block[o.y][o.x] - z) <= 0.05 * z ? 1.0 : 0.0;
-            sun_sum += w * sun_block[o.y][o.x];
-            sky_sum += w * sky_block[o.y][o.x];
-            weight += w;
+
+    // Keep the full-resolution depth mask. In a pixel split across two
+    // surfaces, trace the sun from the other surface rather than spreading
+    // light across a railing, HUD edge or the silhouette of the player's car.
+    [unroll] for (uint y = 0; y < 2; ++y)
+        [unroll] for (uint x = 0; x < 2; ++x) {
+            const int2 q = int2(base + uint2(x, y));
+            if (any(uint2(q) >= p.size)) continue;
+            const float other = view_z[q];
+            if (other == 0.0) {
+                light[q] = float2(1.0, 0.0);
+            } else if (abs(other - z_signed) <= 0.05 * z) {
+                light[q] = packed;
+            } else {
+                const float other_z = abs(other);
+                const float3 at_other = true_point(q, other);
+                const float sun_other = sun_at(at_other, other_z, ign(q));
+                const float sky_other = p.sky > 0.0 ? sky_at(q, other_z, at_other, 2, sky_rays) : 1.0;
+                const float lit_other = saturate((sun_other - p.strength) / max(1.0 - p.strength, 1e-3));
+                light[q] = float2(sun_other * (1.0 - p.sky + p.sky * sky_other), haze * (1.0 - lit_other));
+            }
         }
-    // A pixel at no block's depth (a thin edge): its own rays.
-    const float sun = weight > 0.0 ? sun_sum / weight : sun_at(at_true, z, ign(int2(id.xy)));
-    const float sky = p.sky <= 0.0 ? 1.0 : (weight > 0.0 ? sky_sum / weight : sky_block[b.y][b.x]);
-    light[id.xy] = float2(sun * (1.0 - p.sky + p.sky * sky), haze);
 }
 
-// The light shafts once per 8x8 pixels (they change slowly across the
-// screen): run before cs_shadow, which spreads them bilinearly. Per 4x4
-// tile in cs_shadow they cost 2.6 ms at 6880x2880 (23/11).
+[RootSignature(ROOT)]
+[numthreads(16, 16, 1)]
+void cs_shadow(uint3 id : SV_DispatchThreadID, uint3 local : SV_GroupThreadID) {
+    shade_pixel(id, local, 1, 8, kSkyRays);
+}
+
+[RootSignature(ROOT)]
+[numthreads(16, 16, 1)]
+void cs_shadow_large(uint3 id : SV_DispatchThreadID, uint3 local : SV_GroupThreadID) {
+    shade_pixel(id, local, 2, 12, kSkyRays);
+}
+
+void write_shafts(uint3 id, uint stride) {
+    const uint2 lo = (p.size + stride - 1u) / stride;
+    if (any(id.xy >= lo)) return;
+    const int2 c = min(int2(id.xy * stride + stride / 2u), int2(p.size) - 1);
+    haze_lo[id.y * lo.x + id.x] = shafts_at(c, abs(view_z[c]));
+}
+
 [RootSignature(ROOT)]
 [numthreads(8, 8, 1)]
 void cs_shafts(uint3 id : SV_DispatchThreadID) {
-    const uint2 lo = (p.size + 7u) / 8u;
-    if (any(id.xy >= lo)) return;
-    const int2 c = min(int2(id.xy * 8u + 4u), int2(p.size) - 1); // the cell's centre pixel
-    haze_lo[id.y * lo.x + id.x] = shafts_at(c, view_z[c], ign(int2(id.xy)));
+    write_shafts(id, 8);
+}
+
+[RootSignature(ROOT)]
+[numthreads(8, 8, 1)]
+void cs_shafts_large(uint3 id : SV_DispatchThreadID) {
+    write_shafts(id, 12);
 }

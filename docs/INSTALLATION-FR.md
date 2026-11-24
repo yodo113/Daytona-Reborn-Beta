@@ -102,6 +102,14 @@ Dans la partie **Améliorations** :
 - **Couleurs de l'écran** : les couleurs telles qu'une borne à tube les
   montrait (rendu Matériel).
 
+- Les nouveaux profils utilisent les couleurs **Borne** (gamma 2,4).
+- Dans **Réglages**, **Affichage**, activez les **Ombres du soleil (ray
+  tracing, expérimental)** uniquement si vous souhaitez les essayer. Il faut
+  Direct3D 12 avec DXR 1.1 et un redémarrage. La lumière du ciel est facultative.
+- Le menu **Audio** permet de choisir la musique. Les noms des fichiers
+  nécessaires pour Saturn / Windows et Dreamcast figurent dans les
+  [notes de version](NOTES-BETA-FR.md#fichiers-de-musique-locaux).
+
 Le volant, la manette et le clavier se règlent dans la même fenêtre.
 
 ## En cas de problème

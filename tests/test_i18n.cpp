@@ -21,6 +21,20 @@ int main() {
     // a Latin run keeps its order inside the right-to-left line
     const std::string mixed = shape_arabic("\xD8\xA8 ABC");
     CHECK(mixed.find("ABC") != std::string::npos);
+    const std::string formats = shape_arabic("العدد %d والنص %s والنسبة %.2f ثم %%");
+    CHECK(formats.find("%d") != std::string::npos);
+    CHECK(formats.find("%s") != std::string::npos);
+    CHECK(formats.find("%.2f") != std::string::npos);
+    CHECK(formats.find("%%") != std::string::npos);
+    CHECK(shape_arabic("السرعة -12.50%").find("-12.50%") != std::string::npos);
+    CHECK(format("Valeurs %d, %s, %.2f, %%.", 42, "Daytona", 2.75) == "Valeurs 42, Daytona, 2.75, %.");
+    if (available("ar")) {
+        set("ar");
+        CHECK(std::string(logical("Les %d fichiers sont vérifiés.")).find("%d") != std::string::npos);
+        CHECK(format("Les %d fichiers sont vérifiés.", 42) ==
+              shape_arabic("تم التحقق من الملفات وعددها 42."));
+        set("fr");
+    }
     CHECK(languages().size() == 7);
     std::puts("i18n ok");
     return 0;

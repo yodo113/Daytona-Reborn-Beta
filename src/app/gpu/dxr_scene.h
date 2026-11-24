@@ -42,6 +42,7 @@ public:
     struct Shade {
         void *view_z = nullptr, *light = nullptr;
         int width = 0, height = 0;
+        bool large_supersampled = false;
         float to_screen[2] = {1, 1}, origin[2] = {0, 0};
         float sun[3] = {0, 1, 0}; // towards the sun, in the scaled camera space
         float strength = 0.6f;    // light left in shadow
@@ -54,7 +55,10 @@ public:
         // added to the frame; 0 = off. shaft_dist: how far the eye ray is
         // marched, camera units.
         float shaft = 0.0f, shaft_dist = 60.0f;
+        float shaft_phase = 0.0f; // fractional world-space step at the eye
         float focus[2] = {1, 1};
+        // the player's car's own camera (its pixels have a negative view z)
+        float origin2[2] = {0, 0}, focus2[2] = {1, 1};
         // cut-out triangles (9 floats each) and their texture (8 words each:
         // info.x, info.y, u v at each corner), tested against texture RAM
         const std::vector<float> *cutout_xyz = nullptr;

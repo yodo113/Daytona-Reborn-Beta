@@ -83,6 +83,7 @@ struct GeoPoly {
     uint16_t z = 0;
     int32_t object_z_adjust = 0;
     uint8_t local_texture = 0; // GPU-only local body surface; 0 uses the board texture state
+    uint16_t local_solid_palette = 0; // authored RGB555 for a solid face; 0 uses palette RAM
     uint16_t texheader[4] = {0, 0, 0, 0};
     uint8_t luma = 0;
     int32_t texlod = 0;
@@ -249,8 +250,13 @@ public:
     void set_tick(uint64_t tick) { tick_ = tick; }
     void set_mobile_key_trace(std::FILE *file) { mobile_key_trace_ = file; }
 
-    void enable_pose_presentation() { pose_presentation_ = recalculate_facing_ = true; }
+    void enable_pose_presentation() {
+        if (track_shaft_route_ && !pose_presentation_) discard_pose_history();
+        pose_presentation_ = recalculate_facing_ = true;
+    }
     void stamp_pose_scene(SnapshotStamp stamp);
+    void track_shaft_route(bool enable);
+    double shaft_route(bool presented) const { return presented ? presented_shaft_route_ : shaft_route_; }
     const std::vector<GeoPoly> *present_pose_scene(uint64_t now_ns, uint64_t delay_ns);
     void discard_pose_history();
 
@@ -471,6 +477,10 @@ private:
     GeoPtr geo_code_jump(geo_state *geo, uint32_t opcode, GeoPtr input);
     GeoPtr geo_process_command(geo_state *geo, uint32_t opcode, GeoPtr input, bool *end_code);
     OverlayRoleProbe overlay_roles_;
+    bool track_shaft_route_ = false;
+    // The samples follow the three snapshot ticks, including the older pair.
+    std::array<double, 3> shaft_route_ticks_{};
+    double shaft_route_ = 0.0, presented_shaft_route_ = 0.0;
 };
 
 } // namespace rt

@@ -67,9 +67,7 @@ void Launcher::check_rom() {
     checks_.clear();
     rom_ok_ = false;
     if (cfg_.rom_path.empty()) {
-        char text[256];
-        std::snprintf(text, sizeof text, TX("Choisissez le jeu de ROM %s (.zip ou .7z)."), M2_ROMSET);
-        rom_message_ = text;
+        rom_message_ = TXF("Choisissez le jeu de ROM %s (.zip ou .7z).", M2_ROMSET);
         return;
     }
     try {
@@ -95,11 +93,9 @@ void Launcher::check_rom() {
         }
         // Do not enable Start if committing the imported archive failed.
         rom_ok_ = verified;
-        char text[256];
-        if (rom_ok_) std::snprintf(text, sizeof text, TX("Les %d fichiers sont vérifiés."), good);
-        else std::snprintf(text, sizeof text, TX("%d fichiers sur %d absents ou incorrects : ce n'est pas le jeu %s."),
-                           int(checks_.size()) - good, int(checks_.size()), M2_ROMSET);
-        rom_message_ = text;
+        if (rom_ok_) rom_message_ = TXF("Les %d fichiers sont vérifiés.", good);
+        else rom_message_ = TXF("%d fichiers sur %d absents ou incorrects : ce n'est pas le jeu %s.",
+                               int(checks_.size()) - good, int(checks_.size()), M2_ROMSET);
     } catch (const std::exception &e) {
         rom_message_ = e.what();
     }
@@ -413,7 +409,7 @@ Launcher::Result Launcher::draw(bool game_running, const Devices &devices, bool 
                                   "se rafraîchit au rythme du jeu et chaque image reste affichée le même temps.\n"
                                   "Le VRR doit être actif dans l'écran et le pilote graphique ; sur un écran à\n"
                                   "fréquence fixe, le résultat ressemble au réglage par défaut."));
-            ImGui::TextDisabled(TX("Actuellement : %s."), pacing_status_.c_str());
+            ImGui::TextDisabled("%s", TXF("Actuellement : %s.", pacing_status_.c_str()).c_str());
             if (ImGui::Checkbox(TX("Passer le lanceur"), &cfg_.skip_launcher)) cfg_.save();
             ImGui::SameLine();
             ImGui::TextDisabled(TX("(lance le jeu tout de suite ; Échap ouvre ce lanceur)"));
@@ -474,9 +470,8 @@ Launcher::Result Launcher::draw(bool game_running, const Devices &devices, bool 
                                     "au pied des murs. Pris en compte au prochain lancement du jeu."));
                 ImGui::SetNextItemWidth(200);
                 int tens = cfg_.sun_height / 10;
-                char sun_label[32];
-                std::snprintf(sun_label, sizeof sun_label, tens ? TX("%d degr\xc3\xa9s") : TX("celle du jeu"), tens * 10);
-                if (ImGui::SliderInt(TX("Hauteur du soleil"), &tens, 0, 8, sun_label, ImGuiSliderFlags_AlwaysClamp)) {
+                const std::string sun_label = tens ? TXF("%d degr\xc3\xa9s", tens * 10) : TX("celle du jeu");
+                if (ImGui::SliderInt(TX("Hauteur du soleil"), &tens, 0, 8, sun_label.c_str(), ImGuiSliderFlags_AlwaysClamp)) {
                     cfg_.sun_height = tens * 10;
                     cfg_.save();
                 }
@@ -491,16 +486,15 @@ Launcher::Result Launcher::draw(bool game_running, const Devices &devices, bool 
                                 "Pris en compte au prochain lancement du jeu."));
             ImGui::SetNextItemWidth(200);
             int crt = cfg_.display_gamma >= 2.0f ? int(cfg_.display_gamma * 10.0f + 0.5f) : 20;
-            char crt_label[32];
-            std::snprintf(crt_label, sizeof crt_label, crt <= 20 ? TX("PC (origine)") : TX("Borne %d,%d"), crt / 10, crt % 10);
-            if (ImGui::SliderInt(TX("Couleurs de l'\xc3\xa9" "cran (red\xc3\xa9marrer le jeu)"), &crt, 20, 26, crt_label,
+            const std::string crt_label = crt <= 20 ? TX("PC (sRGB)") : TXF("Borne %d,%d", crt / 10, crt % 10);
+            if (ImGui::SliderInt(TX("Couleurs de l'\xc3\xa9" "cran (red\xc3\xa9marrer le jeu)"), &crt, 20, 26, crt_label.c_str(),
                                  ImGuiSliderFlags_AlwaysClamp)) {
                 cfg_.display_gamma = crt <= 20 ? 0.0f : float(crt) / 10.0f;
                 cfg_.save();
             }
-            ImGui::TextDisabled(TX("PC : les couleurs du jeu comme avant (image d'origine).\n"
-                                "Borne 2,2 \xc3\xa0 2,6 : les m\xc3\xaa" "mes couleurs comme sur un \xc3\xa9" "cran de borne d'arcade,\n"
-                                "plus profondes et moins d\xc3\xa9lav\xc3\xa9" "es. Conseill\xc3\xa9 : 2,4."));
+            ImGui::TextDisabled(TX("Borne 2,2 \xc3\xa0 2,6 : les couleurs du jeu comme sur l'\xc3\xa9" "cran \xc3\xa0 tube de la borne,\n"
+                                "plus profondes et moins d\xc3\xa9lav\xc3\xa9" "es. Conseill\xc3\xa9 : 2,4 (r\xc3\xa9glage par d\xc3\xa9" "faut).\n"
+                                "PC : les m\xc3\xaa" "mes couleurs avec la courbe d'un \xc3\xa9" "cran de PC, plus claires."));
             ImGui::SetNextItemWidth(200);
             int saturation = int(cfg_.display_saturation * 100.0f + 0.5f);
             if (ImGui::SliderInt(TX("Saturation des couleurs (redémarrer le jeu)"), &saturation, 50, 150,
@@ -508,7 +502,7 @@ Launcher::Result Launcher::draw(bool game_running, const Devices &devices, bool 
                 cfg_.display_saturation = float(saturation) / 100.0f;
                 cfg_.save();
             }
-            ImGui::TextDisabled(TX("Plus de 100 %% : des couleurs plus vives. 100 %% : les couleurs du jeu telles quelles."));
+            ImGui::TextDisabled("%s", TXF("Plus de 100 %% : des couleurs plus vives. 100 %% : les couleurs du jeu telles quelles.").c_str());
             const int scenery_width = 496 + 2 * rt::GameLoop::wide_margin(cfg_.arcade_43() ? 0.0 : cfg_.aspect_ratio());
             const uint32_t automatic_budget = rt::automatic_scenery_budget(scenery_width, cfg_.draw_distance);
             int budget_mode = cfg_.draw_budget ? 1 : 0;
@@ -528,8 +522,8 @@ Launcher::Result Launcher::draw(bool game_running, const Devices &devices, bool 
                 ImGui::TextDisabled(TX("Remplace l'allocation automatique. De 1 à 1 000 000.\n"
                                     "Trop bas, du décor peut manquer ; trop haut, le jeu peut ralentir."));
             } else {
-                ImGui::TextDisabled(TX("Allocation actuelle : %u. Elle suit l'écran large et la distance d'affichage.\n"
-                                    "La résolution et le suréchantillonnage ne la changent pas."), automatic_budget);
+                ImGui::TextDisabled("%s", TXF("Allocation actuelle : %u. Elle suit l'écran large et la distance d'affichage.\n"
+                                          "La résolution et le suréchantillonnage ne la changent pas.", automatic_budget).c_str());
             }
 
             ImGui::Spacing();
@@ -551,7 +545,7 @@ Launcher::Result Launcher::draw(bool game_running, const Devices &devices, bool 
             ImGui::EndDisabled();
             ImGui::PushStyleColor(ImGuiCol_Text, ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
             ImGui::PushTextWrapPos(ImGui::GetCursorPosX() + 640);
-            ImGui::TextWrapped(TX("Réseau : %s"), link_status_.c_str());
+            ImGui::TextWrapped("%s", TXF("Réseau : %s", link_status_.c_str()).c_str());
             ImGui::PopTextWrapPos();
             ImGui::PopStyleColor();
             ImGui::TextDisabled(TX("Les bornes se relient en anneau par le réseau (Wi-Fi ou câble) : chacune écoute sur son\n"
@@ -597,13 +591,13 @@ Launcher::Result Launcher::draw(bool game_running, const Devices &devices, bool 
         if (ImGui::BeginTabItem(TX("Commandes"))) {
             Controls &c = cfg_.controls;
             ImGui::Spacing();
-            ImGui::Text(TX("Manette : %s"), pad ? SDL_GetGamepadName(pad) : TX("aucune connectée"));
+            ImGui::Text("%s", TXF("Manette : %s", pad ? SDL_GetGamepadName(pad) : TXL("aucune connectée")).c_str());
             std::string joys;
             for (SDL_Joystick *j : devices.joys) {
                 const char *n = SDL_GetJoystickName(j);
                 joys += (joys.empty() ? "" : ", ") + std::string(n ? n : "joystick");
             }
-            ImGui::TextWrapped(TX("Volants et joysticks : %s"), joys.empty() ? TX("aucun connecté") : joys.c_str());
+            ImGui::TextWrapped("%s", TXF("Volants et joysticks : %s", joys.empty() ? TXL("aucun connecté") : joys.c_str()).c_str());
             // live meters
             const bool *keys = SDL_GetKeyboardState(nullptr);
             const float steer = c.value(SteerRight, keys, devices) - c.value(SteerLeft, keys, devices);
@@ -631,8 +625,8 @@ Launcher::Result Launcher::draw(bool game_running, const Devices &devices, bool 
                 c.wheel_sensitivity = float(wheel_sensitivity) / 100.0f;
                 cfg_.save();
             }
-            ImGui::TextDisabled(TX("100 %% : linéaire. Plus bas : plus doux près du centre. Plus haut : plus vif.\n"
-                                "Seulement pour l'axe de direction d'un volant ou joystick ; le braquage complet est conservé."));
+            ImGui::TextDisabled("%s", TXF("100 %% : linéaire. Plus bas : plus doux près du centre. Plus haut : plus vif.\n"
+                                "Seulement pour l'axe de direction d'un volant ou joystick ; le braquage complet est conservé.").c_str());
             ImGui::SetNextItemWidth(200);
             int pad_sensitivity = int(c.pad_steer_sensitivity * 100.0f + 0.5f);
             if (ImGui::SliderInt(TX("Sensibilité du stick (manette)"), &pad_sensitivity, 25, 100, "%d%%")) {
@@ -742,6 +736,15 @@ Launcher::Result Launcher::draw(bool game_running, const Devices &devices, bool 
             ImGui::Spacing();
             percent(TX("Musique"), cfg_.music_volume);
             percent(TX("Effets"), cfg_.effects_volume);
+#ifndef M2_MOBILE
+            const char *versions[] = {TX("Arcade"), TX("Saturn / Windows (CD)"), TX("Dreamcast")};
+            int version = static_cast<int>(cfg_.music_version);
+            ImGui::SetNextItemWidth(250);
+            if (ImGui::Combo(TX("Version de la musique"), &version, versions, IM_ARRAYSIZE(versions))) {
+                cfg_.music_version = static_cast<MusicVersion>(version);
+                cfg_.save();
+            }
+#endif
             ImGui::TextDisabled(TX("L'équilibre entre la musique et tout le reste (moteur, dérapages, chocs).\n"
                                 "100 %% et 100 %% : le mélange de la carte son de la borne."));
 

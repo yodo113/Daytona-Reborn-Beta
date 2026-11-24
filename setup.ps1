@@ -15,11 +15,10 @@
 $ErrorActionPreference = 'Stop'
 Set-Location -Path $PSScriptRoot
 
-if (-not (Get-Command winget -ErrorAction SilentlyContinue)) {
-    Write-Error "winget not found. Install 'App Installer' from the Microsoft Store, then run setup.ps1 again."
-}
-
 function Install-Package([string]$Id, [string]$Override = '') {
+    if (-not (Get-Command winget -ErrorAction SilentlyContinue)) {
+        Write-Error "Install App Installer from the Microsoft Store to install $Id, then run setup.ps1 again."
+    }
     $listed = winget list --id $Id --exact --accept-source-agreements 2>$null | Select-String -SimpleMatch $Id
     if ($listed) { Write-Host "== $Id already installed"; return }
     Write-Host "== Installing $Id"
@@ -31,10 +30,24 @@ function Install-Package([string]$Id, [string]$Override = '') {
     }
 }
 
-Install-Package 'Git.Git'
-Install-Package 'Kitware.CMake'
-Install-Package 'Ninja-build.Ninja'
-Install-Package 'Python.Python.3.12'
+function Find-Python {
+    foreach ($name in @('py', 'python')) {
+        $candidate = Get-Command $name -ErrorAction SilentlyContinue
+        if ($candidate) {
+            try {
+                & $candidate.Source -c "import sys; sys.exit(sys.version_info < (3, 12))" 2>$null
+                if ($LASTEXITCODE -eq 0) { return $candidate }
+            } catch {
+                # Windows can expose a Store alias even without Python installed.
+            }
+        }
+    }
+}
+
+if (-not (Get-Command git -ErrorAction SilentlyContinue)) { Install-Package 'Git.Git' }
+if (-not (Get-Command cmake -ErrorAction SilentlyContinue)) { Install-Package 'Kitware.CMake' }
+if (-not (Get-Command ninja -ErrorAction SilentlyContinue)) { Install-Package 'Ninja-build.Ninja' }
+if (-not (Find-Python)) { Install-Package 'Python.Python.3.12' }
 # --msvc: Microsoft's compiler instead of Clang. The rest goes to setup.py.
 $useMsvc = $args -contains '--msvc'
 $setupArgs = @($args | Where-Object { $_ -ne '--msvc' })
@@ -97,12 +110,10 @@ if (-not $useMsvc -and -not (Test-VsClang)) {
 $env:M2_COMPILER = if ($useMsvc) { 'msvc' } else { 'clang' }
 
 # Pick up the new tools without opening a new terminal.
-$env:Path = [Environment]::GetEnvironmentVariable('Path', 'Machine') + ';' +
+$env:Path = $env:Path + ';' + [Environment]::GetEnvironmentVariable('Path', 'Machine') + ';' +
             [Environment]::GetEnvironmentVariable('Path', 'User')
 
-# Prefer the py launcher: a bare "python" can be the Microsoft Store stub.
-$python = (Get-Command py -ErrorAction SilentlyContinue)
-if (-not $python) { $python = (Get-Command python -ErrorAction SilentlyContinue) }
+$python = Find-Python
 if (-not $python) { Write-Error "Python was installed but is not on PATH yet; open a new terminal and run setup.ps1 again." }
 
 & $python.Source scripts\setup.py @setupArgs

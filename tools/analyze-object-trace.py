@@ -2,7 +2,7 @@
 '''Analyze an M2_OBJECT_TRACE CSV for the native-scene feasibility test.
 
 Input columns: frame,pool,oba,obc,mode,matrix0..matrix11,vertices,source.
-Verdict (Grok ACP review, 2026-11-09): the object-data cache is viable only if
+Geometry cache requirement: the object-data cache is viable only if
 ROM objects carry >=50% of vertices before cull and a rigid relative-matrix
 clique covers >=50% of the ROM vertices present in every frame.
 

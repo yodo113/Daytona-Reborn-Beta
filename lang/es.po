@@ -1,0 +1,805 @@
+# Daytona Arcade Native: es
+
+msgid "Tourner à gauche"
+msgstr "Girar a la izquierda"
+
+msgid "Tourner à droite"
+msgstr "Girar a la derecha"
+
+msgid "Accélérer"
+msgstr "Acelerar"
+
+msgid "Freiner"
+msgstr "Frenar"
+
+msgid "Vitesse 1"
+msgstr "1.ª marcha"
+
+msgid "Vitesse 2"
+msgstr "2.ª marcha"
+
+msgid "Vitesse 3"
+msgstr "3.ª marcha"
+
+msgid "Vitesse 4"
+msgstr "4.ª marcha"
+
+msgid "Monter un rapport"
+msgstr "Subir de marcha"
+
+msgid "Descendre un rapport"
+msgstr "Bajar de marcha"
+
+msgid "Vue 1 (rouge)"
+msgstr "Vista 1 (roja)"
+
+msgid "Vue 2 (bleue)"
+msgstr "Vista 2 (azul)"
+
+msgid "Vue 3 (jaune)"
+msgstr "Vista 3 (amarilla)"
+
+msgid "Vue 4 (verte)"
+msgstr "Vista 4 (verde)"
+
+msgid "Pièce"
+msgstr "Moneda"
+
+msgid "Start"
+msgstr "Iniciar"
+
+msgid "Test"
+msgstr "Prueba"
+
+msgid "Service"
+msgstr "Servicio"
+
+msgid "Bouton "
+msgstr "Botón "
+
+msgid "Gâchette "
+msgstr "Gatillo "
+
+msgid "Axe "
+msgstr "Eje "
+
+msgid "Croix "
+msgstr "Cruceta "
+
+msgid "haut"
+msgstr "arriba"
+
+msgid "bas"
+msgstr "abajo"
+
+msgid "gauche"
+msgstr "izquierda"
+
+msgid "droite"
+msgstr "derecha"
+
+msgid " (non connecté)"
+msgstr " (sin conexión)"
+
+msgid "volant (retour de force)"
+msgstr "volante (respuesta de fuerza)"
+
+msgid "volant (retour de force non ouvert ; nouvel essai)"
+msgstr "volante (respuesta de fuerza no disponible, reintentando)"
+
+msgid "manette (vibrations)"
+msgstr "mando (vibración)"
+
+msgid "aucun"
+msgstr "ninguno"
+
+msgid "M O D E L   2    /    É D I T I O N   P C"
+msgstr "MODEL 2    /    EDICIÓN PC"
+
+msgid "Préparation de la course..."
+msgstr "Preparando la carrera..."
+
+msgid "Course solo"
+msgstr "Carrera en solitario"
+
+msgid "Retour"
+msgstr "Volver"
+
+msgid "Mode de la prochaine course"
+msgstr "Modo de la próxima carrera"
+
+msgid "Mode de jeu"
+msgstr "Modo de juego"
+
+msgid "Course normale"
+msgstr "Carrera normal"
+
+msgid "Time Attack"
+msgstr "Contrarreloj"
+
+msgid "Boîte de la prochaine course"
+msgstr "Transmisión de la próxima carrera"
+
+msgid "Boîte de vitesses"
+msgstr "Transmisión"
+
+msgid "Automatique"
+msgstr "Automática"
+
+msgid "Manuelle"
+msgstr "Manual"
+
+msgid "Reprendre"
+msgstr "Continuar"
+
+msgid "Jouer"
+msgstr "Jugar"
+
+msgid "Réglages"
+msgstr "Ajustes"
+
+msgid "Quitter"
+msgstr "Salir"
+
+msgid "Nouvelle course"
+msgstr "Nueva carrera"
+
+msgid "SOLO   /   JEU LIBRE"
+msgstr "SOLO   /   JUEGO LIBRE"
+
+msgid "SDR   /   %d × %d"
+msgstr "SDR   /   %d × %d"
+
+msgid "Choisissez de nouveau le jeu de ROM avec Parcourir."
+msgstr "Vuelve a seleccionar el conjunto de ROM en Examinar."
+
+msgid "Choisissez le jeu de ROM %s (.zip ou .7z)."
+msgstr "Selecciona el conjunto de ROM %s (.zip o .7z)."
+
+msgid "Les %d fichiers sont vérifiés."
+msgstr "Se verificaron los %d archivos."
+
+msgid "%d fichiers sur %d absents ou incorrects : ce n'est pas le jeu %s."
+msgstr "Faltan o son incorrectos %d de %d archivos. El conjunto no es %s."
+
+msgid "Choix de la ROM : "
+msgstr "Selección de ROM: "
+
+msgid "Jeu de ROM (zip, 7z)"
+msgstr "Conjunto de ROM (zip, 7z)"
+
+msgid "Tous les fichiers"
+msgstr "Todos los archivos"
+
+msgid "Retour à l'accueil"
+msgstr "Volver a la pantalla de inicio"
+
+msgid "  recompilation statique, moteur natif"
+msgstr "  recompilación estática, motor nativo"
+
+msgid "Jeu"
+msgstr "Juego"
+
+msgid "Jeu de ROM"
+msgstr "Conjunto de ROM"
+
+msgid "Parcourir donne accès à votre ZIP/7z. Une copie vérifiée est gardée dans l'application."
+msgstr "Usa Examinar para seleccionar tu ZIP o 7z. Se guarda una copia verificada en la aplicación."
+
+msgid "Parcourir..."
+msgstr "Examinar..."
+
+msgid "Vérifier"
+msgstr "Verificar"
+
+msgid "Fichiers"
+msgstr "Archivos"
+
+msgid "Affichage"
+msgstr "Pantalla"
+
+msgid "Arcade 4:3 (la borne d'origine)"
+msgstr "Arcade 4:3 (recreativa original)"
+
+msgid "21:9 (ultra-large)"
+msgstr "21:9 (ultrapanorámica)"
+
+msgid "Format de l'image"
+msgstr "Formato de imagen"
+
+msgid ""
+"Arcade 4:3 : le cadrage de la borne, centré, avec des bandes sur les côtés d'un écran large.\n"
+"Automatique : la forme de la fenêtre en rendu natif, sinon le 4:3 d'origine.\n"
+"16:10, 16:9, 21:9 : la scène s'élargit sur les côtés, la voiture garde ses proportions."
+msgstr ""
+"Arcade 4:3: encuadre original centrado, con bandas laterales en pantallas anchas.\n"
+"Automático: sigue la forma de la ventana en renderizado nativo y usa el 4:3 original en los demás modos.\n"
+"16:10, 16:9 y 21:9 amplían la escena hacia los lados y conservan las proporciones del coche."
+
+msgid "API graphique (redémarrer le jeu)"
+msgstr "API gráfica (reinicia el juego)"
+
+msgid "Logiciel (exact)"
+msgstr "Software (exacto)"
+
+msgid "Matériel (expérimental)"
+msgstr "Hardware (experimental)"
+
+msgid "Rendu"
+msgstr "Renderizado"
+
+msgid ""
+"Logiciel : la 3D est calculée par le processeur, comme sur la carte d'arcade. Matériel :\n"
+"par la carte graphique ; en développement, très proche mais pas encore exact au pixel près."
+msgstr ""
+"Software: la CPU calcula el 3D como la placa arcade. Hardware:\n"
+"la tarjeta gráfica calcula el 3D. En desarrollo, con ligeras diferencias a nivel de píxel."
+
+msgid "Plein écran"
+msgstr "Pantalla completa"
+
+msgid "Cacher la souris pendant le jeu"
+msgstr "Ocultar el cursor durante la partida"
+
+msgid ""
+"Pas de pointeur de souris pendant la partie. Il revient quand ce lanceur\n"
+"s'ouvre (Échap) et disparaît de nouveau avec Reprendre."
+msgstr ""
+"El puntero se oculta durante la carrera. Vuelve al abrir el iniciador con Esc\n"
+"y se oculta de nuevo al elegir Continuar."
+
+msgid "Bureau (sans bordure)"
+msgstr "Escritorio (sin bordes)"
+
+msgid "Mode plein écran"
+msgstr "Modo de pantalla completa"
+
+msgid ""
+"Bureau : plein écran à la résolution et à la fréquence du bureau.\n"
+"Un mode : plein écran exclusif à cette résolution et cette fréquence, par exemple\n"
+"un mode à 57,52 Hz créé dans les réglages du pilote graphique."
+msgstr ""
+"Escritorio: pantalla completa con la resolución y frecuencia del escritorio.\n"
+"Un modo específico usa pantalla completa exclusiva con la resolución y frecuencia elegidas, por ejemplo\n"
+"57,52 Hz configurados en el controlador gráfico."
+
+msgid "Cadence d'affichage"
+msgstr "Cadencia de imagen"
+
+msgid "(tout décoché : la vitesse de la borne sur tout écran)"
+msgstr "(todo desmarcado: velocidad de la recreativa en cualquier pantalla)"
+
+msgid "Cadence fluide sur un écran à 57,52 Hz"
+msgstr "Cadencia fluida en pantallas de 57,52 Hz"
+
+msgid ""
+"Sur un écran réglé à 57,52 Hz (ou 115,05 Hz), une image du jeu par rafraîchissement (ou deux) :\n"
+"aucune image doublée ou sautée. La vitesse reste celle de la borne, à 1 %% près.\n"
+"Sans effet aux autres fréquences."
+msgstr ""
+"A 57,52 Hz o 115,05 Hz, cada fotograma del juego dura uno o dos refrescos.\n"
+"No se duplican ni se omiten fotogramas. La velocidad queda a menos de 1 %% de la original.\n"
+"Sin efecto a otras frecuencias."
+
+msgid "Caler sur l'écran (change la vitesse du jeu)"
+msgstr "Sincronizar con la pantalla (cambia la velocidad del juego)"
+
+msgid ""
+"Fait tourner le jeu à une cadence qui divise exactement celle de l'écran : chaque image\n"
+"reste affichée le même temps et le mouvement est parfaitement fluide. Sur un écran à\n"
+"60, 120, 180 ou 240 Hz, le jeu tourne à 60 images/s, environ 4 %% plus vite que la borne\n"
+"(57,52) ; avec le son de référence, le son est aussi un peu plus rapide. Sans effet\n"
+"sur un écran à 144 ou 165 Hz, qui ne peut pas caler une cadence proche de la borne :\n"
+"utilisez alors la cadence VRR si l'écran gère G-Sync ou FreeSync.\n"
+"Décoché : le jeu tourne toujours à la vitesse de la borne."
+msgstr ""
+"La cadencia divide exactamente la frecuencia de la pantalla. Cada fotograma\n"
+"se muestra el mismo tiempo para que el movimiento sea fluido. A\n"
+"60, 120, 180 o 240 Hz, el juego va a 60 fotogramas/s, alrededor de un 4 %% por encima de la recreativa\n"
+"(57,52). El sonido de referencia también se acelera un poco. Sin efecto\n"
+"a 144 o 165 Hz, frecuencias que no permiten una cadencia similar a la original.\n"
+"En ese caso, usa VRR si la pantalla admite G-Sync o FreeSync.\n"
+"Desactivado: el juego siempre va a la velocidad de la recreativa."
+
+msgid "Cadence VRR (G-Sync / FreeSync)"
+msgstr "Cadencia VRR (G-Sync / FreeSync)"
+
+msgid ""
+"Pour un écran à fréquence variable : chaque image dure exactement 1/57,52 s, l'écran\n"
+"se rafraîchit au rythme du jeu et chaque image reste affichée le même temps.\n"
+"Le VRR doit être actif dans l'écran et le pilote graphique ; sur un écran à\n"
+"fréquence fixe, le résultat ressemble au réglage par défaut."
+msgstr ""
+"Para pantallas de frecuencia variable. Cada fotograma dura exactamente 1/57,52 s.\n"
+"La pantalla sigue el ritmo del juego y muestra todos los fotogramas el mismo tiempo.\n"
+"Activa VRR en la pantalla y en el controlador gráfico. A frecuencia fija,\n"
+"el resultado se parece al ajuste predeterminado."
+
+msgid "Actuellement : %s."
+msgstr "Actual: %s."
+
+msgid "Passer le lanceur"
+msgstr "Omitir el iniciador"
+
+msgid "(lance le jeu tout de suite ; Échap ouvre ce lanceur)"
+msgstr "(abre el juego directamente; Esc abre el iniciador)"
+
+msgid "Double tampon"
+msgstr "Búfer doble"
+
+msgid "Simple tampon"
+msgstr "Búfer simple"
+
+msgid "Une image sur trois"
+msgstr "Un fotograma de cada tres"
+
+msgid "Mode de dessin"
+msgstr "Modo de dibujo"
+
+msgid ""
+"Double tampon : chaque image est dessinée, comme dans le jeu. Simple tampon : une sur deux ;\n"
+"une image sur trois : une sur trois. Plus rapide ; le jeu lui-même n'est pas ralenti."
+msgstr ""
+"Búfer doble: dibuja todos los fotogramas. Búfer simple: uno de cada dos.\n"
+"Dibujar uno de cada tres reduce aún más el esfuerzo. La velocidad del juego no cambia."
+
+msgid "Natif 2x"
+msgstr "Nativo 2x"
+
+msgid "Désactivé"
+msgstr "Desactivado"
+
+msgid "Natif direct"
+msgstr "Nativo directo"
+
+msgid "Résolution du rendu"
+msgstr "Resolución de renderizado"
+
+msgid ""
+"Les modes natifs suivent la fenêtre sous Direct3D 12.\n"
+"2x à 4x agrandissent la résolution d'origine."
+msgstr ""
+"Los modos nativos siguen el tamaño de la ventana en Direct3D 12.\n"
+"Los modos de 2x a 4x amplían la resolución original."
+
+msgid "Améliorations"
+msgstr "Mejoras"
+
+msgid "Compteurs au bord de l'écran (expérimental)"
+msgstr "Indicadores en los bordes de la pantalla (experimental)"
+
+msgid "Étirer le fond du ciel (expérimental)"
+msgstr "Estirar el fondo del cielo (experimental)"
+
+msgid ""
+"Montre davantage de la scène sur les côtés. Les compteurs restent en 4:3 au centre, ou bien\n"
+"les temps au tour, la position et les cartes passent sur les bords. En course, le ciel\n"
+"des côtés est bleu uni, ou bien l'image du ciel du jeu étirée sur tout l'écran."
+msgstr ""
+"Muestra más escenario a los lados. Los indicadores se mantienen centrados en 4:3 o\n"
+"los tiempos de vuelta, la posición y los mapas pasan a los bordes. Durante la carrera,\n"
+"se ve un azul uniforme a los lados o el cielo del juego estirado a toda la pantalla."
+
+msgid "La plus courte"
+msgstr "La más corta"
+
+msgid "Plus courte"
+msgstr "Más corta"
+
+msgid "Par défaut"
+msgstr "Predeterminado"
+
+msgid "Plus loin"
+msgstr "Más larga"
+
+msgid "Le plus loin"
+msgstr "La más larga"
+
+msgid "Distance d'affichage"
+msgstr "Distancia de dibujado"
+
+msgid ""
+"Le décor autour du circuit. L'écran large ajoute aussi le décor sur les côtés.\n"
+"Plus court réduit la portée ; plus loin ajoute arbres et bâtiments, pas la route."
+msgstr ""
+"Ajusta el escenario alrededor de la pista. La vista panorámica muestra más a los lados.\n"
+"Una distancia menor reduce el alcance. Una mayor añade árboles y edificios, sin cambiar la pista."
+
+msgid "Décor en volume"
+msgstr "Escenario en 3D"
+
+msgid ""
+"Sapins en volume, tribunes pleines, piliers sous le pont de Dinosaur Canyon.\n"
+"Pris en compte au prochain lancement du jeu."
+msgstr ""
+"Pinos en 3D, gradas completas y pilares bajo el puente de Dinosaur Canyon.\n"
+"Se aplica la próxima vez que se inicia el juego."
+
+msgid "Voitures adverses toujours détaillées"
+msgstr "Coches rivales siempre detallados"
+
+msgid ""
+"Un seul modèle, le plus détaillé, à toutes les distances : plus de voitures\n"
+"qui changent d'aspect en approchant. Pris en compte au prochain lancement du jeu."
+msgstr ""
+"Usa el modelo más detallado a cualquier distancia. Los coches mantienen\n"
+"su aspecto al acercarse. Se aplica al volver a iniciar el juego."
+
+msgid "Ombres du soleil (ray tracing, expérimental)"
+msgstr "Sombras del sol (trazado de rayos, experimental)"
+
+msgid ""
+"Ombres projetées par le soleil du jeu (Direct3D 12, carte compatible ray tracing,\n"
+"résolution native). Pris en compte au prochain lancement du jeu."
+msgstr ""
+"Sombras proyectadas por el sol del juego. Requiere Direct3D 12, una tarjeta compatible\n"
+"con trazado de rayos y resolución nativa. Se aplica al reiniciar el juego."
+
+msgid "Lumière du ciel (expérimental)"
+msgstr "Luz del cielo (experimental)"
+
+msgid ""
+"Le ciel éclaire de partout : plus sombre sous les voitures, sous le portique,\n"
+"au pied des murs. Pris en compte au prochain lancement du jeu."
+msgstr ""
+"El cielo ilumina desde todas las direcciones. Hay menos luz bajo los coches y pórticos,\n"
+"y al pie de los muros. Se aplica al reiniciar el juego."
+
+msgid "%d degrés"
+msgstr "%d grados"
+
+msgid "celle du jeu"
+msgstr "Original del juego"
+
+msgid "Hauteur du soleil"
+msgstr "Altura del sol"
+
+msgid ""
+"La direction reste celle du soleil du jeu. Plus bas, les ombres s'allongent\n"
+"(comme en fin d'après-midi). Pris en compte au prochain lancement du jeu."
+msgstr ""
+"Mantiene la dirección del sol del juego. Cuanto más bajo, más largas son las sombras,\n"
+"como al atardecer. Se aplica al reiniciar el juego."
+
+msgid "Lissage 120 images/s (expérimental)"
+msgstr "Suavizado a 120 fotogramas/s (experimental)"
+
+msgid ""
+"Images intermédiaires entre celles du jeu. Demande le rendu Matériel et le double\n"
+"tampon.\n"
+"Pris en compte au prochain lancement du jeu."
+msgstr ""
+"Inserta fotogramas intermedios. Requiere renderizado por hardware y\n"
+"búfer doble.\n"
+"Se aplica al reiniciar el juego."
+
+msgid "PC (sRGB)"
+msgstr "PC (sRGB)"
+
+msgid "Borne %d,%d"
+msgstr "Arcade %d,%d"
+
+msgid "Couleurs de l'écran (redémarrer le jeu)"
+msgstr "Colores de la pantalla (reinicia el juego)"
+
+msgid ""
+"Borne 2,2 à 2,6 : les couleurs du jeu comme sur l'écran à tube de la borne,\n"
+"plus profondes et moins délavées. Conseillé : 2,4 (réglage par défaut).\n"
+"PC : les mêmes couleurs avec la courbe d'un écran de PC, plus claires."
+msgstr ""
+"Arcade 2,2 a 2,6: los colores del juego como en una pantalla de tubo de recreativa,\n"
+"más profundos y menos desvaídos. Valor recomendado: 2,4 (predeterminado).\n"
+"PC: los mismos colores con la curva de un monitor de PC, más claros."
+
+msgid "Saturation des couleurs (redémarrer le jeu)"
+msgstr "Saturación de color (reinicia el juego)"
+
+msgid "100 %% (origine)"
+msgstr "100 %% (original)"
+
+msgid "Plus de 100 %% : des couleurs plus vives. 100 %% : les couleurs du jeu telles quelles."
+msgstr "Por encima de 100 %%: colores más vivos. Al 100 %%: colores originales del juego."
+
+msgid "Personnalisé"
+msgstr "Personalizado"
+
+msgid "Budget de polygones"
+msgstr "Límite de polígonos"
+
+msgid "Allocation personnalisée"
+msgstr "Límite personalizado"
+
+msgid ""
+"Remplace l'allocation automatique. De 1 à 1 000 000.\n"
+"Trop bas, du décor peut manquer ; trop haut, le jeu peut ralentir."
+msgstr ""
+"Sustituye al límite automático, de 1 a 1 000 000.\n"
+"Un valor bajo puede ocultar parte del escenario. Uno alto puede ralentizar el juego."
+
+msgid ""
+"Allocation actuelle : %u. Elle suit l'écran large et la distance d'affichage.\n"
+"La résolution et le suréchantillonnage ne la changent pas."
+msgstr ""
+"Límite actual: %u. Depende del formato panorámico y la distancia de dibujado.\n"
+"La resolución y el supermuestreo no lo modifican."
+
+msgid "Jeu en réseau (expérimental, réinitialiser)"
+msgstr "Juego en red (experimental, reinicia)"
+
+msgid "Relier à d'autres bornes"
+msgstr "Conectar otras recreativas"
+
+msgid "Port de cette borne"
+msgstr "Puerto de esta recreativa"
+
+msgid "Borne suivante (hôte:port)"
+msgstr "Siguiente recreativa (host:puerto)"
+
+msgid "Synchroniser les images (chaque borne attend la principale)"
+msgstr "Sincronizar fotogramas (cada recreativa espera a la principal)"
+
+msgid "Réseau : %s"
+msgstr "Red: %s"
+
+msgid ""
+"Les bornes se relient en anneau par le réseau (Wi-Fi ou câble) : chacune écoute sur son\n"
+"port et se connecte à la suivante ; à deux, chacune a l'autre pour suivante. Tous les\n"
+"ordinateurs peuvent prendre le même port, par exemple 15112, et Borne suivante =\n"
+"adresse de l'autre ordinateur:15112. En mode test (F2) > GAME SYSTEM, régler LINK ID\n"
+"(une MASTER, les autres SLAVE) et un CAR NUMBER différent sur chacune. Le jeu de 1994\n"
+"(révision A) permet le jeu en réseau."
+msgstr ""
+"Las recreativas forman un anillo por Wi-Fi o cable. Cada una escucha en su propio\n"
+"puerto y se conecta a la siguiente. Con dos, cada una apunta a la otra. Todos los\n"
+"ordenadores pueden usar el mismo puerto, como 15112. En Siguiente recreativa, indica\n"
+"la dirección del otro ordenador y :15112. En modo de prueba (F2), entra en GAME SYSTEM y configura LINK ID\n"
+"(una MASTER y el resto SLAVE) y un CAR NUMBER distinto por recreativa. El juego de 1994\n"
+"(revisión A) admite juego en red."
+
+msgid "Maintenir le bouton Test"
+msgstr "Mantener pulsado el botón Prueba"
+
+msgid "Ouvre le menu de test : réglages des pièces, type de partie ; sans touche F2."
+msgstr "Abre el menú de prueba para ajustar las monedas y el tipo de partida sin F2."
+
+msgid "(ouvre le menu de test : réglages des pièces, type de partie ; sans touche F2)"
+msgstr "(abre el menú de prueba para ajustar las monedas y el tipo de partida sin F2)"
+
+msgid ""
+"Cochez, puis Démarrer ou Reprendre : une fois le jeu lancé, le bouton Test est maintenu\n"
+"3 secondes, ce qui ouvre le menu de test, puis la case se décoche toute seule.\n"
+"F2, ou tout bouton affecté à Test, fonctionne toujours."
+msgstr ""
+"Marca la casilla y elige Iniciar o Continuar. Al abrirse el juego, se mantiene pulsado Prueba\n"
+"por 3 segundos para abrir el menú. La opción se desmarca automáticamente.\n"
+"F2 y los demás botones asignados a Prueba siguen funcionando."
+
+msgid "Réinitialiser"
+msgstr "Reiniciar"
+
+msgid "Démarrer"
+msgstr "Iniciar"
+
+msgid "Commandes"
+msgstr "Controles"
+
+msgid "Manette : %s"
+msgstr "Mando: %s"
+
+msgid "aucune connectée"
+msgstr "ninguno conectado"
+
+msgid "Volants et joysticks : %s"
+msgstr "Volantes y joysticks: %s"
+
+msgid "aucun connecté"
+msgstr "ninguno conectado"
+
+msgid "Direction"
+msgstr "Dirección"
+
+msgid "Accélérateur"
+msgstr "Acelerador"
+
+msgid "Frein"
+msgstr "Freno"
+
+msgid "Zone morte"
+msgstr "Zona muerta"
+
+msgid "Inverser la direction"
+msgstr "Invertir la dirección"
+
+msgid "Zone morte du volant (expérimental)"
+msgstr "Zona muerta del volante (experimental)"
+
+msgid "Sensibilité du volant"
+msgstr "Sensibilidad del volante"
+
+msgid ""
+"100 %% : linéaire. Plus bas : plus doux près du centre. Plus haut : plus vif.\n"
+"Seulement pour l'axe de direction d'un volant ou joystick ; le braquage complet est conservé."
+msgstr ""
+"100 %%: respuesta lineal. Menos: más suave cerca del centro. Más: más sensible.\n"
+"Solo para el eje de dirección de un volante o joystick. Se conserva el giro máximo."
+
+msgid "Sensibilité du stick (manette)"
+msgstr "Sensibilidad de la palanca (mando)"
+
+msgid "Vitesse de braquage (manette)"
+msgstr "Velocidad de giro (mando)"
+
+msgid "Immédiate"
+msgstr "Inmediata"
+
+msgid ""
+"Stick de la manette seulement. Sensibilité : plus bas, plus doux près du centre (braquage complet gardé).\n"
+"Vitesse : à quelle vitesse le volant du jeu suit le stick, par image (100 %% : aussitôt)."
+msgstr ""
+"Solo afecta a la palanca del mando. Una sensibilidad menor suaviza la respuesta en el centro sin limitar el giro máximo.\n"
+"La velocidad indica cuánto sigue el volante virtual a la palanca en cada fotograma (100 %%: inmediato)."
+
+msgid ""
+"Gâchettes, sticks, volants et pédales sont analogiques. Pour affecter un axe de volant ou de pédale,\n"
+"cliquez sur son bouton, puis tournez le volant ou appuyez sur la pédale aussi loin que vous voulez\n"
+"le braquage ou la course complète, et relâchez : cela fixe sa plage."
+msgstr ""
+"Los gatillos, las palancas, los volantes y los pedales son analógicos. Para asignar un eje de volante o pedal,\n"
+"haz clic en su botón y gira el volante o pisa el pedal hasta el límite deseado.\n"
+"Suéltalo para guardar su recorrido."
+
+msgid "Ancienne prise en charge des volants Logitech (redémarrer le jeu)"
+msgstr "Compatibilidad con volantes Logitech antiguos (reinicia el juego)"
+
+msgid ""
+"Volants Logitech par le pilote du système : nécessaire pour un volant listé mais qui ne fait\n"
+"rien quand on l'affecte (le Driving Force d'origine). Décoché : le pilote de SDL, qui donne\n"
+"le retour de force aux volants récents sous macOS. Après un changement, redémarrez et\n"
+"affectez de nouveau les commandes du volant."
+msgstr ""
+"Usa el controlador del sistema para volantes Logitech que figuran en la lista, pero no responden\n"
+"al asignarlos, como el Driving Force original. Si se desmarca, el controlador SDL ofrece\n"
+"respuesta de fuerza para los volantes recientes en macOS. Después de cambiarlo, reinicia\n"
+"el juego y vuelve a asignar los controles del volante."
+
+msgid "Retour de force (expérimental)"
+msgstr "Respuesta de fuerza (experimental)"
+
+msgid "Coupé"
+msgstr "Desactivado"
+
+msgid "Inverser la force"
+msgstr "Invertir la fuerza"
+
+msgid "Journal du retour de force"
+msgstr "Registro de respuesta de fuerza"
+
+msgid "Centrage calculé par le jeu"
+msgstr "Centrado calculado por el juego"
+
+msgid ""
+"Pour un volant qui pousse aux chocs mais ne se recentre pas dans les virages : son pilote\n"
+"Linux n'a pas d'effet de ressort (la 1re ligne du journal dit \"spring no\").\n"
+"Le recentrage du jeu est alors calculé ici d'après la position du volant et\n"
+"envoyé comme une force constante. Laissez décoché si le volant se recentre déjà."
+msgstr ""
+"Si el volante reacciona a los golpes pero no se centra en curvas, puede que su controlador de Linux\n"
+"no admita el efecto de muelle. En ese caso, la primera línea del registro dice \"spring no\".\n"
+"El juego calcula el centrado a partir de la posición del volante y lo envía\n"
+"como fuerza constante. Déjalo desmarcado si el volante ya se centra."
+
+msgid ""
+"Le moteur du volant de la borne (recentrage, résistance, volant qui tire), sur l'appareil\n"
+"affecté à la direction ; une manette vibre quand la voiture est poussée. Actuellement : %s.\n"
+"Volants et retour de force ne sont pas encore testés sur du vrai matériel : avis bienvenus.\n"
+"Le journal va dans daytona.log, à côté de launcher.ini sous Windows, sinon dans le terminal."
+msgstr ""
+"Simula el motor del volante de la recreativa (centrado, resistencia y tirones) en el dispositivo\n"
+"de dirección. El mando vibra cuando el coche recibe un empujón. Actual: %s.\n"
+"La respuesta de fuerza todavía no se ha probado en volantes físicos. Agradecemos tus comentarios.\n"
+"En Windows, se guarda en daytona.log, junto a launcher.ini. En los demás sistemas se muestra en la terminal."
+
+msgid "Commande"
+msgstr "Control"
+
+msgid "Clavier"
+msgstr "Teclado"
+
+msgid "Manette"
+msgstr "Mando"
+
+msgid "Volant / joystick (expérimental)"
+msgstr "Volante / joystick (experimental)"
+
+msgid "Appuyez sur une touche..."
+msgstr "Pulsa una tecla..."
+
+msgid "Appuyez ou bougez..."
+msgstr "Pulsa o mueve..."
+
+msgid "effacer"
+msgstr "borrar"
+
+msgid "Aussi loin que voulu, puis relâchez..."
+msgstr "Mueve hasta el límite deseado y suelta..."
+
+msgid "Appuyez, ou bougez à fond et relâchez..."
+msgstr "Pulsa o mueve hasta el tope y suelta..."
+
+msgid "Échap annule une affectation ; Retour arrière efface une touche."
+msgstr "Esc cancela la asignación. Retroceso borra la tecla asignada."
+
+msgid "Remettre les réglages par défaut"
+msgstr "Restablecer los ajustes predeterminados"
+
+msgid "Son"
+msgstr "Sonido"
+
+msgid "Volume"
+msgstr "Volumen"
+
+msgid "Muet"
+msgstr "Silenciar"
+
+msgid "Musique"
+msgstr "Música"
+
+msgid "Effets"
+msgstr "Efectos"
+
+msgid ""
+"L'équilibre entre la musique et tout le reste (moteur, dérapages, chocs).\n"
+"100 %% et 100 %% : le mélange de la carte son de la borne."
+msgstr ""
+"Equilibrio entre la música y el resto del sonido (motor, derrapes y golpes).\n"
+"100 %% y 100 %% reproducen la mezcla de la placa de sonido de la recreativa."
+
+msgid "Son natif (expérimental, réinitialiser)"
+msgstr "Sonido nativo (experimental, reinicia)"
+
+msgid "Séquenceur et mixeur natifs ; le son de référence reste disponible pour comparer."
+msgstr "Secuenciador y mezclador nativos. El sonido de referencia sigue disponible para comparar."
+
+msgid " sur un écran à %.2f Hz"
+msgstr " en una pantalla de %.2f Hz"
+
+msgid "vitesse de la borne, 57,52 images/s%s"
+msgstr "velocidad arcade, 57,52 fotogramas/s%s"
+
+msgid "à chaque rafraîchissement"
+msgstr "en cada refresco"
+
+msgid "tous les %d rafraîchissements"
+msgstr "cada %d refrescos"
+
+msgid ", vitesse %+.1f %%"
+msgstr ", velocidad %+.1f %%"
+
+msgid "calé, %.2f images/s, une image %s%s%s"
+msgstr "sincronizada, %.2f fotogramas/s, un fotograma %s%s%s"
+
+msgid "VRR, 57,52 images/s, chacune tenue 17,38 ms%s"
+msgstr "VRR, 57,52 fotogramas/s, 17,38 ms por fotograma%s"
+
+# Plus utilisés (no longer used):
+#~ msgid ""
+#~ "Images intermédiaires entre celles du jeu. Demande le rendu Matériel et le double\n"
+#~ "tampon. Des voitures adverses peuvent encore trembler ou se dédoubler.\n"
+#~ "Pris en compte au prochain lancement du jeu."
+#~ msgid "PC (origine)"
+#~ msgid ""
+#~ "PC : les couleurs du jeu comme avant (image d'origine).\n"
+#~ "Borne 2,2 à 2,6 : les mêmes couleurs comme sur un écran de borne d'arcade,\n"
+#~ "plus profondes et moins délavées. Conseillé : 2,4."
+
+msgid "Version de la musique"
+msgstr "Versión de la música"
+
+msgid "Arcade"
+msgstr "Arcade"
+
+msgid "Saturn / Windows (CD)"
+msgstr "Saturn / Windows (CD)"
+
+msgid "Dreamcast"
+msgstr "Dreamcast"

@@ -1,0 +1,805 @@
+# Daytona Arcade Native: ja
+
+msgid "Tourner à gauche"
+msgstr "左に曲がる"
+
+msgid "Tourner à droite"
+msgstr "右に曲がる"
+
+msgid "Accélérer"
+msgstr "アクセル"
+
+msgid "Freiner"
+msgstr "ブレーキ"
+
+msgid "Vitesse 1"
+msgstr "1速"
+
+msgid "Vitesse 2"
+msgstr "2速"
+
+msgid "Vitesse 3"
+msgstr "3速"
+
+msgid "Vitesse 4"
+msgstr "4速"
+
+msgid "Monter un rapport"
+msgstr "シフトアップ"
+
+msgid "Descendre un rapport"
+msgstr "シフトダウン"
+
+msgid "Vue 1 (rouge)"
+msgstr "視点1（赤）"
+
+msgid "Vue 2 (bleue)"
+msgstr "視点2（青）"
+
+msgid "Vue 3 (jaune)"
+msgstr "視点3（黄）"
+
+msgid "Vue 4 (verte)"
+msgstr "視点4（緑）"
+
+msgid "Pièce"
+msgstr "コイン"
+
+msgid "Start"
+msgstr "スタート"
+
+msgid "Test"
+msgstr "テスト"
+
+msgid "Service"
+msgstr "サービス"
+
+msgid "Bouton "
+msgstr "ボタン "
+
+msgid "Gâchette "
+msgstr "トリガー "
+
+msgid "Axe "
+msgstr "軸 "
+
+msgid "Croix "
+msgstr "方向キー "
+
+msgid "haut"
+msgstr "上"
+
+msgid "bas"
+msgstr "下"
+
+msgid "gauche"
+msgstr "左"
+
+msgid "droite"
+msgstr "右"
+
+msgid " (non connecté)"
+msgstr "（未接続）"
+
+msgid "volant (retour de force)"
+msgstr "ハンドル（フォースフィードバック）"
+
+msgid "volant (retour de force non ouvert ; nouvel essai)"
+msgstr "ハンドル（フォースフィードバック未接続、再試行中）"
+
+msgid "manette (vibrations)"
+msgstr "ゲームパッド（振動）"
+
+msgid "aucun"
+msgstr "なし"
+
+msgid "M O D E L   2    /    É D I T I O N   P C"
+msgstr "MODEL 2    /    PC版"
+
+msgid "Préparation de la course..."
+msgstr "レースを準備中…"
+
+msgid "Course solo"
+msgstr "シングルレース"
+
+msgid "Retour"
+msgstr "戻る"
+
+msgid "Mode de la prochaine course"
+msgstr "次のレースのモード"
+
+msgid "Mode de jeu"
+msgstr "ゲームモード"
+
+msgid "Course normale"
+msgstr "通常レース"
+
+msgid "Time Attack"
+msgstr "タイムアタック"
+
+msgid "Boîte de la prochaine course"
+msgstr "次のレースの変速方式"
+
+msgid "Boîte de vitesses"
+msgstr "変速方式"
+
+msgid "Automatique"
+msgstr "オートマチック"
+
+msgid "Manuelle"
+msgstr "マニュアル"
+
+msgid "Reprendre"
+msgstr "再開"
+
+msgid "Jouer"
+msgstr "プレイ"
+
+msgid "Réglages"
+msgstr "設定"
+
+msgid "Quitter"
+msgstr "終了"
+
+msgid "Nouvelle course"
+msgstr "新しいレース"
+
+msgid "SOLO   /   JEU LIBRE"
+msgstr "ソロ   /   フリープレイ"
+
+msgid "SDR   /   %d × %d"
+msgstr "SDR   /   %d × %d"
+
+msgid "Choisissez de nouveau le jeu de ROM avec Parcourir."
+msgstr "「参照」からROMセットを選び直してください。"
+
+msgid "Choisissez le jeu de ROM %s (.zip ou .7z)."
+msgstr "%s のROMセット（.zipまたは.7z）を選択してください。"
+
+msgid "Les %d fichiers sont vérifiés."
+msgstr "%d 個のファイルを確認しました。"
+
+msgid "%d fichiers sur %d absents ou incorrects : ce n'est pas le jeu %s."
+msgstr "%d 個中 %d 個のファイルが不足または不正です。%s のセットではありません。"
+
+msgid "Choix de la ROM : "
+msgstr "ROMの選択: "
+
+msgid "Jeu de ROM (zip, 7z)"
+msgstr "ROMセット（zip、7z）"
+
+msgid "Tous les fichiers"
+msgstr "すべてのファイル"
+
+msgid "Retour à l'accueil"
+msgstr "ホーム画面に戻る"
+
+msgid "  recompilation statique, moteur natif"
+msgstr "  静的再コンパイル、ネイティブエンジン"
+
+msgid "Jeu"
+msgstr "ゲーム"
+
+msgid "Jeu de ROM"
+msgstr "ROMセット"
+
+msgid "Parcourir donne accès à votre ZIP/7z. Une copie vérifiée est gardée dans l'application."
+msgstr "「参照」で ZIP または 7z ファイルを選択します。検証済みのコピーがアプリ内に保存されます。"
+
+msgid "Parcourir..."
+msgstr "参照…"
+
+msgid "Vérifier"
+msgstr "確認"
+
+msgid "Fichiers"
+msgstr "ファイル"
+
+msgid "Affichage"
+msgstr "画面"
+
+msgid "Arcade 4:3 (la borne d'origine)"
+msgstr "アーケード 4:3（オリジナル筐体）"
+
+msgid "21:9 (ultra-large)"
+msgstr "21:9（ウルトラワイド）"
+
+msgid "Format de l'image"
+msgstr "画面の比率"
+
+msgid ""
+"Arcade 4:3 : le cadrage de la borne, centré, avec des bandes sur les côtés d'un écran large.\n"
+"Automatique : la forme de la fenêtre en rendu natif, sinon le 4:3 d'origine.\n"
+"16:10, 16:9, 21:9 : la scène s'élargit sur les côtés, la voiture garde ses proportions."
+msgstr ""
+"アーケード 4:3：筐体と同じ画面を中央に表示し、ワイド画面では左右に帯が入ります。\n"
+"自動：ネイティブ描画ではウィンドウに合わせ、それ以外は元の4:3で表示します。\n"
+"16:10、16:9、21:9：左右に表示範囲を広げ、車の縦横比は維持します。"
+
+msgid "API graphique (redémarrer le jeu)"
+msgstr "グラフィックスAPI（再起動が必要）"
+
+msgid "Logiciel (exact)"
+msgstr "ソフトウェア（正確）"
+
+msgid "Matériel (expérimental)"
+msgstr "ハードウェア（試験的）"
+
+msgid "Rendu"
+msgstr "レンダラー"
+
+msgid ""
+"Logiciel : la 3D est calculée par le processeur, comme sur la carte d'arcade. Matériel :\n"
+"par la carte graphique ; en développement, très proche mais pas encore exact au pixel près."
+msgstr ""
+"ソフトウェア：アーケード基板と同様にCPUで3Dを描画。ハードウェア：\n"
+"GPUで描画します。開発中で、元の描画に近いものの画素単位では差があります。"
+
+msgid "Plein écran"
+msgstr "フルスクリーン"
+
+msgid "Cacher la souris pendant le jeu"
+msgstr "プレイ中にマウスポインターを隠す"
+
+msgid ""
+"Pas de pointeur de souris pendant la partie. Il revient quand ce lanceur\n"
+"s'ouvre (Échap) et disparaît de nouveau avec Reprendre."
+msgstr ""
+"レース中はマウスポインターを隠します。Escでランチャーを開くと再表示し、\n"
+"「再開」で再び隠れます。"
+
+msgid "Bureau (sans bordure)"
+msgstr "デスクトップ（ボーダーレス）"
+
+msgid "Mode plein écran"
+msgstr "フルスクリーンモード"
+
+msgid ""
+"Bureau : plein écran à la résolution et à la fréquence du bureau.\n"
+"Un mode : plein écran exclusif à cette résolution et cette fréquence, par exemple\n"
+"un mode à 57,52 Hz créé dans les réglages du pilote graphique."
+msgstr ""
+"デスクトップ：デスクトップと同じ解像度とリフレッシュレートで全画面表示。\n"
+"個別モード：選択した解像度とリフレッシュレートで排他的全画面表示。\n"
+"例：グラフィックスドライバーで作成した57.52 Hzのモード。"
+
+msgid "Cadence d'affichage"
+msgstr "フレーム表示間隔"
+
+msgid "(tout décoché : la vitesse de la borne sur tout écran)"
+msgstr "（すべてオフ：どの画面でもアーケード版の速度）"
+
+msgid "Cadence fluide sur un écran à 57,52 Hz"
+msgstr "57.52 Hzの画面で滑らかに表示"
+
+msgid ""
+"Sur un écran réglé à 57,52 Hz (ou 115,05 Hz), une image du jeu par rafraîchissement (ou deux) :\n"
+"aucune image doublée ou sautée. La vitesse reste celle de la borne, à 1 %% près.\n"
+"Sans effet aux autres fréquences."
+msgstr ""
+"57.52 Hzまたは115.05 Hzでは、ゲームの1フレームを1回または2回の更新で表示します。\n"
+"フレームを重複・スキップせず、アーケードとの差は1 %%以内です。\n"
+"他のリフレッシュレートでは効果がありません。"
+
+msgid "Caler sur l'écran (change la vitesse du jeu)"
+msgstr "画面に同期（ゲーム速度が変化）"
+
+msgid ""
+"Fait tourner le jeu à une cadence qui divise exactement celle de l'écran : chaque image\n"
+"reste affichée le même temps et le mouvement est parfaitement fluide. Sur un écran à\n"
+"60, 120, 180 ou 240 Hz, le jeu tourne à 60 images/s, environ 4 %% plus vite que la borne\n"
+"(57,52) ; avec le son de référence, le son est aussi un peu plus rapide. Sans effet\n"
+"sur un écran à 144 ou 165 Hz, qui ne peut pas caler une cadence proche de la borne :\n"
+"utilisez alors la cadence VRR si l'écran gère G-Sync ou FreeSync.\n"
+"Décoché : le jeu tourne toujours à la vitesse de la borne."
+msgstr ""
+"画面のリフレッシュレートを整数分の一にしたフレームレートで動作し、\n"
+"各フレームを同じ時間表示します。\n"
+"60、120、180、240 Hzでは60フレーム/秒となり、アーケード（57.52）より\n"
+"約4 %%速くなります。基準音声も少し速くなります。\n"
+"144 Hzまたは165 Hzでは、アーケードに近い速度に同期できないため効果がありません。\n"
+"画面がG-SyncまたはFreeSyncに対応していればVRRを使用してください。\n"
+"オフにすると常にアーケード版の速度で動作します。"
+
+msgid "Cadence VRR (G-Sync / FreeSync)"
+msgstr "VRR表示（G-Sync / FreeSync）"
+
+msgid ""
+"Pour un écran à fréquence variable : chaque image dure exactement 1/57,52 s, l'écran\n"
+"se rafraîchit au rythme du jeu et chaque image reste affichée le même temps.\n"
+"Le VRR doit être actif dans l'écran et le pilote graphique ; sur un écran à\n"
+"fréquence fixe, le résultat ressemble au réglage par défaut."
+msgstr ""
+"可変リフレッシュレートの画面向け。各フレームは正確に1/57.52秒続き、\n"
+"画面はゲームに合わせて更新され、各フレームを同じ時間表示します。\n"
+"画面とグラフィックスドライバーの両方でVRRを有効にしてください。\n"
+"固定リフレッシュレートの画面では既定の設定に近い結果になります。"
+
+msgid "Actuellement : %s."
+msgstr "現在：%s。"
+
+msgid "Passer le lanceur"
+msgstr "ランチャーを省略"
+
+msgid "(lance le jeu tout de suite ; Échap ouvre ce lanceur)"
+msgstr "（すぐにゲームを開始。Escでランチャーを開きます）"
+
+msgid "Double tampon"
+msgstr "ダブルバッファ"
+
+msgid "Simple tampon"
+msgstr "シングルバッファ"
+
+msgid "Une image sur trois"
+msgstr "3フレームに1回"
+
+msgid "Mode de dessin"
+msgstr "描画モード"
+
+msgid ""
+"Double tampon : chaque image est dessinée, comme dans le jeu. Simple tampon : une sur deux ;\n"
+"une image sur trois : une sur trois. Plus rapide ; le jeu lui-même n'est pas ralenti."
+msgstr ""
+"ダブルバッファは全フレーム、シングルバッファは2フレームに1回描画します。\n"
+"3フレームに1回なら負荷がさらに下がります。ゲーム速度は変わりません。"
+
+msgid "Natif 2x"
+msgstr "ネイティブ2倍"
+
+msgid "Désactivé"
+msgstr "オフ"
+
+msgid "Natif direct"
+msgstr "ネイティブ直接描画"
+
+msgid "Résolution du rendu"
+msgstr "描画解像度"
+
+msgid ""
+"Les modes natifs suivent la fenêtre sous Direct3D 12.\n"
+"2x à 4x agrandissent la résolution d'origine."
+msgstr ""
+"Direct3D 12のネイティブモードはウィンドウサイズに合わせます。\n"
+"2倍から4倍は元の解像度を拡大します。"
+
+msgid "Améliorations"
+msgstr "画質向上"
+
+msgid "Compteurs au bord de l'écran (expérimental)"
+msgstr "計器を画面端に配置（試験的）"
+
+msgid "Étirer le fond du ciel (expérimental)"
+msgstr "空の背景を引き伸ばす（試験的）"
+
+msgid ""
+"Montre davantage de la scène sur les côtés. Les compteurs restent en 4:3 au centre, ou bien\n"
+"les temps au tour, la position et les cartes passent sur les bords. En course, le ciel\n"
+"des côtés est bleu uni, ou bien l'image du ciel du jeu étirée sur tout l'écran."
+msgstr ""
+"左右に表示する背景の範囲を広げます。計器は中央の4:3内に表示するか、\n"
+"ラップタイム、順位、マップを画面端に移せます。レース中の空は左右を青一色にするか、\n"
+"ゲームの空画像を画面全体まで引き伸ばせます。"
+
+msgid "La plus courte"
+msgstr "最短"
+
+msgid "Plus courte"
+msgstr "短い"
+
+msgid "Par défaut"
+msgstr "既定"
+
+msgid "Plus loin"
+msgstr "長い"
+
+msgid "Le plus loin"
+msgstr "最長"
+
+msgid "Distance d'affichage"
+msgstr "描画距離"
+
+msgid ""
+"Le décor autour du circuit. L'écran large ajoute aussi le décor sur les côtés.\n"
+"Plus court réduit la portée ; plus loin ajoute arbres et bâtiments, pas la route."
+msgstr ""
+"コース周辺の背景を調整します。ワイド画面では左右の背景も増えます。\n"
+"短くすると描画範囲が狭まり、長くすると木や建物が増えます。道路の範囲は変わりません。"
+
+msgid "Décor en volume"
+msgstr "立体背景"
+
+msgid ""
+"Sapins en volume, tribunes pleines, piliers sous le pont de Dinosaur Canyon.\n"
+"Pris en compte au prochain lancement du jeu."
+msgstr ""
+"立体的な針葉樹、観客席の補完、Dinosaur Canyonの橋脚を表示します。\n"
+"次回起動時に適用されます。"
+
+msgid "Voitures adverses toujours détaillées"
+msgstr "ライバル車を常に高精細に表示"
+
+msgid ""
+"Un seul modèle, le plus détaillé, à toutes les distances : plus de voitures\n"
+"qui changent d'aspect en approchant. Pris en compte au prochain lancement du jeu."
+msgstr ""
+"すべての距離で同じ高精細モデルを使い、\n"
+"近づいたときに車の見た目が変わるのを防ぎます。次回起動時に適用されます。"
+
+msgid "Ombres du soleil (ray tracing, expérimental)"
+msgstr "太陽の影（レイトレーシング、試験的）"
+
+msgid ""
+"Ombres projetées par le soleil du jeu (Direct3D 12, carte compatible ray tracing,\n"
+"résolution native). Pris en compte au prochain lancement du jeu."
+msgstr ""
+"ゲーム内の太陽による影を表示します。Direct3D 12、レイトレーシング対応GPU、\n"
+"ネイティブ解像度が必要です。次回起動時に適用されます。"
+
+msgid "Lumière du ciel (expérimental)"
+msgstr "天空光（試験的）"
+
+msgid ""
+"Le ciel éclaire de partout : plus sombre sous les voitures, sous le portique,\n"
+"au pied des murs. Pris en compte au prochain lancement du jeu."
+msgstr ""
+"空から全方向に光が届き、車の下、ゲートの下、壁の根元は暗くなります。\n"
+"次回起動時に適用されます。"
+
+msgid "%d degrés"
+msgstr "%d 度"
+
+msgid "celle du jeu"
+msgstr "ゲーム既定"
+
+msgid "Hauteur du soleil"
+msgstr "太陽の高度"
+
+msgid ""
+"La direction reste celle du soleil du jeu. Plus bas, les ombres s'allongent\n"
+"(comme en fin d'après-midi). Pris en compte au prochain lancement du jeu."
+msgstr ""
+"太陽の方角は元のままです。高度を下げると夕方のように影が長くなります。\n"
+"次回起動時に適用されます。"
+
+msgid "Lissage 120 images/s (expérimental)"
+msgstr "120フレーム/秒の補間（試験的）"
+
+msgid ""
+"Images intermédiaires entre celles du jeu. Demande le rendu Matériel et le double\n"
+"tampon.\n"
+"Pris en compte au prochain lancement du jeu."
+msgstr ""
+"ゲームのフレーム間を補間します。ハードウェア描画と\n"
+"ダブルバッファが必要です。\n"
+"次回起動時に適用されます。"
+
+msgid "PC (sRGB)"
+msgstr "PC（sRGB）"
+
+msgid "Borne %d,%d"
+msgstr "アーケード %d.%d"
+
+msgid "Couleurs de l'écran (redémarrer le jeu)"
+msgstr "画面の色（再起動が必要）"
+
+msgid ""
+"Borne 2,2 à 2,6 : les couleurs du jeu comme sur l'écran à tube de la borne,\n"
+"plus profondes et moins délavées. Conseillé : 2,4 (réglage par défaut).\n"
+"PC : les mêmes couleurs avec la courbe d'un écran de PC, plus claires."
+msgstr ""
+"アーケード 2.2〜2.6：筐体のブラウン管モニターに近い色合いで、\n"
+"より深みがあり、白っぽさが抑えられます。推奨値は 2.4（既定値）です。\n"
+"PC：同じ色を PC モニターの特性で表示し、より明るく見えます。"
+
+msgid "Saturation des couleurs (redémarrer le jeu)"
+msgstr "彩度（再起動が必要）"
+
+msgid "100 %% (origine)"
+msgstr "100 %%（オリジナル）"
+
+msgid "Plus de 100 %% : des couleurs plus vives. 100 %% : les couleurs du jeu telles quelles."
+msgstr "100 %%を超えると色が鮮やかになり、100 %%では元の色合いになります。"
+
+msgid "Personnalisé"
+msgstr "カスタム"
+
+msgid "Budget de polygones"
+msgstr "ポリゴン上限"
+
+msgid "Allocation personnalisée"
+msgstr "カスタム上限"
+
+msgid ""
+"Remplace l'allocation automatique. De 1 à 1 000 000.\n"
+"Trop bas, du décor peut manquer ; trop haut, le jeu peut ralentir."
+msgstr ""
+"自動の上限を置き換えます。範囲は1〜1,000,000です。\n"
+"低すぎると背景の一部が消え、高すぎるとゲームが重くなる場合があります。"
+
+msgid ""
+"Allocation actuelle : %u. Elle suit l'écran large et la distance d'affichage.\n"
+"La résolution et le suréchantillonnage ne la changent pas."
+msgstr ""
+"現在の上限は %u です。ワイド画面と描画距離に応じて変わります。\n"
+"解像度とスーパーサンプリングの設定は上限に影響しません。"
+
+msgid "Jeu en réseau (expérimental, réinitialiser)"
+msgstr "通信プレイ（試験的、再起動が必要）"
+
+msgid "Relier à d'autres bornes"
+msgstr "他のアーケード筐体と接続"
+
+msgid "Port de cette borne"
+msgstr "この筐体のポート"
+
+msgid "Borne suivante (hôte:port)"
+msgstr "次の筐体（ホスト:ポート）"
+
+msgid "Synchroniser les images (chaque borne attend la principale)"
+msgstr "フレームを同期（各筐体は親機を待つ）"
+
+msgid "Réseau : %s"
+msgstr "ネットワーク：%s"
+
+msgid ""
+"Les bornes se relient en anneau par le réseau (Wi-Fi ou câble) : chacune écoute sur son\n"
+"port et se connecte à la suivante ; à deux, chacune a l'autre pour suivante. Tous les\n"
+"ordinateurs peuvent prendre le même port, par exemple 15112, et Borne suivante =\n"
+"adresse de l'autre ordinateur:15112. En mode test (F2) > GAME SYSTEM, régler LINK ID\n"
+"(une MASTER, les autres SLAVE) et un CAR NUMBER différent sur chacune. Le jeu de 1994\n"
+"(révision A) permet le jeu en réseau."
+msgstr ""
+"筐体をWi-Fiまたは有線LANでリング状に接続します。各筐体は自分のポートで待ち受け、\n"
+"次の筐体に接続します。2台なら互いに接続します。全PCで同じポート、\n"
+"例えば15112を使えます。「次の筐体」に相手のアドレスと :15112 を指定します。\n"
+"テストモード（F2）のGAME SYSTEMでLINK ID（1台をMASTER、残りをSLAVE）を設定し、\n"
+"各筐体のCAR NUMBERを別々に設定します。\n"
+"1994年版（Revision A）は通信プレイに対応しています。"
+
+msgid "Maintenir le bouton Test"
+msgstr "テストボタンを長押し"
+
+msgid "Ouvre le menu de test : réglages des pièces, type de partie ; sans touche F2."
+msgstr "F2キーを使わずにテストメニューを開き、コインやゲーム種別を設定します。"
+
+msgid "(ouvre le menu de test : réglages des pièces, type de partie ; sans touche F2)"
+msgstr "（F2を使わずにテストメニューを開き、コインやゲーム種別を設定します）"
+
+msgid ""
+"Cochez, puis Démarrer ou Reprendre : une fois le jeu lancé, le bouton Test est maintenu\n"
+"3 secondes, ce qui ouvre le menu de test, puis la case se décoche toute seule.\n"
+"F2, ou tout bouton affecté à Test, fonctionne toujours."
+msgstr ""
+"チェックして「スタート」または「再開」を選ぶと、ゲーム開始時にテストボタンを\n"
+"3秒間押してテストメニューを開きます。その後、チェックは自動で外れます。\n"
+"F2やテストに割り当てたボタンは引き続き使えます。"
+
+msgid "Réinitialiser"
+msgstr "リセット"
+
+msgid "Démarrer"
+msgstr "スタート"
+
+msgid "Commandes"
+msgstr "操作設定"
+
+msgid "Manette : %s"
+msgstr "ゲームパッド：%s"
+
+msgid "aucune connectée"
+msgstr "未接続"
+
+msgid "Volants et joysticks : %s"
+msgstr "ハンドルとジョイスティック：%s"
+
+msgid "aucun connecté"
+msgstr "未接続"
+
+msgid "Direction"
+msgstr "ステアリング"
+
+msgid "Accélérateur"
+msgstr "アクセル"
+
+msgid "Frein"
+msgstr "ブレーキ"
+
+msgid "Zone morte"
+msgstr "デッドゾーン"
+
+msgid "Inverser la direction"
+msgstr "ステアリングを反転"
+
+msgid "Zone morte du volant (expérimental)"
+msgstr "ハンドルのデッドゾーン（試験的）"
+
+msgid "Sensibilité du volant"
+msgstr "ハンドルの感度"
+
+msgid ""
+"100 %% : linéaire. Plus bas : plus doux près du centre. Plus haut : plus vif.\n"
+"Seulement pour l'axe de direction d'un volant ou joystick ; le braquage complet est conservé."
+msgstr ""
+"100 %%で線形、低いほど中心付近で穏やかに、高いほど敏感に反応します。\n"
+"ハンドルとジョイスティックのステアリング軸のみ変更し、最大舵角は維持します。"
+
+msgid "Sensibilité du stick (manette)"
+msgstr "スティック感度（ゲームパッド）"
+
+msgid "Vitesse de braquage (manette)"
+msgstr "ステアリング速度（ゲームパッド）"
+
+msgid "Immédiate"
+msgstr "即時"
+
+msgid ""
+"Stick de la manette seulement. Sensibilité : plus bas, plus doux près du centre (braquage complet gardé).\n"
+"Vitesse : à quelle vitesse le volant du jeu suit le stick, par image (100 %% : aussitôt)."
+msgstr ""
+"ゲームパッドのスティックのみ対象です。感度を下げると中心付近の反応が穏やかになり、最大舵角は維持されます。\n"
+"速度はゲーム内のハンドルが各フレームでスティックに追従する速さです（100 %%で即時）。"
+
+msgid ""
+"Gâchettes, sticks, volants et pédales sont analogiques. Pour affecter un axe de volant ou de pédale,\n"
+"cliquez sur son bouton, puis tournez le volant ou appuyez sur la pédale aussi loin que vous voulez\n"
+"le braquage ou la course complète, et relâchez : cela fixe sa plage."
+msgstr ""
+"トリガー、スティック、ハンドル、ペダルはアナログ入力です。ハンドルやペダルの軸を割り当てるには、\n"
+"対応するボタンをクリックし、最大にしたい位置までハンドルを回すかペダルを踏み込み、\n"
+"離して入力範囲を設定します。"
+
+msgid "Ancienne prise en charge des volants Logitech (redémarrer le jeu)"
+msgstr "旧型Logitechハンドルのサポート（再起動が必要）"
+
+msgid ""
+"Volants Logitech par le pilote du système : nécessaire pour un volant listé mais qui ne fait\n"
+"rien quand on l'affecte (le Driving Force d'origine). Décoché : le pilote de SDL, qui donne\n"
+"le retour de force aux volants récents sous macOS. Après un changement, redémarrez et\n"
+"affectez de nouveau les commandes du volant."
+msgstr ""
+"元祖Driving Forceのように一覧には出るものの割り当て時に反応しないLogitech製ハンドルには、\n"
+"システムドライバーが必要です。オフにするとSDLのドライバーを使用し、\n"
+"macOSの新しいハンドルでフォースフィードバックを利用できます。\n"
+"変更後は再起動し、ハンドルを割り当て直してください。"
+
+msgid "Retour de force (expérimental)"
+msgstr "フォースフィードバック（試験的）"
+
+msgid "Coupé"
+msgstr "オフ"
+
+msgid "Inverser la force"
+msgstr "力の向きを反転"
+
+msgid "Journal du retour de force"
+msgstr "フォースフィードバックログ"
+
+msgid "Centrage calculé par le jeu"
+msgstr "ゲームによるセンタリング"
+
+msgid ""
+"Pour un volant qui pousse aux chocs mais ne se recentre pas dans les virages : son pilote\n"
+"Linux n'a pas d'effet de ressort (la 1re ligne du journal dit \"spring no\").\n"
+"Le recentrage du jeu est alors calculé ici d'après la position du volant et\n"
+"envoyé comme une force constante. Laissez décoché si le volant se recentre déjà."
+msgstr ""
+"衝突の反力はあってもカーブでセンターに戻らないハンドルは、Linuxドライバーが\n"
+"スプリング効果に対応していない場合があります（ログの1行目が「spring no」）。\n"
+"この場合はハンドルの位置からゲーム側でセンタリングを計算し、\n"
+"一定の力として送信します。すでにセンターに戻る場合はオフにしてください。"
+
+msgid ""
+"Le moteur du volant de la borne (recentrage, résistance, volant qui tire), sur l'appareil\n"
+"affecté à la direction ; une manette vibre quand la voiture est poussée. Actuellement : %s.\n"
+"Volants et retour de force ne sont pas encore testés sur du vrai matériel : avis bienvenus.\n"
+"Le journal va dans daytona.log, à côté de launcher.ini sous Windows, sinon dans le terminal."
+msgstr ""
+"アーケードのハンドルモーター（センタリング、抵抗、引っ張り）をステアリングに割り当てた機器で再現します。\n"
+"車が押されるとゲームパッドが振動します。現在：%s。\n"
+"実機のハンドルとフォースフィードバックは未検証です。ご意見をお寄せください。\n"
+"Windowsではlauncher.iniと同じ場所のdaytona.log、その他では端末にログを出力します。"
+
+msgid "Commande"
+msgstr "操作項目"
+
+msgid "Clavier"
+msgstr "キーボード"
+
+msgid "Manette"
+msgstr "ゲームパッド"
+
+msgid "Volant / joystick (expérimental)"
+msgstr "ハンドル / ジョイスティック（試験的）"
+
+msgid "Appuyez sur une touche..."
+msgstr "キーを押してください…"
+
+msgid "Appuyez ou bougez..."
+msgstr "押すか動かしてください…"
+
+msgid "effacer"
+msgstr "解除"
+
+msgid "Aussi loin que voulu, puis relâchez..."
+msgstr "設定したい最大位置まで動かして離してください…"
+
+msgid "Appuyez, ou bougez à fond et relâchez..."
+msgstr "押すか最大まで動かしてから離してください…"
+
+msgid "Échap annule une affectation ; Retour arrière efface une touche."
+msgstr "Escで割り当てをキャンセル、Backspaceでキー割り当てを消去します。"
+
+msgid "Remettre les réglages par défaut"
+msgstr "設定を既定値に戻す"
+
+msgid "Son"
+msgstr "サウンド"
+
+msgid "Volume"
+msgstr "音量"
+
+msgid "Muet"
+msgstr "ミュート"
+
+msgid "Musique"
+msgstr "音楽"
+
+msgid "Effets"
+msgstr "効果音"
+
+msgid ""
+"L'équilibre entre la musique et tout le reste (moteur, dérapages, chocs).\n"
+"100 %% et 100 %% : le mélange de la carte son de la borne."
+msgstr ""
+"音楽とその他の音（エンジン、スキッド、衝突音）のバランスです。\n"
+"100 %% と100 %% のとき、アーケードのサウンド基板と同じミックスになります。"
+
+msgid "Son natif (expérimental, réinitialiser)"
+msgstr "ネイティブ音声（試験的、再起動が必要）"
+
+msgid "Séquenceur et mixeur natifs ; le son de référence reste disponible pour comparer."
+msgstr "ネイティブのシーケンサーとミキサーを使用します。比較用の基準音声も選べます。"
+
+msgid " sur un écran à %.2f Hz"
+msgstr "（画面 %.2f Hz）"
+
+msgid "vitesse de la borne, 57,52 images/s%s"
+msgstr "アーケード速度、57.52フレーム/秒%s"
+
+msgid "à chaque rafraîchissement"
+msgstr "更新ごと"
+
+msgid "tous les %d rafraîchissements"
+msgstr "%d 回の更新ごと"
+
+msgid ", vitesse %+.1f %%"
+msgstr "、速度 %+.1f %%"
+
+msgid "calé, %.2f images/s, une image %s%s%s"
+msgstr "同期中、%.2fフレーム/秒、1フレーム%s%s%s"
+
+msgid "VRR, 57,52 images/s, chacune tenue 17,38 ms%s"
+msgstr "VRR、57.52フレーム/秒、各フレーム17.38 ms%s"
+
+# Plus utilisés (no longer used):
+#~ msgid ""
+#~ "Images intermédiaires entre celles du jeu. Demande le rendu Matériel et le double\n"
+#~ "tampon. Des voitures adverses peuvent encore trembler ou se dédoubler.\n"
+#~ "Pris en compte au prochain lancement du jeu."
+#~ msgid "PC (origine)"
+#~ msgid ""
+#~ "PC : les couleurs du jeu comme avant (image d'origine).\n"
+#~ "Borne 2,2 à 2,6 : les mêmes couleurs comme sur un écran de borne d'arcade,\n"
+#~ "plus profondes et moins délavées. Conseillé : 2,4."
+
+msgid "Version de la musique"
+msgstr "音楽のバージョン"
+
+msgid "Arcade"
+msgstr "アーケード"
+
+msgid "Saturn / Windows (CD)"
+msgstr "セガサターン / Windows（CD）"
+
+msgid "Dreamcast"
+msgstr "ドリームキャスト"

@@ -67,6 +67,9 @@ public:
         float to_screen[2] = {1, 1};              // screen units per pixel
         float origin[2] = {0, 0};                 // screen position of the camera axis
         float focus[2] = {1, 1};                  // the polygons' focal lengths
+        // the player's car's own camera (the game draws it with another centre
+        // and focal length); its pixels carry a negative view z
+        float origin2[2] = {0, 0}, focus2[2] = {1, 1};
         const std::vector<float> *cutout_xyz = nullptr;        // cut-out triangles (9 floats each)
         const std::vector<uint32_t> *cutout_records = nullptr; // their texture: info.x, info.y, u0 v0 u1 v1 u2 v2
         const void *tex0 = nullptr, *tex1 = nullptr;          // texture RAM sheets (0x80000 words each)
@@ -85,7 +88,7 @@ private:
     bool shadows_ = false, shadow_ready_ = false;
     SDL_GPUTextureFormat frame_format_ = SDL_GPU_TEXTUREFORMAT_INVALID;
     SDL_GPUGraphicsPipeline *z_pipe_ = nullptr, *z_front_pipe_ = nullptr, *z_quad_pipe_ = nullptr,
-                            *shade_pipe_ = nullptr;
+                            *shade_pipe_ = nullptr, *car_z_pipe_ = nullptr;
     SDL_GPUTexture *view_z_ = nullptr, *light_ = nullptr;
     ShadowFrame shadow_frame_;
     int frame_w_ = 0, frame_h_ = 0;
@@ -95,8 +98,8 @@ private:
     std::vector<ShadowPoly> shadow_polys_;
     std::vector<float> cutout_xyz_;        // cut-out triangles, 9 floats each
     std::vector<uint32_t> cutout_records_; // 8 words each: texture info.x, info.y, then u, v of each corner
-    std::vector<ZDraw> z_draws_;
-    uint32_t main_camera_ = ~0u;
+    std::vector<ZDraw> z_draws_, car_z_draws_; // the main camera's, the player's car's
+    uint32_t main_camera_ = ~0u, car_camera_ = ~0u;
     bool ensure_shadow_targets(int pixel_w, int pixel_h);
     struct PolyVertex {
         float x, y, depth;

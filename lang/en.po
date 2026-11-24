@@ -473,8 +473,8 @@ msgstr ""
 "buffer.\n"
 "Applies the next time the game starts."
 
-msgid "PC (origine)"
-msgstr "PC (original)"
+msgid "PC (sRGB)"
+msgstr "PC (sRGB)"
 
 msgid "Borne %d,%d"
 msgstr "Cabinet %d.%d"
@@ -483,13 +483,15 @@ msgid "Couleurs de l'écran (redémarrer le jeu)"
 msgstr "Screen colours (restart the game)"
 
 msgid ""
-"PC : les couleurs du jeu comme avant (image d'origine).\n"
-"Borne 2,2 à 2,6 : les mêmes couleurs comme sur un écran de borne d'arcade,\n"
-"plus profondes et moins délavées. Conseillé : 2,4."
+"Borne 2,2 à 2,6 : les couleurs du jeu comme sur l'écran à tube de la borne,\n"
+"plus profondes et moins délavées. Conseillé : 2,4 (réglage par défaut).\n"
+"PC : les mêmes couleurs avec la courbe d'un écran de PC, plus claires."
 msgstr ""
-"PC: the game's colours as before (original picture).\n"
-"Cabinet 2.2 to 2.6: the same colours as on an arcade cabinet's screen,\n"
-"deeper and less washed out. Recommended: 2.4."
+"Cabinet 2.2 to 2.6: the game's colours as on the cabinet's tube screen,
+"
+"deeper and less washed out. Recommended: 2.4 (the default).
+"
+"PC: the same colours through a PC screen's curve, lighter."
 
 msgid "Saturation des couleurs (redémarrer le jeu)"
 msgstr "Colour saturation (restart the game)"
@@ -780,3 +782,22 @@ msgstr "locked, %.2f frames/s, one frame %s%s%s"
 
 msgid "VRR, 57,52 images/s, chacune tenue 17,38 ms%s"
 msgstr "VRR, 57.52 frames/s, each held 17.38 ms%s"
+
+# Plus utilisés (no longer used):
+#~ msgid "PC (origine)"
+#~ msgid ""
+#~ "PC : les couleurs du jeu comme avant (image d'origine).\n"
+#~ "Borne 2,2 à 2,6 : les mêmes couleurs comme sur un écran de borne d'arcade,\n"
+#~ "plus profondes et moins délavées. Conseillé : 2,4."
+
+msgid "Version de la musique"
+msgstr "Music version"
+
+msgid "Arcade"
+msgstr "Arcade"
+
+msgid "Saturn / Windows (CD)"
+msgstr "Saturn / Windows (CD)"
+
+msgid "Dreamcast"
+msgstr "Dreamcast"

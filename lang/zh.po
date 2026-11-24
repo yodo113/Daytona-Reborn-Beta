@@ -1,0 +1,805 @@
+# Daytona Arcade Native: zh
+
+msgid "Tourner à gauche"
+msgstr "向左转向"
+
+msgid "Tourner à droite"
+msgstr "向右转向"
+
+msgid "Accélérer"
+msgstr "加速"
+
+msgid "Freiner"
+msgstr "刹车"
+
+msgid "Vitesse 1"
+msgstr "1 挡"
+
+msgid "Vitesse 2"
+msgstr "2 挡"
+
+msgid "Vitesse 3"
+msgstr "3 挡"
+
+msgid "Vitesse 4"
+msgstr "4 挡"
+
+msgid "Monter un rapport"
+msgstr "升挡"
+
+msgid "Descendre un rapport"
+msgstr "降挡"
+
+msgid "Vue 1 (rouge)"
+msgstr "视角 1（红色）"
+
+msgid "Vue 2 (bleue)"
+msgstr "视角 2（蓝色）"
+
+msgid "Vue 3 (jaune)"
+msgstr "视角 3（黄色）"
+
+msgid "Vue 4 (verte)"
+msgstr "视角 4（绿色）"
+
+msgid "Pièce"
+msgstr "投币"
+
+msgid "Start"
+msgstr "开始"
+
+msgid "Test"
+msgstr "测试"
+
+msgid "Service"
+msgstr "服务"
+
+msgid "Bouton "
+msgstr "按钮 "
+
+msgid "Gâchette "
+msgstr "扳机 "
+
+msgid "Axe "
+msgstr "轴 "
+
+msgid "Croix "
+msgstr "方向键 "
+
+msgid "haut"
+msgstr "上"
+
+msgid "bas"
+msgstr "下"
+
+msgid "gauche"
+msgstr "左"
+
+msgid "droite"
+msgstr "右"
+
+msgid " (non connecté)"
+msgstr "（未连接）"
+
+msgid "volant (retour de force)"
+msgstr "方向盘（力反馈）"
+
+msgid "volant (retour de force non ouvert ; nouvel essai)"
+msgstr "方向盘（力反馈未启用，正在重试）"
+
+msgid "manette (vibrations)"
+msgstr "手柄（振动）"
+
+msgid "aucun"
+msgstr "无"
+
+msgid "M O D E L   2    /    É D I T I O N   P C"
+msgstr "MODEL 2    /    PC 版"
+
+msgid "Préparation de la course..."
+msgstr "正在准备比赛…"
+
+msgid "Course solo"
+msgstr "单人比赛"
+
+msgid "Retour"
+msgstr "返回"
+
+msgid "Mode de la prochaine course"
+msgstr "下一场比赛的模式"
+
+msgid "Mode de jeu"
+msgstr "游戏模式"
+
+msgid "Course normale"
+msgstr "普通比赛"
+
+msgid "Time Attack"
+msgstr "计时赛"
+
+msgid "Boîte de la prochaine course"
+msgstr "下一场比赛的变速方式"
+
+msgid "Boîte de vitesses"
+msgstr "变速方式"
+
+msgid "Automatique"
+msgstr "自动"
+
+msgid "Manuelle"
+msgstr "手动"
+
+msgid "Reprendre"
+msgstr "继续"
+
+msgid "Jouer"
+msgstr "开始游戏"
+
+msgid "Réglages"
+msgstr "设置"
+
+msgid "Quitter"
+msgstr "退出"
+
+msgid "Nouvelle course"
+msgstr "新比赛"
+
+msgid "SOLO   /   JEU LIBRE"
+msgstr "单人   /   免费游玩"
+
+msgid "SDR   /   %d × %d"
+msgstr "SDR   /   %d × %d"
+
+msgid "Choisissez de nouveau le jeu de ROM avec Parcourir."
+msgstr "请通过“浏览”重新选择 ROM 集。"
+
+msgid "Choisissez le jeu de ROM %s (.zip ou .7z)."
+msgstr "请选择 %s ROM 集（.zip 或 .7z）。"
+
+msgid "Les %d fichiers sont vérifiés."
+msgstr "已验证全部 %d 个文件。"
+
+msgid "%d fichiers sur %d absents ou incorrects : ce n'est pas le jeu %s."
+msgstr "%d 个文件缺失或有误（共 %d 个），这不是 %s ROM 集。"
+
+msgid "Choix de la ROM : "
+msgstr "选择 ROM： "
+
+msgid "Jeu de ROM (zip, 7z)"
+msgstr "ROM 集（zip、7z）"
+
+msgid "Tous les fichiers"
+msgstr "所有文件"
+
+msgid "Retour à l'accueil"
+msgstr "返回主菜单"
+
+msgid "  recompilation statique, moteur natif"
+msgstr "  静态重编译，原生引擎"
+
+msgid "Jeu"
+msgstr "游戏"
+
+msgid "Jeu de ROM"
+msgstr "ROM 集"
+
+msgid "Parcourir donne accès à votre ZIP/7z. Une copie vérifiée est gardée dans l'application."
+msgstr "通过“浏览”选择你的 ZIP 或 7z 文件。程序会保留一份已验证的副本。"
+
+msgid "Parcourir..."
+msgstr "浏览…"
+
+msgid "Vérifier"
+msgstr "验证"
+
+msgid "Fichiers"
+msgstr "文件"
+
+msgid "Affichage"
+msgstr "显示"
+
+msgid "Arcade 4:3 (la borne d'origine)"
+msgstr "街机 4:3（原版街机）"
+
+msgid "21:9 (ultra-large)"
+msgstr "21:9（超宽屏）"
+
+msgid "Format de l'image"
+msgstr "画面比例"
+
+msgid ""
+"Arcade 4:3 : le cadrage de la borne, centré, avec des bandes sur les côtés d'un écran large.\n"
+"Automatique : la forme de la fenêtre en rendu natif, sinon le 4:3 d'origine.\n"
+"16:10, 16:9, 21:9 : la scène s'élargit sur les côtés, la voiture garde ses proportions."
+msgstr ""
+"街机 4:3：保持原版街机画面居中，宽屏两侧留有黑边。\n"
+"自动：原生渲染时随窗口比例变化，其他模式使用原版 4:3。\n"
+"16:10、16:9 和 21:9：向左右扩展场景，赛车比例保持不变。"
+
+msgid "API graphique (redémarrer le jeu)"
+msgstr "图形 API（需重启游戏）"
+
+msgid "Logiciel (exact)"
+msgstr "软件渲染（精确）"
+
+msgid "Matériel (expérimental)"
+msgstr "硬件渲染（实验性）"
+
+msgid "Rendu"
+msgstr "渲染方式"
+
+msgid ""
+"Logiciel : la 3D est calculée par le processeur, comme sur la carte d'arcade. Matériel :\n"
+"par la carte graphique ; en développement, très proche mais pas encore exact au pixel près."
+msgstr ""
+"软件渲染：由处理器计算 3D，与街机主板相同。硬件渲染：\n"
+"由显卡计算，仍在开发，画面接近原版但尚未逐像素一致。"
+
+msgid "Plein écran"
+msgstr "全屏"
+
+msgid "Cacher la souris pendant le jeu"
+msgstr "游戏中隐藏鼠标指针"
+
+msgid ""
+"Pas de pointeur de souris pendant la partie. Il revient quand ce lanceur\n"
+"s'ouvre (Échap) et disparaît de nouveau avec Reprendre."
+msgstr ""
+"比赛中隐藏鼠标指针。按 Esc 打开启动器时会显示指针，\n"
+"选择“继续”后再次隐藏。"
+
+msgid "Bureau (sans bordure)"
+msgstr "桌面（无边框）"
+
+msgid "Mode plein écran"
+msgstr "全屏模式"
+
+msgid ""
+"Bureau : plein écran à la résolution et à la fréquence du bureau.\n"
+"Un mode : plein écran exclusif à cette résolution et cette fréquence, par exemple\n"
+"un mode à 57,52 Hz créé dans les réglages du pilote graphique."
+msgstr ""
+"桌面：使用桌面的分辨率和刷新率进行全屏显示。\n"
+"指定模式：使用所选分辨率和刷新率进行独占全屏显示，\n"
+"例如在显卡驱动中创建的 57.52 Hz 模式。"
+
+msgid "Cadence d'affichage"
+msgstr "帧显示节奏"
+
+msgid "(tout décoché : la vitesse de la borne sur tout écran)"
+msgstr "（全部关闭：在任意屏幕上使用街机原速）"
+
+msgid "Cadence fluide sur un écran à 57,52 Hz"
+msgstr "在 57.52 Hz 屏幕上平滑显示"
+
+msgid ""
+"Sur un écran réglé à 57,52 Hz (ou 115,05 Hz), une image du jeu par rafraîchissement (ou deux) :\n"
+"aucune image doublée ou sautée. La vitesse reste celle de la borne, à 1 %% près.\n"
+"Sans effet aux autres fréquences."
+msgstr ""
+"在 57.52 Hz 或 115.05 Hz 下，每帧显示一个或两个刷新周期。\n"
+"不重复或跳过帧，速度与街机相差不超过 1 %%。\n"
+"对其他刷新率无效。"
+
+msgid "Caler sur l'écran (change la vitesse du jeu)"
+msgstr "同步到屏幕（改变游戏速度）"
+
+msgid ""
+"Fait tourner le jeu à une cadence qui divise exactement celle de l'écran : chaque image\n"
+"reste affichée le même temps et le mouvement est parfaitement fluide. Sur un écran à\n"
+"60, 120, 180 ou 240 Hz, le jeu tourne à 60 images/s, environ 4 %% plus vite que la borne\n"
+"(57,52) ; avec le son de référence, le son est aussi un peu plus rapide. Sans effet\n"
+"sur un écran à 144 ou 165 Hz, qui ne peut pas caler une cadence proche de la borne :\n"
+"utilisez alors la cadence VRR si l'écran gère G-Sync ou FreeSync.\n"
+"Décoché : le jeu tourne toujours à la vitesse de la borne."
+msgstr ""
+"游戏帧率整除屏幕刷新率，每帧显示时间相同，\n"
+"因此运动更流畅。在\n"
+"60、120、180 或 240 Hz 下，帧率为 60 帧/秒，比街机\n"
+"（57.52）快约 4 %%。使用参考音频时，声音也会略微加快。此设置\n"
+"对 144 或 165 Hz 无效，因为无法匹配接近街机的帧率。\n"
+"如屏幕支持 G-Sync 或 FreeSync，请改用 VRR。\n"
+"关闭时，游戏始终以街机原速运行。"
+
+msgid "Cadence VRR (G-Sync / FreeSync)"
+msgstr "VRR 显示节奏（G-Sync / FreeSync）"
+
+msgid ""
+"Pour un écran à fréquence variable : chaque image dure exactement 1/57,52 s, l'écran\n"
+"se rafraîchit au rythme du jeu et chaque image reste affichée le même temps.\n"
+"Le VRR doit être actif dans l'écran et le pilote graphique ; sur un écran à\n"
+"fréquence fixe, le résultat ressemble au réglage par défaut."
+msgstr ""
+"适用于可变刷新率屏幕，每帧恰好持续 1/57.52 秒。\n"
+"屏幕随游戏刷新，每帧显示时间相同。\n"
+"请在屏幕和显卡驱动中启用 VRR。\n"
+"固定刷新率屏幕上的效果接近默认设置。"
+
+msgid "Actuellement : %s."
+msgstr "当前：%s。"
+
+msgid "Passer le lanceur"
+msgstr "跳过启动器"
+
+msgid "(lance le jeu tout de suite ; Échap ouvre ce lanceur)"
+msgstr "（直接进入游戏，按 Esc 打开启动器）"
+
+msgid "Double tampon"
+msgstr "双缓冲"
+
+msgid "Simple tampon"
+msgstr "单缓冲"
+
+msgid "Une image sur trois"
+msgstr "每三帧绘制一帧"
+
+msgid "Mode de dessin"
+msgstr "绘制模式"
+
+msgid ""
+"Double tampon : chaque image est dessinée, comme dans le jeu. Simple tampon : une sur deux ;\n"
+"une image sur trois : une sur trois. Plus rapide ; le jeu lui-même n'est pas ralenti."
+msgstr ""
+"双缓冲：绘制全部帧；单缓冲：每两帧绘制一帧。\n"
+"每三帧绘制一帧还可进一步减轻负载。游戏速度保持不变。"
+
+msgid "Natif 2x"
+msgstr "原生 2 倍"
+
+msgid "Désactivé"
+msgstr "关闭"
+
+msgid "Natif direct"
+msgstr "原生直出"
+
+msgid "Résolution du rendu"
+msgstr "渲染分辨率"
+
+msgid ""
+"Les modes natifs suivent la fenêtre sous Direct3D 12.\n"
+"2x à 4x agrandissent la résolution d'origine."
+msgstr ""
+"在 Direct3D 12 下，原生模式跟随窗口大小。\n"
+"2 至 4 倍模式放大原始分辨率。"
+
+msgid "Améliorations"
+msgstr "画面增强"
+
+msgid "Compteurs au bord de l'écran (expérimental)"
+msgstr "仪表贴近屏幕边缘（实验性）"
+
+msgid "Étirer le fond du ciel (expérimental)"
+msgstr "拉伸天空背景（实验性）"
+
+msgid ""
+"Montre davantage de la scène sur les côtés. Les compteurs restent en 4:3 au centre, ou bien\n"
+"les temps au tour, la position et les cartes passent sur les bords. En course, le ciel\n"
+"des côtés est bleu uni, ou bien l'image du ciel du jeu étirée sur tout l'écran."
+msgstr ""
+"在两侧显示更多场景。仪表可继续居中显示在 4:3 区域，\n"
+"也可将单圈用时、名次和地图移到边缘。比赛中，两侧天空为纯蓝色，\n"
+"或将游戏的天空背景拉伸至整个屏幕。"
+
+msgid "La plus courte"
+msgstr "最短"
+
+msgid "Plus courte"
+msgstr "较短"
+
+msgid "Par défaut"
+msgstr "默认"
+
+msgid "Plus loin"
+msgstr "较远"
+
+msgid "Le plus loin"
+msgstr "最远"
+
+msgid "Distance d'affichage"
+msgstr "绘制距离"
+
+msgid ""
+"Le décor autour du circuit. L'écran large ajoute aussi le décor sur les côtés.\n"
+"Plus court réduit la portée ; plus loin ajoute arbres et bâtiments, pas la route."
+msgstr ""
+"调整赛道周围的场景。宽屏还会显示两侧的场景。\n"
+"缩短距离会减少远处场景，增加距离会显示更多树木和建筑，赛道本身不变。"
+
+msgid "Décor en volume"
+msgstr "立体场景"
+
+msgid ""
+"Sapins en volume, tribunes pleines, piliers sous le pont de Dinosaur Canyon.\n"
+"Pris en compte au prochain lancement du jeu."
+msgstr ""
+"启用立体松树、完整看台和 Dinosaur Canyon 桥下的支柱。\n"
+"下次启动游戏时生效。"
+
+msgid "Voitures adverses toujours détaillées"
+msgstr "对手赛车始终使用高精度模型"
+
+msgid ""
+"Un seul modèle, le plus détaillé, à toutes les distances : plus de voitures\n"
+"qui changent d'aspect en approchant. Pris en compte au prochain lancement du jeu."
+msgstr ""
+"任何距离都使用最精细的模型，赛车接近时不会改变外观。\n"
+"下次启动游戏时生效。"
+
+msgid "Ombres du soleil (ray tracing, expérimental)"
+msgstr "太阳阴影（光线追踪，实验性）"
+
+msgid ""
+"Ombres projetées par le soleil du jeu (Direct3D 12, carte compatible ray tracing,\n"
+"résolution native). Pris en compte au prochain lancement du jeu."
+msgstr ""
+"显示由游戏内太阳投射的阴影。需要 Direct3D 12、支持光线追踪的显卡\n"
+"以及原生分辨率。下次启动游戏时生效。"
+
+msgid "Lumière du ciel (expérimental)"
+msgstr "天空光照（实验性）"
+
+msgid ""
+"Le ciel éclaire de partout : plus sombre sous les voitures, sous le portique,\n"
+"au pied des murs. Pris en compte au prochain lancement du jeu."
+msgstr ""
+"天空从各个方向投射光线，车底、门架下方和墙根更暗。\n"
+"下次启动游戏时生效。"
+
+msgid "%d degrés"
+msgstr "%d 度"
+
+msgid "celle du jeu"
+msgstr "游戏原始设置"
+
+msgid "Hauteur du soleil"
+msgstr "太阳高度"
+
+msgid ""
+"La direction reste celle du soleil du jeu. Plus bas, les ombres s'allongent\n"
+"(comme en fin d'après-midi). Pris en compte au prochain lancement du jeu."
+msgstr ""
+"保持游戏中太阳的方向。太阳越低，阴影越长，如傍晚时分。\n"
+"下次启动游戏时生效。"
+
+msgid "Lissage 120 images/s (expérimental)"
+msgstr "120 帧/秒平滑显示（实验性）"
+
+msgid ""
+"Images intermédiaires entre celles du jeu. Demande le rendu Matériel et le double\n"
+"tampon.\n"
+"Pris en compte au prochain lancement du jeu."
+msgstr ""
+"在游戏帧之间插入过渡帧。需要硬件渲染和\n"
+"双缓冲。\n"
+"下次启动游戏时生效。"
+
+msgid "PC (sRGB)"
+msgstr "PC（sRGB）"
+
+msgid "Borne %d,%d"
+msgstr "街机 %d.%d"
+
+msgid "Couleurs de l'écran (redémarrer le jeu)"
+msgstr "屏幕色彩（需重启游戏）"
+
+msgid ""
+"Borne 2,2 à 2,6 : les couleurs du jeu comme sur l'écran à tube de la borne,\n"
+"plus profondes et moins délavées. Conseillé : 2,4 (réglage par défaut).\n"
+"PC : les mêmes couleurs avec la courbe d'un écran de PC, plus claires."
+msgstr ""
+"街机 2.2 至 2.6：呈现街机显像管屏幕的色彩，\n"
+"颜色更深，不易泛白。建议使用 2.4（默认值）。\n"
+"PC：使用电脑显示器的曲线，相同的色彩会显得更明亮。"
+
+msgid "Saturation des couleurs (redémarrer le jeu)"
+msgstr "色彩饱和度（需重启游戏）"
+
+msgid "100 %% (origine)"
+msgstr "100 %%（原始）"
+
+msgid "Plus de 100 %% : des couleurs plus vives. 100 %% : les couleurs du jeu telles quelles."
+msgstr "高于 100 %%：色彩更鲜艳。100 %%：保留游戏原始色彩。"
+
+msgid "Personnalisé"
+msgstr "自定义"
+
+msgid "Budget de polygones"
+msgstr "多边形预算"
+
+msgid "Allocation personnalisée"
+msgstr "自定义数量上限"
+
+msgid ""
+"Remplace l'allocation automatique. De 1 à 1 000 000.\n"
+"Trop bas, du décor peut manquer ; trop haut, le jeu peut ralentir."
+msgstr ""
+"取代自动预算，范围为 1 至 1,000,000。\n"
+"过低可能缺少部分场景，过高可能降低游戏性能。"
+
+msgid ""
+"Allocation actuelle : %u. Elle suit l'écran large et la distance d'affichage.\n"
+"La résolution et le suréchantillonnage ne la changent pas."
+msgstr ""
+"当前预算：%u，随宽屏设置和绘制距离变化。\n"
+"分辨率和超采样不会改变预算。"
+
+msgid "Jeu en réseau (expérimental, réinitialiser)"
+msgstr "联网游戏（实验性，需重启）"
+
+msgid "Relier à d'autres bornes"
+msgstr "连接其他街机"
+
+msgid "Port de cette borne"
+msgstr "本机端口"
+
+msgid "Borne suivante (hôte:port)"
+msgstr "下一台街机（主机:端口）"
+
+msgid "Synchroniser les images (chaque borne attend la principale)"
+msgstr "同步帧（各街机等待主机）"
+
+msgid "Réseau : %s"
+msgstr "网络：%s"
+
+msgid ""
+"Les bornes se relient en anneau par le réseau (Wi-Fi ou câble) : chacune écoute sur son\n"
+"port et se connecte à la suivante ; à deux, chacune a l'autre pour suivante. Tous les\n"
+"ordinateurs peuvent prendre le même port, par exemple 15112, et Borne suivante =\n"
+"adresse de l'autre ordinateur:15112. En mode test (F2) > GAME SYSTEM, régler LINK ID\n"
+"(une MASTER, les autres SLAVE) et un CAR NUMBER différent sur chacune. Le jeu de 1994\n"
+"(révision A) permet le jeu en réseau."
+msgstr ""
+"各街机通过 Wi-Fi 或网线组成环形网络。每台监听自己的端口，\n"
+"并连接下一台。两台时互相连接。所有电脑都可使用相同端口，\n"
+"例如 15112。在“下一台街机”中填写另一台电脑的地址和 :15112。\n"
+"在测试模式（F2）的 GAME SYSTEM 中设置 LINK ID（一台 MASTER，其余 SLAVE），\n"
+"并为各街机设置不同的 CAR NUMBER。\n"
+"1994 年版游戏（Revision A）支持联网游玩。"
+
+msgid "Maintenir le bouton Test"
+msgstr "按住测试按钮"
+
+msgid "Ouvre le menu de test : réglages des pièces, type de partie ; sans touche F2."
+msgstr "打开测试菜单以设置投币和游戏类型，无需按 F2。"
+
+msgid "(ouvre le menu de test : réglages des pièces, type de partie ; sans touche F2)"
+msgstr "（打开测试菜单以设置投币和游戏类型，无需按 F2）"
+
+msgid ""
+"Cochez, puis Démarrer ou Reprendre : une fois le jeu lancé, le bouton Test est maintenu\n"
+"3 secondes, ce qui ouvre le menu de test, puis la case se décoche toute seule.\n"
+"F2, ou tout bouton affecté à Test, fonctionne toujours."
+msgstr ""
+"勾选后选择“开始”或“继续”。游戏启动时会按住测试按钮 3 秒，\n"
+"打开测试菜单，然后自动取消勾选。\n"
+"F2 或绑定到测试功能的按钮仍可使用。"
+
+msgid "Réinitialiser"
+msgstr "重置"
+
+msgid "Démarrer"
+msgstr "开始"
+
+msgid "Commandes"
+msgstr "控制"
+
+msgid "Manette : %s"
+msgstr "手柄：%s"
+
+msgid "aucune connectée"
+msgstr "未连接"
+
+msgid "Volants et joysticks : %s"
+msgstr "方向盘和摇杆：%s"
+
+msgid "aucun connecté"
+msgstr "未连接"
+
+msgid "Direction"
+msgstr "转向"
+
+msgid "Accélérateur"
+msgstr "油门"
+
+msgid "Frein"
+msgstr "刹车"
+
+msgid "Zone morte"
+msgstr "死区"
+
+msgid "Inverser la direction"
+msgstr "反转转向"
+
+msgid "Zone morte du volant (expérimental)"
+msgstr "方向盘死区（实验性）"
+
+msgid "Sensibilité du volant"
+msgstr "方向盘灵敏度"
+
+msgid ""
+"100 %% : linéaire. Plus bas : plus doux près du centre. Plus haut : plus vif.\n"
+"Seulement pour l'axe de direction d'un volant ou joystick ; le braquage complet est conservé."
+msgstr ""
+"100 %% 为线性响应。越低，中心附近越平缓；越高，响应越灵敏。\n"
+"仅影响方向盘或摇杆的转向轴，最大转向幅度不变。"
+
+msgid "Sensibilité du stick (manette)"
+msgstr "手柄摇杆灵敏度"
+
+msgid "Vitesse de braquage (manette)"
+msgstr "手柄转向速度"
+
+msgid "Immédiate"
+msgstr "立即"
+
+msgid ""
+"Stick de la manette seulement. Sensibilité : plus bas, plus doux près du centre (braquage complet gardé).\n"
+"Vitesse : à quelle vitesse le volant du jeu suit le stick, par image (100 %% : aussitôt)."
+msgstr ""
+"仅影响手柄摇杆。降低灵敏度可使中心附近响应更平缓，最大转向幅度不变。\n"
+"速度决定虚拟方向盘每帧跟随摇杆的快慢（100 %% 为立即响应）。"
+
+msgid ""
+"Gâchettes, sticks, volants et pédales sont analogiques. Pour affecter un axe de volant ou de pédale,\n"
+"cliquez sur son bouton, puis tournez le volant ou appuyez sur la pédale aussi loin que vous voulez\n"
+"le braquage ou la course complète, et relâchez : cela fixe sa plage."
+msgstr ""
+"扳机、摇杆、方向盘和踏板均为模拟输入。要绑定方向盘或踏板的轴，\n"
+"点击对应按钮，再将方向盘或踏板移动到希望作为最大幅度的位置，\n"
+"然后松开以设定行程范围。"
+
+msgid "Ancienne prise en charge des volants Logitech (redémarrer le jeu)"
+msgstr "旧版罗技方向盘支持（需重启游戏）"
+
+msgid ""
+"Volants Logitech par le pilote du système : nécessaire pour un volant listé mais qui ne fait\n"
+"rien quand on l'affecte (le Driving Force d'origine). Décoché : le pilote de SDL, qui donne\n"
+"le retour de force aux volants récents sous macOS. Après un changement, redémarrez et\n"
+"affectez de nouveau les commandes du volant."
+msgstr ""
+"对于已列出但绑定时无响应的罗技方向盘（如原版 Driving Force），\n"
+"需使用系统驱动。取消勾选后使用 SDL 驱动，\n"
+"该驱动为 macOS 上较新的方向盘提供力反馈。\n"
+"更改后请重启游戏并重新绑定方向盘。"
+
+msgid "Retour de force (expérimental)"
+msgstr "力反馈（实验性）"
+
+msgid "Coupé"
+msgstr "关闭"
+
+msgid "Inverser la force"
+msgstr "反转反馈力"
+
+msgid "Journal du retour de force"
+msgstr "力反馈日志"
+
+msgid "Centrage calculé par le jeu"
+msgstr "游戏辅助回中"
+
+msgid ""
+"Pour un volant qui pousse aux chocs mais ne se recentre pas dans les virages : son pilote\n"
+"Linux n'a pas d'effet de ressort (la 1re ligne du journal dit \"spring no\").\n"
+"Le recentrage du jeu est alors calculé ici d'après la position du volant et\n"
+"envoyé comme une force constante. Laissez décoché si le volant se recentre déjà."
+msgstr ""
+"如果方向盘有碰撞反馈却不会在弯道回中，Linux 驱动可能不支持弹簧效果。\n"
+"此时日志首行会显示“spring no”。\n"
+"游戏可以根据方向盘位置计算回中力并以恒定力发送。\n"
+"如果方向盘已能回中，请保持关闭。"
+
+msgid ""
+"Le moteur du volant de la borne (recentrage, résistance, volant qui tire), sur l'appareil\n"
+"affecté à la direction ; une manette vibre quand la voiture est poussée. Actuellement : %s.\n"
+"Volants et retour de force ne sont pas encore testés sur du vrai matériel : avis bienvenus.\n"
+"Le journal va dans daytona.log, à côté de launcher.ini sous Windows, sinon dans le terminal."
+msgstr ""
+"在绑定的转向设备上模拟街机方向盘电机的回中、阻力和反拉效果。\n"
+"赛车被撞时，手柄会振动。当前：%s。\n"
+"尚未在实际方向盘硬件上测试力反馈，欢迎反馈。\n"
+"Windows 上日志写入 launcher.ini 旁的 daytona.log，其他系统输出到终端。"
+
+msgid "Commande"
+msgstr "控制项"
+
+msgid "Clavier"
+msgstr "键盘"
+
+msgid "Manette"
+msgstr "手柄"
+
+msgid "Volant / joystick (expérimental)"
+msgstr "方向盘／摇杆（实验性）"
+
+msgid "Appuyez sur une touche..."
+msgstr "请按一个键…"
+
+msgid "Appuyez ou bougez..."
+msgstr "请按下或移动控制器…"
+
+msgid "effacer"
+msgstr "清除"
+
+msgid "Aussi loin que voulu, puis relâchez..."
+msgstr "移到所需位置后松开…"
+
+msgid "Appuyez, ou bougez à fond et relâchez..."
+msgstr "按下或移动到底后松开…"
+
+msgid "Échap annule une affectation ; Retour arrière efface une touche."
+msgstr "按 Esc 取消绑定，按退格键清除按键绑定。"
+
+msgid "Remettre les réglages par défaut"
+msgstr "恢复默认设置"
+
+msgid "Son"
+msgstr "声音"
+
+msgid "Volume"
+msgstr "音量"
+
+msgid "Muet"
+msgstr "静音"
+
+msgid "Musique"
+msgstr "音乐"
+
+msgid "Effets"
+msgstr "音效"
+
+msgid ""
+"L'équilibre entre la musique et tout le reste (moteur, dérapages, chocs).\n"
+"100 %% et 100 %% : le mélange de la carte son de la borne."
+msgstr ""
+"平衡音乐和其他声音（发动机、打滑和碰撞）。\n"
+"音乐和其他声音均为 100 %% 和 100 %% 时，使用街机声卡的原版混音。"
+
+msgid "Son natif (expérimental, réinitialiser)"
+msgstr "原生音频（实验性，需重启）"
+
+msgid "Séquenceur et mixeur natifs ; le son de référence reste disponible pour comparer."
+msgstr "使用原生音序器和混音器，仍可切回参考音频进行比较。"
+
+msgid " sur un écran à %.2f Hz"
+msgstr "，屏幕刷新率为 %.2f Hz"
+
+msgid "vitesse de la borne, 57,52 images/s%s"
+msgstr "街机原速，57.52 帧/秒%s"
+
+msgid "à chaque rafraîchissement"
+msgstr "每次刷新"
+
+msgid "tous les %d rafraîchissements"
+msgstr "每 %d 次刷新"
+
+msgid ", vitesse %+.1f %%"
+msgstr "，速度 %+.1f %%"
+
+msgid "calé, %.2f images/s, une image %s%s%s"
+msgstr "已同步，%.2f 帧/秒，每帧%s%s%s"
+
+msgid "VRR, 57,52 images/s, chacune tenue 17,38 ms%s"
+msgstr "VRR，57.52 帧/秒，每帧显示 17.38 毫秒%s"
+
+# Plus utilisés (no longer used):
+#~ msgid ""
+#~ "Images intermédiaires entre celles du jeu. Demande le rendu Matériel et le double\n"
+#~ "tampon. Des voitures adverses peuvent encore trembler ou se dédoubler.\n"
+#~ "Pris en compte au prochain lancement du jeu."
+#~ msgid "PC (origine)"
+#~ msgid ""
+#~ "PC : les couleurs du jeu comme avant (image d'origine).\n"
+#~ "Borne 2,2 à 2,6 : les mêmes couleurs comme sur un écran de borne d'arcade,\n"
+#~ "plus profondes et moins délavées. Conseillé : 2,4."
+
+msgid "Version de la musique"
+msgstr "音乐版本"
+
+msgid "Arcade"
+msgstr "街机"
+
+msgid "Saturn / Windows (CD)"
+msgstr "Saturn / Windows（CD）"
+
+msgid "Dreamcast"
+msgstr "Dreamcast"

@@ -1,8 +1,8 @@
 # Daytona USA static recompilation
 
-**Français : [installer et jouer](docs/INSTALLATION-FR.md) · [notes de la bêta 0.10](docs/NOTES-BETA-FR.md)**
+**Français : [installer et jouer](docs/INSTALLATION-FR.md) · [notes de la bêta 0.11](docs/NOTES-BETA-FR.md)**
 
-**English: [install and play](docs/INSTALLATION-EN.md) · [beta 0.10 notes](docs/NOTES-BETA-EN.md)**
+**English: [install and play](docs/INSTALLATION-EN.md) · [beta 0.11 notes](docs/NOTES-BETA-EN.md)**
 
 Daytona USA (Sega Model 2) rebuilt as native code: the game's i960 program
 and the TGP program it uploads are statically recompiled to portable C++,

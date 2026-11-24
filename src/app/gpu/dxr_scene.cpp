@@ -70,7 +70,7 @@ struct DxrScene::Impl {
     ComPtr<ID3D12PipelineState> shadow_pipe;
     // the light shafts (cs_shafts, same root signature): one float per 8x8
     // pixels, written then read on the same queue
-    ComPtr<ID3D12PipelineState> shafts_pipe;
+    ComPtr<ID3D12PipelineState> shafts_pipe, shadow_large_pipe, shafts_large_pipe;
     ComPtr<ID3D12Resource> haze;
     UINT64 haze_cap = 0;
     ComPtr<ID3D12DescriptorHeap> descriptors;
@@ -201,6 +201,11 @@ bool DxrScene::init(SDL_GPUDevice *dev) {
     if (FAILED(impl->device->CreateComputePipelineState(&cp, IID_PPV_ARGS(&impl->shafts_pipe)))) {
         error_ = "light shafts compute pipeline";
         return false;
+    }
+    cp.CS = {k_cs_shadow_large_dxil, sizeof k_cs_shadow_large_dxil};
+    if (SUCCEEDED(impl->device->CreateComputePipelineState(&cp, IID_PPV_ARGS(&impl->shadow_large_pipe)))) {
+        cp.CS = {k_cs_shafts_large_dxil, sizeof k_cs_shafts_large_dxil};
+        impl->device->CreateComputePipelineState(&cp, IID_PPV_ARGS(&impl->shafts_large_pipe));
     }
     D3D12_DESCRIPTOR_HEAP_DESC hd{};
     hd.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
@@ -403,11 +408,13 @@ bool DxrScene::build(const std::vector<float> &xyz, const Shade *shade) {
         ID3D12DescriptorHeap *heaps[] = {d.descriptors.Get()};
         list->SetDescriptorHeaps(1, heaps);
         list->SetComputeRootSignature(d.shadow_root.Get());
-        list->SetPipelineState(d.shadow_pipe.Get());
+        const bool large_grid = shade->large_supersampled && d.shadow_large_pipe && d.shafts_large_pipe;
+        auto *shadow_pipe = large_grid ? d.shadow_large_pipe.Get() : d.shadow_pipe.Get();
+        list->SetPipelineState(shadow_pipe);
         struct {
             uint32_t size[2];
             float to_screen[2], origin[2], strength, bias, sun[3], sky, focus[2], sky_radius, sun_radius;
-            float shaft, shaft_dist, pad[2];
+            float shaft, shaft_dist, origin2[2], focus2[2], shaft_phase;
         } params{{uint32_t(shade->width), uint32_t(shade->height)},
                  {shade->to_screen[0], shade->to_screen[1]},
                  {shade->origin[0], shade->origin[1]},
@@ -420,33 +427,39 @@ bool DxrScene::build(const std::vector<float> &xyz, const Shade *shade) {
                  shade->sun_radius,
                  shade->shaft,
                  shade->shaft_dist,
-                 {0, 0}};
-        static_assert(sizeof params == 20 * 4, "dxr_shadow.hlsl Params");
-        list->SetComputeRoot32BitConstants(0, 20, &params, 0);
+                 {shade->origin2[0], shade->origin2[1]},
+                 {shade->focus2[0], shade->focus2[1]},
+                 shade->shaft_phase};
+        static_assert(sizeof params == 23 * 4, "dxr_shadow.hlsl Params");
+        list->SetComputeRoot32BitConstants(0, 23, &params, 0);
         list->SetComputeRootShaderResourceView(1, slot.tlas->GetGPUVirtualAddress());
         list->SetComputeRootDescriptorTable(2, gpu);
         // texture RAM and cut-out records (any valid address when there are none: never read)
         const D3D12_GPU_VIRTUAL_ADDRESS records = slot.upload->GetGPUVirtualAddress() + record_offset;
         list->SetComputeRootShaderResourceView(3, d.texram ? d.texram->GetGPUVirtualAddress() : records);
         list->SetComputeRootShaderResourceView(4, records);
-        // the light shafts first, on their 8x8 grid (a buffer the shadow pass reads)
-        const UINT lo_w = UINT(shade->width + 7) / 8, lo_h = UINT(shade->height + 7) / 8;
+        // The shaft and shadow pipelines have matching sample grids.
+        const UINT shaft_stride = large_grid ? 12 : 8;
+        const UINT lo_w = (UINT(shade->width) + shaft_stride - 1) / shaft_stride;
+        const UINT lo_h = (UINT(shade->height) + shaft_stride - 1) / shaft_stride;
         const bool shafts = shade->shaft > 0.0f &&
                             ensure_uav(d.device.Get(), d.haze, d.haze_cap, UINT64(lo_w) * lo_h * 4,
                                        D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
-        if (!shafts) params.shaft = 0.0f, list->SetComputeRoot32BitConstants(0, 20, &params, 0);
+        if (!shafts) params.shaft = 0.0f, list->SetComputeRoot32BitConstants(0, 23, &params, 0);
         // any valid address when there are no shafts: never read then
         list->SetComputeRootUnorderedAccessView(5, d.haze ? d.haze->GetGPUVirtualAddress() : slot.scratch->GetGPUVirtualAddress());
         if (shafts) {
-            list->SetPipelineState(d.shafts_pipe.Get());
+            list->SetPipelineState(large_grid ? d.shafts_large_pipe.Get() : d.shafts_pipe.Get());
             list->Dispatch((lo_w + 7) / 8, (lo_h + 7) / 8, 1); // cs_shafts: 8x8 groups
             D3D12_RESOURCE_BARRIER uav{};
             uav.Type = D3D12_RESOURCE_BARRIER_TYPE_UAV;
             uav.UAV.pResource = d.haze.Get();
             list->ResourceBarrier(1, &uav);
-            list->SetPipelineState(d.shadow_pipe.Get());
+            list->SetPipelineState(shadow_pipe);
         }
-        list->Dispatch(UINT(shade->width + 15) / 16, UINT(shade->height + 15) / 16, 1); // dxr_shadow.hlsl: 16x16 groups
+        const UINT shadow_span = large_grid ? 32 : 16; // 16 threads, one or two pixels each
+        list->Dispatch((UINT(shade->width) + shadow_span - 1) / shadow_span,
+                       (UINT(shade->height) + shadow_span - 1) / shadow_span, 1);
 
         std::swap(to.Transition.StateBefore, to.Transition.StateAfter);
         list->ResourceBarrier(1, &to);

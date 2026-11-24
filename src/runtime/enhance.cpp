@@ -244,6 +244,18 @@ void hook_draw_list(Cpu &c) {
             const double half_view = std::atan(double(std::max(width, 496)) / 496.0);
             const double add_cos = std::cos(std::min(half_view + 0.35, 3.0)),  // about +20 degrees
                          keep_cos = std::cos(std::min(half_view + 0.61, 3.0)); // about +35 degrees
+            // The native skyline tower is in cell 0x91 on Daytona Revision A.
+            // Feed that cell through the game's usual geometry and materials, so
+            // the terrain, depth ordering and viewport still determine visibility.
+            constexpr uint32_t kCourseAddr = 0x501460;
+            constexpr uint8_t kExpertCourse = 1, kSkylineTowerCell = 0x91, kBridgeArchCell = 0x89;
+            const bool expert = std::strcmp(M2_ROMSET, "daytona") == 0
+                && c.bus->read_byte(kCourseAddr) == kExpertCourse;
+            static const bool extend_tower = [] {
+                const char *v = std::getenv("M2_EXPERT_TOWER");
+                return v && std::strcmp(v, "1") == 0;
+            }();
+            const bool tower_approach = cx > 1 && cx <= 10 && std::abs(cy - 9) <= 1;
             struct Far { int rank; double d; double cosine; uint8_t cell; };
             Far far[256];
             int m = 0;
@@ -259,6 +271,12 @@ void hook_draw_list(Cpu &c) {
                     if (listed[cell] && cosine >= keep_cos) far[m++] = {0, d, cosine, cell};
                     else if (cosine >= add_cos) far[m++] = {1, d, cosine, cell};
                 }
+            if (extend_tower && expert && tower_approach && cx > 7) {
+                const int dx = 1 - cx, dy = 9 - cy;
+                const double d = std::hypot(double(dx), double(dy));
+                const double cosine = (dx * ux + dy * uy) / d;
+                if (cosine >= add_cos) far[m++] = {1, d, cosine, kSkylineTowerCell};
+            }
             // A total order: many cells share a distance, and an unstable tie
             // would swap which of them fit under the cap from one update to
             // the next (a blinking cell). Nearest, then most central, then cell.
@@ -268,17 +286,10 @@ void hook_draw_list(Cpu &c) {
                 if (a.cosine != b.cosine) return a.cosine > b.cosine;
                 return a.cell < b.cell;
             });
-            // In Revision A's Expert course, the skyline tower and the far bridge
-            // arch can be visible even when their cells lose the last list slots.
-            // Reserve their places only among existing cone/range candidates.
-            constexpr uint32_t kCourseAddr = 0x501460;
-            constexpr uint8_t kExpertCourse = 1, kSkylineTowerCell = 0x91, kBridgeArchCell = 0x89;
-            const bool expert = std::strcmp(M2_ROMSET, "daytona") == 0
-                && c.bus->read_byte(kCourseAddr) == kExpertCourse;
-            const auto landmark = [expert, cx, cy](const Far &f) {
+            const auto landmark = [expert, tower_approach, cy](const Far &f) {
                 if (!expert) return false;
                 // Approach from the straight, not the other side of the skyline.
-                if (f.cell == kSkylineTowerCell) return cx > 1 && std::abs(cy - 9) <= 1;
+                if (f.cell == kSkylineTowerCell) return tower_approach;
                 // Let the canyon turn reveal the arch before prioritizing it.
                 constexpr double kBridgeApproachCos = 0.7071067811865476; // 45 degrees
                 return f.cell == kBridgeArchCell && cy >= 12 && f.cosine >= kBridgeApproachCos;

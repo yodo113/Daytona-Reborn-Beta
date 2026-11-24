@@ -79,6 +79,9 @@ public:
     // Finish/complete sound before another frame, reading sound/profiling,
     // or destroying this GameLoop. Only execute runs on the worker.
     void run_frame_deferred_sound(const Inputs &inputs);
+    // Read-only UART bytes on the owning thread, before the sound board
+    // renders the frame. The view expires when deferred sound completes.
+    const std::vector<uint8_t> &deferred_sound_bytes() const { return pending_sound_bytes_; }
     uint64_t execute_deferred_sound();
     void complete_deferred_sound(uint64_t ticks);
 

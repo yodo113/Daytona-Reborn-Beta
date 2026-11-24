@@ -56,9 +56,9 @@ présentation 120+ Hz (interpolation, sans toucher au tick)
 - Le renderer historique est l'oracle pixel ; toute divergence doit être mesurée.
 - HDR10+ Gaming / Dolby Vision : métadonnées et transmission à qualifier séparément ; ne pas confondre rendu élargi et format natif.
 
-## 2 bis. Correction après revue Grok ACP (9 novembre)
+## 2 bis. Correction après revue technique
 
-La revue indépendante de Grok (`docs/GROK_ACP_REVIEW_20261109.md`) corrige le plan initial :
+La revue technique a corrigé les hypothèses suivantes :
 
 - `geo->matrix` est une matrice **modèle-vue**, pas monde ; il n'existe pas de commande caméra/monde séparée dans le flux. La capture « avant `M2_GEO_POINT` » doit donc être appelée **espace objet/modèle-vue**, pas monde.
 - La clé de source géométrique est `(pool, oba, obc)` ; elle n'identifie pas une instance. Le texheader n'identifie pas à lui seul le matériau et avance par `tho` ; `luma` est calculé à part.
@@ -97,7 +97,7 @@ borne de déplacement peut transférer l'identité d'un objet disparu à son
 remplaçant. Même une longue chaîne de correspondances ne prouve donc pas
 l'identité. Une matrice modèle-vue et une clé de maillage ne suffisent pas.
 
-Grok Bot propose d'ajouter les paramètres texture et la position de commande
+Une précision consiste à ajouter les paramètres texture et la position de commande
 aux traces. Ce sont des diagnostics, jamais des identifiants persistants.
 Attention à un décalage dans cette proposition : `Geo::parse` consomme l'opcode
 avant `geo_object_data`, qui consomme ensuite quatre mots. À ce stade,

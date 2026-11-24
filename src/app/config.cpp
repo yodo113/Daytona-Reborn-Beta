@@ -83,6 +83,8 @@ void Config::read(std::istream &f) {
         else if (k == "pace_vrr") pace_vrr = v == "1";
         else if (k == "music_volume") music_volume = std::clamp(std::strtof(v.c_str(), nullptr), 0.0f, 1.0f);
         else if (k == "effects_volume") effects_volume = std::clamp(std::strtof(v.c_str(), nullptr), 0.0f, 1.0f);
+        else if (k == "music_version") music_version = music_version_from(v);
+        else if (k == "music_directory") music_directory = v;
         else if (k == "native_audio") native_audio = v == "1";
         else if (k == "deadzone") controls.deadzone = std::strtof(v.c_str(), nullptr);
         else if (k == "joy_deadzone") controls.joy_deadzone = std::clamp(std::strtof(v.c_str(), nullptr), 0.0f, 0.4f);
@@ -157,6 +159,8 @@ void Config::write(std::ostream &f) const {
     f << "pace_sync_display=" << (pace_sync_display ? 1 : 0) << "\n";
     f << "pace_vrr=" << (pace_vrr ? 1 : 0) << "\n";
     f << "music_volume=" << music_volume << "\n";
+    f << "music_version=" << music_version_name(music_version) << "\n";
+    if (!music_directory.empty()) f << "music_directory=" << music_directory << "\n";
     f << "effects_volume=" << effects_volume << "\n";
     f << "native_audio=" << (native_audio ? 1 : 0) << "\n";
     f << "deadzone=" << controls.deadzone << "\n";

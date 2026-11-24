@@ -132,10 +132,9 @@ HomeMenu::Action HomeMenu::draw(bool has_race, bool loading, const char *message
     const float bottom = h - 51 * scale;
     draw->AddLine(px(left,bottom), px(w-left,bottom), color({0.72f,0.85f,0.91f,0.38f}), scale);
     text(body_, 13, left, bottom+12*scale, subdued, TX("SOLO   /   JEU LIBRE"));
-    char display[80];
     const auto ratio = ImGui::GetIO().DisplayFramebufferScale;
-    std::snprintf(display, sizeof display, TX("SDR   /   %d × %d"), int(w*ratio.x), int(h*ratio.y));
-    text(body_, 13, w-left-150*scale, bottom+12*scale, cream, display);
+    const std::string display = TXF("SDR   /   %d × %d", int(w*ratio.x), int(h*ratio.y));
+    text(body_, 13, w-left-150*scale, bottom+12*scale, cream, display.c_str());
     ImGui::End();
     ImGui::PopStyleVar(3);
     return action;
