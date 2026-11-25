@@ -69,14 +69,13 @@ struct Controls {
     std::array<float, kNumActions> touch{};
     bool touch_steering = false;
     Binding bind[kNumActions];
-    float deadzone = 0.08f;       // stick and trigger dead zone (fraction of travel)
+    float deadzone = 0.08f;       // gamepad axis dead zone, capped at 2% for triggers
     float joy_deadzone = 0.02f;   // joystick (wheel, pedal) axis dead zone
     float wheel_sensitivity = 1.0f; // response curve, 0.25..3; 1 is linear
-    // Gamepad steering (a stick, not a wheel): a stick's short throw drove
-    // the game's wheel straight to the same position, far too sharp. The
-    // stick now follows a response curve (pad_steer_sensitivity 0.25..1:
-    // gentler near centre, full lock kept) and the wheel turns toward it at
-    // most pad_steer_speed of the full range per frame (0.02..1; 1 is instant).
+    // Linear share of the stick response (0.25..1), blended with a cubic
+    // curve for finer adjustments near centre. Both reach full lock.
+    // Pad speed caps the change per simulation tick (0.02..1; 1 is instant
+    // from centre to either lock).
     float pad_steer_sensitivity = 0.55f;
     float pad_steer_speed = 0.07f;
     bool steer_invert = false;

@@ -1,4 +1,4 @@
-# Daytona Arcade Native: beta 0.11
+# Daytona Arcade Native: beta 0.12
 
 Public release for Windows. Setup guide:
 [INSTALLATION-EN.md](INSTALLATION-EN.md) (French:
@@ -11,6 +11,12 @@ Daytona Arcade Native builds on alphanu1's static recompilation
 The cabinet's program is translated to native C++, with no emulator. This
 edition keeps the original simulation, so the cabinet's driving and race,
 and works on the picture and on comfort on PC.
+
+## What's new in 0.12
+
+- **Widescreen sky.** During a race, the sky fills the screen even without a local panorama. A matching panorama is still used when available. Arcade 4:3 framing is preserved.
+- **Gamepads.** Steering responds more readily to small stick movements, especially at low sensitivity. Both triggers respond to light presses and retain their full range. These changes were tested with a virtual SDL gamepad.
+- **Experimental ray tracing.** Shadows require Direct3D 12 and a GPU that supports DXR 1.1, such as a GeForce RTX. Standard rendering remains available without DXR.
 
 ## What’s new in 0.11
 

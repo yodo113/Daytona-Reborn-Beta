@@ -789,6 +789,8 @@ void Video::screen_update(const std::vector<GeoPoly> &polys, int windows, const 
         ++system24_texture_generation_;
         system24_source_dirty_ = false;
     }
+    const uint16_t sky_h = tile(0x5002), sky_mode = tile(0x5006);
+    race_sky_tiles_ = (sky_mode & 0xe000) == 0x2000 && (sky_h & 0x8000) == 0;
     update_sky_match();
     profile_.tile_cache = ticks() - before;
 #ifndef M2_VITA_RENDER_OPT
@@ -1198,6 +1200,16 @@ int Video::load_sky_panoramas(const char *dir) {
 // x shows layer column (x - h) & 511 (tilemap_draw, sx = -h), so panorama
 // column (x - h - 512 k) & 4095 for one turn k in 0..7. Sampled columns and
 // rows of the sky must agree exactly (pens); unknown panorama pixels are skipped.
+Video::Backdrop Video::backdrop() const {
+    if (!scene()) return Backdrop::Edges;
+    if (stretch_backdrop_) return Backdrop::Stretch;
+    if (sky_match_ >= 0) return Backdrop::Panorama;
+    // A fresh desktop installation has no local panorama. Stretch the
+    // current race backdrop to fill the margins from the first frame.
+    if (desktop_ && margin_ && race_sky_tiles_) return Backdrop::Stretch;
+    return Backdrop::Sky;
+}
+
 void Video::update_sky_match() {
     if (!sky_env_read_) {
         sky_env_read_ = true;
@@ -1205,10 +1217,8 @@ void Video::update_sky_match() {
     }
     const int previous = sky_match_;
     sky_match_ = -1;
-    if (skies_.empty() || !margin_ || !scene()) return;
-    const uint16_t hs = tile(0x5002), mode = tile(0x5006);
-    if ((mode & 0x8000) || (mode & 0x6000) != 0x2000 || (hs & 0x8000)) return;
-    const int h = hs & 0x1ff;
+    if (skies_.empty() || !margin_ || !scene() || !race_sky_tiles_) return;
+    const int h = tile(0x5002) & 0x1ff;
     const uint16_t *layer = pixmap_[2].data();
     int best = -1, best_origin = 0;
     int best_equal = 0;
@@ -1235,10 +1245,10 @@ void Video::update_sky_match() {
 }
 
 void Video::fill_margins() {
-    const bool scene = this->scene();
+    const Backdrop fill = backdrop();
     const int out = width();
     const uint32_t sky = screen_[size_t(margin_)];
-    if (scene && sky_match_ >= 0 && !stretch_backdrop_) {
+    if (fill == Backdrop::Panorama) {
         // The race sky's rows (layer 2 above the split) continue the panorama;
         // the rows below the split, and unknown pixels, are the plain sky.
         const uint16_t mode = tile(0x5006);
@@ -1259,7 +1269,7 @@ void Video::fill_margins() {
         }
         return;
     }
-    if (scene && stretch_backdrop_) {
+    if (fill == Backdrop::Stretch) {
         stretch_row_.resize(size_t(W));
         for (int y = 0; y < H; ++y) {
             uint32_t *row = &screen_[size_t(y) * size_t(out)];
@@ -1282,7 +1292,8 @@ void Video::fill_margins() {
     }
     for (int y = 0; y < H; ++y) {
         uint32_t *row = &screen_[size_t(y) * size_t(out)];
-        const uint32_t left = scene ? sky : row[margin_], right = scene ? sky : row[margin_ + W - 1];
+        const uint32_t left = fill == Backdrop::Sky ? sky : row[margin_];
+        const uint32_t right = fill == Backdrop::Sky ? sky : row[margin_ + W - 1];
         std::fill(row, row + margin_, left ? left : pens_[0]);
         std::fill(row + margin_ + W, row + out, right ? right : pens_[0]);
     }

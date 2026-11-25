@@ -197,9 +197,14 @@ float Controls::value(Action a, const bool *keys, const Devices &d) const {
     float v = (b.key != SDL_SCANCODE_UNKNOWN && keys && keys[b.key]) ? 1.f : 0.f;
     if (pad && b.pad.kind == PadInput::Button && SDL_GetGamepadButton(pad, SDL_GamepadButton(b.pad.index))) v = 1.f;
     if (pad && b.pad.kind == PadInput::Axis) {
-        float x = SDL_GetGamepadAxis(pad, SDL_GamepadAxis(b.pad.index)) / 32767.f * float(b.pad.dir);
+        const auto axis = SDL_GamepadAxis(b.pad.index);
+        const bool trigger = axis == SDL_GAMEPAD_AXIS_LEFT_TRIGGER || axis == SDL_GAMEPAD_AXIS_RIGHT_TRIGGER;
+        // Triggers have a mechanical stop. Keep a small rest margin without
+        // applying the stick's wider drift compensation to the triggers.
+        const float zone = trigger ? std::min(deadzone, 0.02f) : deadzone;
+        float x = SDL_GetGamepadAxis(pad, axis) / 32767.f * float(b.pad.dir);
         x = std::clamp(x, 0.f, 1.f);
-        x = x <= deadzone ? 0.f : (x - deadzone) / (1.f - deadzone); // rescale past the dead zone: full travel still reaches 1
+        x = x <= zone ? 0.f : (x - zone) / (1.f - zone); // full travel still reaches 1
         v = std::max(v, x);
     }
     float joy = b.joy.value(d, joy_deadzone);
@@ -233,7 +238,9 @@ rt::Inputs Controls::sample(const bool *keys, const Devices &d) {
         // Gamepad: a response curve (full lock kept), then the wheel turned
         // toward the stick at a limited rate, as a hand turns a wheel.
         const float s = std::clamp(std::isfinite(pad_steer_sensitivity) ? pad_steer_sensitivity : 1.0f, 0.25f, 1.0f);
-        const float curved = std::copysign(std::pow(std::fabs(target), 1.0f / s), target);
+        // Blend linear and cubic response. The linear share keeps small
+        // corrections visible after conversion to the cabinet's 8-bit ADC.
+        const float curved = std::lerp(target * target * target, target, s);
         const float rate = std::clamp(std::isfinite(pad_steer_speed) ? pad_steer_speed : 1.0f, 0.02f, 1.0f);
         steer += std::clamp(curved - steer, -rate, rate);
     } else {

@@ -1,4 +1,4 @@
-# Daytona Arcade Native : bêta 0.11
+# Daytona Arcade Native : bêta 0.12
 
 Version publique pour Windows. Installation :
 [INSTALLATION-FR.md](INSTALLATION-FR.md). English notes:
@@ -12,6 +12,12 @@ d'alphanu1. Le programme de la borne y est traduit en code C++ natif, sans
 émulateur. Cette édition garde la simulation d'origine, donc la conduite et
 la course de la borne, et travaille sur l'affichage et le confort de jeu sur
 PC.
+
+## Nouveautés de la 0.12
+
+- **Ciel en écran large.** En course, le ciel occupe toute la largeur même sans panorama local. Un panorama correspondant reste utilisé quand il est disponible. Le cadrage Arcade 4:3 est conservé.
+- **Manette.** Le braquage répond davantage aux petits mouvements du stick, notamment avec une sensibilité basse. Les deux gâchettes réagissent aux petits appuis et conservent leur pleine course. Ces changements ont été vérifiés avec une manette SDL simulée.
+- **Ray tracing expérimental.** Les ombres demandent Direct3D 12 et une carte compatible DXR 1.1, par exemple une GeForce RTX. Le rendu standard reste disponible sans DXR.
 
 ## Nouveautés de la 0.11
 

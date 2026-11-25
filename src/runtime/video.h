@@ -54,8 +54,7 @@ public:
     bool hud_at_edges_active() const { return hud_on_; }
     int wide_margin() const { return margin_; }
     int width() const { return W + 2 * margin_; }
-    // With widescreen, behind 3D: stretch the tile backdrop across the whole
-    // width (on) or fill the margins with the sky's plain colour (off, default).
+    // Force the widescreen tile backdrop to stretch, even with a panorama.
     void set_stretch_backdrop(bool on) { stretch_backdrop_ = on; }
     bool stretch_backdrop() const { return stretch_backdrop_; }
     // With widescreen: the race HUD's side groups (lap times; position,
@@ -94,10 +93,7 @@ public:
     const uint32_t *gpu_pens() const { return gpu_pens_.data(); }
     int margin() const { return margin_; }
     enum class Backdrop { Edges, Sky, Stretch, Panorama }; // fill_margins' cases (m2.hlsl: 0..3)
-    Backdrop backdrop() const {
-        return !scene() ? Backdrop::Edges : stretch_backdrop_ ? Backdrop::Stretch
-               : sky_match_ >= 0 ? Backdrop::Panorama : Backdrop::Sky;
-    }
+    Backdrop backdrop() const;
     // Widescreen sky panoramas (enhancement, off when none is loaded). The
     // race sky is layer 2, a 512-pixel ring the game refills as the camera
     // turns from a 4096-pixel panorama (one turn). A .m2sky file holds one
@@ -328,6 +324,7 @@ private:
     // screens put their 3D in 2-3 windows, Revision A's have none, titles none.
     bool scene() const { return gpu_windows_ <= 1 && coverage_ >= 15; }
     bool stretch_backdrop_ = false;
+    bool race_sky_tiles_ = false;
     void fill_margins();
     void trace_backdrop(); // diagnostic: M2_BACKDROP_TRACE / M2_BACKDROP_DUMP (video.cpp)
     void update_sky_match();

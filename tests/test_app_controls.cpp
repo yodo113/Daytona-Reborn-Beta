@@ -54,6 +54,88 @@ std::string guid(SDL_Joystick *j) {
     SDL_GUIDToString(SDL_GetJoystickGUID(j), b, sizeof b);
     return b;
 }
+void check_pad_steering() {
+    const auto id = attach(SDL_JOYSTICK_TYPE_GAMEPAD, SDL_GAMEPAD_AXIS_COUNT,
+                           SDL_GAMEPAD_BUTTON_COUNT, "Test steering pad");
+    app::Devices devices;
+    devices.pad = SDL_OpenGamepad(id);
+    check(devices.pad != nullptr, "virtual steering gamepad opened");
+    if (devices.pad) {
+        SDL_Joystick *pad = SDL_GetGamepadJoystick(devices.pad);
+        app::Controls controls;
+        controls.set_defaults();
+        controls.pad_steer_sensitivity = 0.25f;
+        controls.pad_steer_speed = 0.04f;
+        auto sample = [&](Sint16 x, int frames = 64) {
+            check(SDL_SetJoystickVirtualAxis(pad, SDL_GAMEPAD_AXIS_LEFTX, x),
+                  "virtual steering axis set");
+            SDL_UpdateJoysticks();
+            rt::Inputs in;
+            for (int frame = 0; frame < frames; ++frame)
+                in = controls.sample(nullptr, devices);
+            return int(in.steer);
+        };
+
+        check(sample(2000) == 0x80, "small stick drift stays in the dead zone");
+        int previous = 0x80;
+        for (Sint16 x : {4096, 8192, 16384, 24575, 32767}) {
+            const int right = sample(x);
+            const int left = sample(Sint16(-x));
+            std::printf("stick=%d right=%d left=%d\n", int(x), right, left);
+            check(right > previous, "low sensitivity retains distinct steering steps");
+            check(left == 0x100 - right, "left and right are symmetric");
+            previous = right;
+        }
+        check(previous == 0xe0 && sample(-32768) == 0x20, "both directions retain full lock");
+        const int first_release = sample(0, 1);
+        int return_ticks = 1;
+        int released = first_release;
+        while (released != 0x80 && return_ticks < 64) {
+            released = sample(0, 1);
+            ++return_ticks;
+        }
+        std::printf("return_ticks=%d first_release=%d\n", return_ticks, first_release);
+        check(released == 0x80 && return_ticks == 25, "released stick returns at the configured rate");
+        check(sample(32767, 1) == 0x84, "steering speed still limits the first tick");
+
+        controls.pad_steer_sensitivity = 1.0f;
+        check(std::abs(sample(16384) - 0xac) <= 1, "maximum sensitivity remains linear after dead zone");
+        controls.steer_invert = true;
+        check(sample(32767) == 0x20, "inversion still applies to gamepad steering");
+
+        // Virtual SDL trigger axes use the whole signed input range, which
+        // SDL maps to the unsigned half-axis exposed by SDL_GetGamepadAxis.
+        auto pedals = [&](float throttle, float brake) {
+            const auto raw = [](float amount) {
+                return Sint16(std::lround(-32768.f + amount * 65535.f));
+            };
+            check(SDL_SetJoystickVirtualAxis(pad, SDL_GAMEPAD_AXIS_RIGHT_TRIGGER, raw(throttle)),
+                  "virtual accelerator axis set");
+            check(SDL_SetJoystickVirtualAxis(pad, SDL_GAMEPAD_AXIS_LEFT_TRIGGER, raw(brake)),
+                  "virtual brake axis set");
+            SDL_UpdateJoysticks();
+            return controls.sample(nullptr, devices);
+        };
+        int previous_pedal = 0x20;
+        for (const float amount : {0.0f, 0.01f, 0.04f, 0.08f, 0.25f, 0.5f, 1.0f}) {
+            const auto gas = pedals(amount, 0.0f);
+            const auto brake = pedals(0.0f, amount);
+            std::printf("trigger=%.2f accelerator=%u brake=%u\n", amount, gas.accel, brake.brake);
+            check(gas.brake == 0x20 && brake.accel == 0x20, "the triggers act independently");
+            check(gas.accel == brake.brake, "both triggers have the same response");
+            if (amount <= 0.01f)
+                check(gas.accel == 0x20, "trigger stays neutral at rest and on small noise");
+            else
+                check(gas.accel > previous_pedal, "light trigger presses have distinct pedal values");
+            previous_pedal = gas.accel;
+        }
+        check(previous_pedal == 0xe0, "full trigger travel reaches full pedal");
+        const auto both = pedals(1.0f, 1.0f);
+        check(both.accel == 0xe0 && both.brake == 0xe0, "both triggers can be used simultaneously");
+    }
+    devices.close_all();
+    if (id) SDL_DetachVirtualJoystick(id);
+}
 } // namespace
 
 int main() {
@@ -284,6 +366,7 @@ int main() {
 
     devices.close_all();
     SDL_DetachVirtualJoystick(wheel_id);
+    check_pad_steering();
     SDL_Quit();
     if (failures) return 1;
     std::printf("test_app_controls: ok\n");
